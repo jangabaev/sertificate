@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link  } from "react-router-dom";
 import { Dashborad } from './pages/home';
 function App() {
-  const [count, setCount] = useState(0)
   const [active, setActive] = useState("home");
   const items = [
     { id: "/", label: "Home", icon: "" },

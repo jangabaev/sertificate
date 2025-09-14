@@ -141,7 +141,7 @@ export default function MathFormulaInput() {
 
       {/* The math field itself */}
       <div className="rounded-2xl border shadow-sm p-3 bg-white">
-        <math-field
+        {/* <math-field
           ref={(el) => (fieldRef.current = el)}
           className="text-xl w-full min-h-[64px] outline-none"
           virtual-keyboard-mode="onfocus"
@@ -151,7 +151,7 @@ export default function MathFormulaInput() {
           default-mode="math"
           spellcheck={false}
           style={{ padding: "0.5rem" }}
-        />
+        /> */}
       </div>
 
       {/* Actions */}
@@ -182,7 +182,7 @@ export default function MathFormulaInput() {
           <h2 className="font-medium">Oldindan ko'rish (render):</h2>
           <div className="rounded-xl border p-3 bg-white">
             {/* A second read-only preview field */}
-            <math-field readOnly value={latex} className="text-xl w-full" />
+            {/* <math-field readOnly value={latex} className="text-xl w-full" /> */}
           </div>
         </div>
       </div>
