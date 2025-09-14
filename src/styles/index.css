@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+.container{
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.main{
+  
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Dark mode CSS */
+}
