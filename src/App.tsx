@@ -15,7 +15,7 @@ function App() {
   // xavfsiz bo'lmagan oson o'qish uchun
   const initUnsafe = webapp?.initDataUnsafe; // {user: {...}, chat: {...} ...}
   console.log('initDataUnsafe:', initUnsafe);
-const user = initUnsafe.user;
+const user = initUnsafe&&initUnsafe?.user?initUnsafe.user:{user:{id:"1",username:"1"}};
   if (initUnsafe && initUnsafe.user) {
     
     console.log('user id:', user.id);
