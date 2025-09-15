@@ -1,18 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Dashborad } from './pages/home';
+import { Profil } from './pages/profil';
 function App() {
   const [active, setActive] = useState("home");
   const items = [
     { id: "/", label: "Home", icon: "" },
     { id: "/about", label: "Testlar", icon: "" },
-    { id: "/about", label: "Profil", icon: "" },
+    { id: "/profil", label: "Profil", icon: "" },
   ];
-  useEffect(() => {
-    //@ts-ignore
-    const tg = window;
-    console.log("Foydalanuvchi:", tg);
-  }, []);
+
 
   return (
     <>
@@ -33,7 +30,8 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<Dashborad />} />
-          <Route path="/about" element={<>{window}</>} />
+          <Route path="/about" element={<></>} />
+          <Route path="/profil" element={<Profil/>} />
           {/* 404 sahifa */}
           <Route path="*" element={<>Not found</>} />
 
