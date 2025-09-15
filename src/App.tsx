@@ -10,12 +10,8 @@ function App() {
   ];
   useEffect(() => {
     //@ts-ignore
-    const tg = window.Telegram.WebApp;
-
-    tg.ready(); // WebApp tayyorligini bildiradi
-    tg.expand(); // Ilova baland qilib ochiladi
-
-    console.log("Foydalanuvchi:", tg.initDataUnsafe?.user);
+    const tg = window;
+    console.log("Foydalanuvchi:", tg);
   }, []);
 
   return (
@@ -37,7 +33,7 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<Dashborad />} />
-          <Route path="/about" element={<></>} />
+          <Route path="/about" element={<>{window}</>} />
           {/* 404 sahifa */}
           <Route path="*" element={<>Not found</>} />
 
