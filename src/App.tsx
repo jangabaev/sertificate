@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link  } from "react-router-dom";
 import { Dashborad } from './pages/home';
 function App() {
@@ -8,6 +8,19 @@ function App() {
     { id: "/about", label: "Testlar", icon: "" },
     { id: "/about", label: "Profil", icon: "" },
   ];
+const [user1, setUser] = useState(null);
+
+console.log(user1)
+  useEffect(() => {
+    //@ts-ignore
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      const unsafe = tg.initDataUnsafe;
+      if (unsafe && unsafe.user) {
+        setUser(unsafe.user); // {id, first_name, last_name, username, language_code}
+      }
+    }
+  }, []);
 
   //@ts-ignore
     const webapp = window.Telegram?.WebApp;
