@@ -9,6 +9,22 @@ function App() {
     { id: "/about", label: "Profil", icon: "" },
   ];
 
+  //@ts-ignore
+    const webapp = window.Telegram?.WebApp;
+
+  // xavfsiz bo'lmagan oson o'qish uchun
+  const initUnsafe = webapp?.initDataUnsafe; // {user: {...}, chat: {...} ...}
+  console.log('initDataUnsafe:', initUnsafe);
+
+  if (initUnsafe && initUnsafe.user) {
+    const user = initUnsafe.user;
+    console.log('user id:', user.id);
+    console.log('username:', user.username);        // agar bo'lsa
+    console.log('first_name:', user.first_name);
+    console.log('last_name:', user.last_name);     // agar bo'lsa
+  }
+
+
   return (
     <>
       <Router>
