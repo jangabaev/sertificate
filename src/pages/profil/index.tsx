@@ -47,16 +47,16 @@ export const Profil = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
       {/* Profil karta */}
-      {/* <div className="bg-white text-gray-800 rounded-2xl shadow-md p-6 w-full max-w-md text-center mb-6">
+      <div className="bg-white text-gray-800 rounded-2xl shadow-md p-6 w-full max-w-md text-center mb-6">
         <img
-          src={user.photo_url || "https://via.placeholder.com/100"}
+          src={user?.photo_url || "https://via.placeholder.com/100"}
           alt="user"
           className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-400"
         />
-        <h1 className="text-xl font-bold">{user.first_name} {user.last_name || ""}</h1>
-        <p className="text-gray-600">@{user.username || "username yo‘q"}</p>
-        <p className="mt-2 text-sm text-gray-500">ID: {user.id}</p>
-      </div> */}
+        <h1 className="text-xl font-bold">{user?.first_name} {user?.last_name || ""}</h1>
+        <p className="text-gray-600">@{user?.username || "username yo‘q"}</p>
+        <p className="mt-2 text-sm text-gray-500">ID: {user?.id}</p>
+      </div>
 
       {/* Test natijalari */}
       <div className="bg-white rounded-2xl shadow-md p-4 w-full max-w-md flex-1">
