@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Dashborad } from './pages/home';
 import { Profil } from './pages/profil';
+import { Results } from './pages/results';
 function App() {
   const [active, setActive] = useState("home");
   const items = [
     { id: "/", label: "Home", icon: "" },
-    { id: "/about", label: "Testlar", icon: "" },
+    { id: "/results", label: "Testlar", icon: "" },
     { id: "/profil", label: "Profil", icon: "" },
   ];
 
@@ -30,7 +31,7 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<Dashborad />} />
-          <Route path="/about" element={<></>} />
+          <Route path="/results" element={<Results/>} />
           <Route path="/profil" element={<Profil/>} />
           {/* 404 sahifa */}
           <Route path="*" element={<>Not found</>} />
