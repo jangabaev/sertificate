@@ -15,9 +15,9 @@ function App() {
   // xavfsiz bo'lmagan oson o'qish uchun
   const initUnsafe = webapp?.initDataUnsafe; // {user: {...}, chat: {...} ...}
   console.log('initDataUnsafe:', initUnsafe);
-
+const user = initUnsafe.user;
   if (initUnsafe && initUnsafe.user) {
-    const user = initUnsafe.user;
+    
     console.log('user id:', user.id);
     console.log('username:', user.username);        // agar bo'lsa
     console.log('first_name:', user.first_name);
@@ -44,7 +44,7 @@ function App() {
       </div>
         <Routes>
           <Route path="/" element={<Dashborad />} />
-          <Route path="/about" element={<>About</>} />
+          <Route path="/about" element={<>{ user?.id?user?.id:""} <div>{user?.first_name?user?.first_name:""}</div></>} />
           {/* 404 sahifa */}
           <Route path="*" element={<>Not found</>} />
           
