@@ -79,10 +79,10 @@ export const Profil = () => {
                                     <td className="px-3 py-2 border-b">{test.name}</td>
                                     <td
                                         className={`px-3 py-2 border-b text-center font-bold ${test.score >= 80
-                                                ? "text-green-600"
-                                                : test.score >= 60
-                                                    ? "text-yellow-600"
-                                                    : "text-red-600"
+                                            ? "text-green-600"
+                                            : test.score >= 60
+                                                ? "text-yellow-600"
+                                                : "text-red-600"
                                             }`}
                                     >
                                         {test.score}%
