@@ -1,9 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Results = () => {
   const navigate = useNavigate();
 
+  const [data, setData] = useState<{ id: string; name: string }[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://192.168.1.104:5000/api/exam");
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error("Xatolik yuz berdi:", error);
+      }
+    };
+    fetchData();
+  }, []);
   // Demo uchun testlar ro‘yxati
   const [tests] = useState([
     { id: 1, name: "1-Test", status: "Davom etmoqda" },
@@ -19,16 +33,16 @@ export const Results = () => {
       </h1>
 
       <div className="space-y-4 max-w-md mx-auto">
-        {tests.map((test) => (
+        {data.map((test) => (
           <div
             key={test.id}
-            onClick={() => navigate(`/tests/${test.id}`)}
+            onClick={() => navigate(`/results/${test.id}`)}
             className="cursor-pointer bg-white rounded-2xl shadow-lg p-4 flex items-center justify-between hover:scale-[1.02] transition-transform"
           >
             <span className="text-lg font-semibold text-gray-800">
               {test.name}
             </span>
-            <span
+            {/* <span
               className={`px-3 py-1 text-sm font-bold rounded-full ${
                 test.status === "Davom etmoqda"
                   ? "bg-yellow-100 text-yellow-700"
@@ -36,10 +50,10 @@ export const Results = () => {
               }`}
             >
               {test.status}
-            </span>
+            </span> */}
           </div>
         ))}
       </div>
     </div>
   );
-}
+};

@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { Dashborad } from './pages/home';
-import { Profil } from './pages/profil';
-import { Results } from './pages/results';
+import { Dashborad } from "./pages/home";
+import { Profil } from "./pages/profil";
+import { Results } from "./pages/results";
+import { ResultId } from "./pages/results/resultId";
 function App() {
   const [active, setActive] = useState("home");
   const items = [
@@ -10,7 +11,6 @@ function App() {
     { id: "/results", label: "Testlar", icon: "" },
     { id: "/profil", label: "Profil", icon: "" },
   ];
-
 
   return (
     <>
@@ -21,8 +21,9 @@ function App() {
               key={item.id}
               to={item.id}
               onClick={() => setActive(item.id)}
-              className={`flex flex-col items-center text-sm transition-colors ${active === item.id ? "text-blue-500" : "text-gray-500"
-                }`}
+              className={`flex flex-col items-center text-sm transition-colors ${
+                active === item.id ? "text-blue-500" : "text-gray-500"
+              }`}
             >
               {/* {item.icon} */}
               <span>{item.label}</span>
@@ -31,16 +32,15 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<Dashborad />} />
-          <Route path="/results" element={<Results/>} />
-          <Route path="/profil" element={<Profil/>} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/results/:id" element={<ResultId />} />
+          <Route path="/profil" element={<Profil />} />
           {/* 404 sahifa */}
           <Route path="*" element={<>Not found</>} />
-
         </Routes>
       </Router>
-
     </>
-  )
+  );
 }
 
-export default App
+export default App;
