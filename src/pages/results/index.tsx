@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { mockExams } from "./mockdata";
 export const Results = () => {
-  const navigate = useNavigate();
-
   const [data, setData] = useState<{ id: string; name: string }[]>([]);
-
+  console.log(data);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -13,47 +10,43 @@ export const Results = () => {
         const result = await response.json();
         setData(result);
       } catch (error) {
+        setData(mockExams);
         console.error("Xatolik yuz berdi:", error);
       }
     };
     fetchData();
   }, []);
-  // Demo uchun testlar ro‘yxati
-  const [tests] = useState([
-    { id: 1, name: "1-Test", status: "Davom etmoqda" },
-    { id: 2, name: "2-Test", status: "Tugadi" },
-    { id: 3, name: "3-Test", status: "Davom etmoqda" },
-    { id: 4, name: "4-Test", status: "Tugadi" },
-  ]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br bg-gray-100p-4">
-      <h1 className="text-2xl font-bold text-white text-center mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-400 to-purple-500 p-4">
+      <h1 className="text-center text-2xl font-bold text-white mb-6">
         📚 Testlar ro‘yxati
       </h1>
-
-      <div className="space-y-4 max-w-md mx-auto">
-        {data.map((test) => (
-          <div
-            key={test.id}
-            onClick={() => navigate(`/results/${test.id}`)}
-            className="cursor-pointer bg-white rounded-2xl shadow-lg p-4 flex items-center justify-between hover:scale-[1.02] transition-transform"
-          >
-            <span className="text-lg font-semibold text-gray-800">
-              {test.name}
-            </span>
-            {/* <span
-              className={`px-3 py-1 text-sm font-bold rounded-full ${
-                test.status === "Davom etmoqda"
-                  ? "bg-yellow-100 text-yellow-700"
-                  : "bg-green-100 text-green-700"
+      {data.map((test) => (
+        <a
+          key={test.id}
+          href={`/results/${test.id}`}
+          className="block bg-white rounded-xl shadow-lg p-4 mb-4 transform transition duration-300 hover:scale-105 hover:shadow-xl"
+        >
+          <h2 className="text-lg font-semibold">{test.name}</h2>
+          <div className="flex justify-between items-center mt-2">
+            <span
+              className={`px-2 py-1 text-sm text-white rounded-full ${
+                true ? "bg-green-500" : "bg-red-500"
               }`}
             >
-              {test.status}
-            </span> */}
+              {true ? "Faol" : "Faol emas"}
+            </span>
+            <span className="text-gray-500 text-sm">🕒 16:00</span>
           </div>
-        ))}
-      </div>
+          <p className="mt-1 text-gray-500 text-sm">👥 {78} kishi</p>
+          <div className="mt-4">
+            <div className="bg-indigo-500 text-white py-3 rounded-lg text-center font-medium">
+              🚀 Qatnashish
+            </div>
+          </div>
+        </a>
+      ))}
     </div>
   );
 };

@@ -12,3 +12,12 @@
 @media (prefers-color-scheme: dark) {
   /* Dark mode CSS */
 }
+
+
+
+math-field::part(menu-toggle),
+math-field::part(undo),
+math-field::part(redo),
+math-field::part(copy) {
+  display: none !important;
+}

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { mockResult } from "./mockdata";
 
 export const ResultId: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,6 +20,7 @@ export const ResultId: React.FC = () => {
         setData(result?.new_students || []);
       } catch (error) {
         console.error("Maʼlumotni olishda xatolik:", error);
+        setData(mockResult);
       }
     };
     fetchResult();
