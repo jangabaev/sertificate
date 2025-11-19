@@ -28,7 +28,7 @@ export const Profil = () => {
     tg.expand();
     setUser(tg.initDataUnsafe?.user);
     let token = CryptoJS.AES.encrypt(
-      tg?.initDataUnsafe?.user?.id ?? "1849659907",
+      "1849659907",
       "telegram_sertifikate_secret"
     ).toString();
     const getUserData = async () => {
