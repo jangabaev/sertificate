@@ -26,11 +26,10 @@ export const Profil = () => {
     const tg = window.Telegram.WebApp;
     tg.ready();
     tg.expand();
-    console.log("Foydalanuvchi:", tg.initDataUnsafe?.user);
     setUser(tg.initDataUnsafe?.user);
     let token = CryptoJS.AES.encrypt(
       "1849659907",
-      import.meta.env.VITE_SECRET
+      "telegram_sertifikate_secret"
     ).toString();
     const getUserData = async () => {
       try {
