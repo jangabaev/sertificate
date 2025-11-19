@@ -22,24 +22,24 @@ export const ExamSend: React.FC = () => {
   };
 
   useEffect(() => {
-    const oneGetExam = async () => {
-      try {
-        const responce = await fetch(
-          `http://192.168.1.104:5000/api/exam/${id}`,
-          {
-            method: "GET",
-            headers: {},
-          }
-        );
-        const data = await responce.json();
-        setOneExam(data);
-      } catch (error) {
-        setOneExam(null);
-        console.error("Xatolik yuz berdi:", error);
-      }
-    };
+    // const oneGetExam = async () => {
+    //   try {
+    //     const responce = await fetch(
+    //       `http://192.168.1.104:5000/api/exam/${id}`,
+    //       {
+    //         method: "GET",
+    //         headers: {},
+    //       }
+    //     );
+    //     const data = await responce.json();
+    //     setOneExam(data);
+    //   } catch (error) {
+    //     setOneExam(null);
+    //     console.error("Xatolik yuz berdi:", error);
+    //   }
+    // };
 
-    oneGetExam();
+    // oneGetExam();
     const createUser = async () => {
       try {
         const user = {
@@ -136,89 +136,85 @@ export const ExamSend: React.FC = () => {
       } catch (error) {}
     };
 
-    const createExam = async () => {
-      try {
-        const newUser = {
-          name: "Mock Test 35",
-          currect_answer: [
-            "C",
-            "B",
-            "B",
-            "B",
-            "C",
-            "D",
-            "D",
-            "B",
-            "C",
-            "D",
-            "A",
-            "B",
-            "C",
-            "B",
-            "D",
-            "A",
-            "B",
-            "D",
-            "C",
-            "A",
-            "C",
-            "D",
-            "C",
-            "B",
-            "A",
-            "D",
-            "D",
-            "D",
-            "B",
-            "C",
-            "C",
-            "C",
-            "E",
-            "C",
-            "B",
-            "2",
-            "-2",
-            "\\frac{\\pi}{14}",
-            "17",
-            "\\frac23",
-            "-\\frac56",
-            "y=x-3",
-            "-1",
-            "-\\sqrt3",
-            "\\frac52",
-            "20",
-            "96",
-            "169",
-            "504",
-            "6",
-            "15\\sqrt3",
-            "36\\pi",
-            "36\\pi",
-            "50",
-            "30\\sqrt{26}",
-          ],
-        };
+    // const createExam = async () => {
+    //   try {
+    //     const newUser = {
+    //       name: "Mock Test 36",
+    //       currect_answer: [
+    //         "C",
+    //         "B",
+    //         "B",
+    //         "B",
+    //         "C",
+    //         "D",
+    //         "D",
+    //         "B",
+    //         "C",
+    //         "D",
+    //         "A",
+    //         "B",
+    //         "C",
+    //         "B",
+    //         "D",
+    //         "A",
+    //         "B",
+    //         "D",
+    //         "C",
+    //         "A",
+    //         "C",
+    //         "D",
+    //         "C",
+    //         "B",
+    //         "A",
+    //         "D",
+    //         "D",
+    //         "D",
+    //         "B",
+    //         "C",
+    //         "C",
+    //         "C",
+    //         "E",
+    //         "C",
+    //         "B",
+    //         "2",
+    //         "-2",
+    //         "\\frac{\\pi}{14}",
+    //         "17",
+    //         "\\frac23",
+    //         "-\\frac56",
+    //         "y=x-3",
+    //         "-1",
+    //         "-\\sqrt3",
+    //         "\\frac52",
+    //         "20",
+    //         "96",
+    //         "169",
+    //         "504",
+    //         "6",
+    //         "15\\sqrt3",
+    //         "36\\pi",
+    //         "36\\pi",
+    //         "50",
+    //         "30\\sqrt{26}",
+    //       ],
+    //       test_type: "rash",
+    //     };
 
-        const res = await fetch("http://localhost:5000/api/exam", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newUser),
-        });
+    //     const res = await fetch("http://localhost:5000/api/exam", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(newUser),
+    //     });
 
-        const data = await res.json();
-        console.log("✅ Serverdan javob:", data);
-      } catch (error: any) {
-        console.error("❌ Xatolik:", error.message);
-      }
-    };
-
-    // getUser();
-    // createExamTest();
-    // createExam()
+    //     const data = await res.json();
+    //     console.log("✅ Serverdan javob:", data);
+    //   } catch (error: any) {
+    //     console.error("❌ Xatolik:", error.message);
+    //   }
+    // };
     // createExam();
-    // createUser();
   }, []);
 
   const handleSubmit = () => {
@@ -226,18 +222,21 @@ export const ExamSend: React.FC = () => {
     const testCheck = async () => {
       try {
         const test = {
-          user_id: Math.floor(Math.random() * 10000),
+          user_id: 1849659907,
           test: answers,
           name: getRandomName(),
         };
 
-        const res = await fetch(`http://localhost:5000/api/exam/${id}/test`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(test),
-        });
+        const res = await fetch(
+          `https://sertificate-backend12.onrender.com/api/exam/${id}/test`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(test),
+          }
+        );
 
         const data = await res.json();
         console.log("✅ Serverdan javob:", data);
@@ -246,36 +245,37 @@ export const ExamSend: React.FC = () => {
     testCheck();
   };
   return (
-    <section className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 flex justify-center py-10 px-2 mb-10">
-      <div className="w-full max-w-2xl bg-white/80 backdrop-blur-md shadow-2xl rounded-3xl border border-green-100 p-2">
+    <section className="min-h-screen bg-[rgb(var(--background))] flex justify-center py-10 px-3 mb-10 transition-colors duration-500">
+      <div className="w-full max-w-2xl bg-[rgb(var(--surface))]/90 backdrop-blur-md shadow-xl rounded-3xl border border-[rgb(var(--border))]/50 p-5 transition-all duration-300 hover:shadow-2xl hover:border-[rgb(var(--primary))]/40">
         {/* HEADER */}
-        <header className="text-center font-extrabold text-3xl uppercase tracking-wide text-green-700 drop-shadow-sm">
+        <header className="text-center font-extrabold text-3xl uppercase tracking-wide text-[rgb(var(--primary))] drop-shadow-sm">
           {oneExam?.name}
         </header>
 
-        <div className="pt-6">
+        <div className="pt-8">
           <>
+            {/* SAVOLLAR */}
             {dataMock.map((q, qIndex) => (
               <div
                 key={qIndex}
                 className="mb-10 flex items-center gap-6 justify-start"
               >
-                <h3 className="text-xl font-bold text-gray-800 w-5">
+                <h3 className="text-xl font-bold text-[rgb(var(--text))] w-6">
                   {qIndex + 1}.
                 </h3>
 
-                <div className="flex gap-3">
+                <div className="flex gap-4">
                   {Array(q.options)
                     .fill(null)
                     .map((_, index) => (
                       <label
                         key={index}
-                        className={`flex items-center justify-center w-[40px] h-[40px] rounded-full font-bold text-lg border-2 transition-all duration-300 ease-in-out cursor-pointer select-none shadow-sm
-                        ${
-                          answers[qIndex] === answersResponce(index)
-                            ? "bg-gradient-to-br from-green-500 to-green-600 text-white border-green-600 shadow-lg scale-110"
-                            : "bg-white text-gray-700 border-gray-300 hover:border-green-400 hover:shadow-md hover:scale-105"
-                        }`}
+                        className={`flex items-center justify-center w-[45px] h-[45px] rounded-full font-bold text-lg border-2 transition-all duration-300 ease-in-out cursor-pointer select-none shadow-sm
+                    ${
+                      answers[qIndex] === answersResponce(index)
+                        ? "bg-[rgb(var(--green))] text-white border-[rgb(var(--success))] shadow-lg scale-110"
+                        : "bg-[rgb(var(--surface))] text-[rgb(var(--text))] border-[rgb(var(--border))] hover:border-[rgb(var(--primary))]/50 hover:shadow-md hover:scale-105"
+                    }`}
                       >
                         <input
                           type="radio"
@@ -300,16 +300,20 @@ export const ExamSend: React.FC = () => {
               </div>
             ))}
 
+            {/* FORMULA INPUTLAR */}
             {Array(20)
               .fill(null)
               .map((_, qIndex) => (
-                <div className="flex gap-3 justify-center items-center">
-                  <p className="text-xl font-bold text-gray-800 w-8">
+                <div
+                  key={qIndex}
+                  className="flex gap-3 justify-center items-center mb-6"
+                >
+                  <p className="text-xl font-bold text-[rgb(var(--text))] w-8 text-right">
                     {qIndex % 2 === 1
                       ? `${Math.floor(qIndex / 2) + 36}b`
                       : `${Math.round(qIndex / 2) + 36}a`}
                   </p>
-                  <div className="w-full">
+                  <div className="w-full mathInputContainer">
                     <MathFormulaInput
                       value={answers[qIndex + 35]}
                       onChange={(newLatex) =>
@@ -320,14 +324,12 @@ export const ExamSend: React.FC = () => {
                 </div>
               ))}
 
-            {/* FORMULA INPUT */}
-
             {/* SUBMIT BUTTON */}
             <button
               onClick={handleSubmit}
-              className="mt-6 w-full py-3 rounded-xl font-semibold text-lg text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-50"
+              className="mt-8 w-full py-4 rounded-2xl font-semibold text-lg text-white bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] hover:from-[rgb(var(--secondary))] hover:to-[rgb(var(--primary))] shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 disabled:opacity-50"
             >
-              Yakunlash
+              ✅ Yakunlash
             </button>
           </>
         </div>

@@ -3,6 +3,10 @@ import { useNavigate } from "react-router";
 import { TestListSkeleton } from "./loading_dashbord";
 import { mockExams } from "../results/mockdata";
 import { motion } from "framer-motion";
+import { FaCalendarAlt } from "react-icons/fa";
+import { IoMdRefresh } from "react-icons/io";
+import { MdPeopleAlt } from "react-icons/md";
+import { IoAlarm } from "react-icons/io5";
 export type TestSummary = {
   id: string;
   name: string;
@@ -25,10 +29,13 @@ const Dashboard = () => {
     const getData = async () => {
       try {
         setTests([]);
-        const responce = await fetch("http://192.168.1.104:5000/api/exam/", {
-          method: "GET",
-          headers: {},
-        });
+        const responce = await fetch(
+          "https://sertificate-backend12.onrender.com/api/exam/",
+          {
+            method: "GET",
+            headers: {},
+          }
+        );
         const data = await responce.json();
         setLoading(false);
         setTests(data);
@@ -41,7 +48,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0A0E1A] to-[#141E30] text-white px-3 py-4">
+    <div className="min-h-screen bg-[rgb(var(--background))] px-3 py-4 text-[rgb(var(--text))]">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -56,9 +63,9 @@ const Dashboard = () => {
         </h1>
         <button
           onClick={() => window.location.reload()}
-          className="bg-white/10 backdrop-blur-lg px-3 py-1.5 rounded-full text-sm hover:bg-white/20 transition"
+          className="bg-[rgb(var(--border))] cursor-pointer flex gap-1 justify-center items-center backdrop-blur-lg px-3 py-1.5 rounded-full text-sm hover:bg-white/20 transition"
         >
-          🔄 Yangilash
+          <IoMdRefresh /> Yangilash
         </button>
       </motion.div>
 
@@ -82,16 +89,16 @@ const Dashboard = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.07, type: "spring", stiffness: 80 }}
-            className="relative rounded-3xl p-5 bg-white/10 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] overflow-hidden border border-white/10"
+            className="relative rounded-3xl p-5 bg-white/10 backdrop-blur-xl shadow-[0_4px_30px_rgba(--border)] overflow-hidden border border-white/10"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/15 via-blue-500/10 to-indigo-600/10 pointer-events-none" />
 
             <div className="relative z-10 flex flex-col mb-4">
-              <h2 className="text-xl font-extrabold leading-snug text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400 drop-shadow-md">
+              <h2 className="text-xl font-extrabold leading-snug text-[rgb(var(--primary))] drop-shadow-md">
                 {test.name}
               </h2>
-              <p className="text-xs text-gray-400 mt-1">
-                📅 Boshlangan:{" "}
+              <p className="flex items-center gap-2 text-xs text-[rgb(var(--text))] mt-1">
+                <FaCalendarAlt /> Boshlangan:{" "}
                 {test.startedAt
                   ? new Date(test.startedAt).toLocaleDateString([], {
                       day: "2-digit",
@@ -101,10 +108,10 @@ const Dashboard = () => {
               </p>
             </div>
 
-            <div className="relative z-10 flex items-center justify-between text-sm text-gray-300 mb-4">
+            <div className="relative z-10 flex items-center justify-between text-sm text-[rgb(var(--text))] mb-4">
               <div className="flex items-center gap-2">
-                <span className="bg-white/10 px-2 py-1 rounded-full">
-                  👥 {test.participantsCount} kishi
+                <span className="flex gap-2 items-center bg-white/10 px-2 py-1 rounded-full">
+                  <MdPeopleAlt /> {test.participantsCount} kishi
                 </span>
                 {test.isActive ? (
                   <span className="bg-green-500/20 text-green-300 px-2 py-1 rounded-full">
@@ -116,8 +123,8 @@ const Dashboard = () => {
                   </span>
                 )}
               </div>
-              <span className="text-xs">
-                ⏰{" "}
+              <span className="text-xs flex items-center gap-1">
+                <IoAlarm />{" "}
                 {test.endsAt
                   ? new Date(test.endsAt).toLocaleTimeString([], {
                       hour: "2-digit",

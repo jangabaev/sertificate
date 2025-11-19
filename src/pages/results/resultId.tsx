@@ -13,7 +13,7 @@ export const ResultId: React.FC = () => {
     const fetchResult = async () => {
       try {
         const response = await fetch(
-          `http://192.168.1.104:5000/api/rash/${id}`
+          `https://sertificate-backend12.onrender.com/api/rash/${id}`
         );
         const result = await response.json();
         setTestTitle(result?.name || "");
