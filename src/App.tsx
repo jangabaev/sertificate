@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 // import { Dashborad } from "./pages/home/home";
 import { ExamSend } from "./pages/exam";
@@ -8,6 +8,13 @@ import { Results } from "./pages/results";
 import { ResultId } from "./pages/results/resultId";
 import Navbar from "./components/layouts/navbar";
 function App() {
+  useEffect(() => {
+    const tg = window?.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+    }
+  }, []);
   return (
     <>
       <Router>
