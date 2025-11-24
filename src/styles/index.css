@@ -45,6 +45,38 @@
   }
 }
 
+.light {
+  --background: 248 250 252; /* #F8FAFC */
+  --surface: 255 255 255; /* #FFFFFF */
+  --primary: 14 165 233; /* #0EA5E9 */
+  --secondary: 37 99 235; /* #2563EB */
+  --text: 15 23 42; /* #0F172A */
+  --text-muted: 100 116 139; /* #64748B */
+  --text-active: 17 154 250;
+  --success: 22 163 74; /* #16A34A */
+  --error: 220 38 38; /* #DC2626 */
+  --border: 0 0 0 / 0.08; /* rgba(0,0,0,0.08) */
+  --gradient-from: 56 189 248; /* #38BDF8 */
+  --gradient-to: 37 99 235; /* #2563EB */
+  --green: 49, 134, 46;
+}
+
+.dark {
+  --background: 10 14 26; /* #0A0E1A */
+  --surface: 20 30 48; /* #141E30 */
+  --primary: 6 182 212; /* #06B6D4 */
+  --secondary: 59 130 246; /* #3B82F6 */
+  --text: 249 250 251; /* #F9FAFB */
+  --text-muted: 156 163 175; /* #9CA3AF */
+  --success: 34 197 94; /* #22C55E */
+  --error: 239 68 68; /* #EF4444 */
+  --border: 255 255 255 / 0.1; /* rgba(255,255,255,0.1) */
+  --gradient-from: 8 145 178; /* #0891B2 */
+  --gradient-to: 37 99 235; /* #2563EB */
+  --text-active: 17 154 250;
+  --green: 49, 134, 46;
+}
+
 math-field::part(menu-toggle),
 math-field::part(undo),
 math-field::part(redo),
@@ -59,4 +91,11 @@ math-field::part(copy) {
 
 .ML__base {
   color: rgb(var(--text)) !important;
+}
+
+body {
+  padding-top: var(--tg-safe-area-inset-top);
+  padding-bottom: var(--tg-safe-area-inset-bottom);
+  padding-left: var(--tg-safe-area-inset-left);
+  padding-right: var(--tg-safe-area-inset-right);
 }

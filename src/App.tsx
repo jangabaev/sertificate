@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import { Dashborad } from "./pages/home/home";
 import { ExamSend } from "./pages/exam";
 import Dashboard from "./pages/home";
@@ -8,7 +8,6 @@ import { Results } from "./pages/results";
 import { ResultId } from "./pages/results/resultId";
 import Navbar from "./components/layouts/navbar";
 function App() {
-  const [user, setUser] = useState("11");
   useEffect(() => {
     const tg = window?.Telegram.WebApp;
     if (tg.initDataUnsafe?.user) {
@@ -16,19 +15,11 @@ function App() {
       tg.expand();
       tg.disableVerticalSwipes(true);
       tg.setHeaderColor("secondary_bg_color");
-      setUser(tg.initDataUnsafe?.user.id || null);
     }
   }, []);
   return (
     <>
       <Router>
-        <div className="relative z-40 bg-amber-300 h-10">
-          {Array(30)
-            .fill(0)
-            .map((_, i) => (
-              <div>{user}</div>
-            ))}
-        </div>
         <Navbar />
 
         <Routes>
