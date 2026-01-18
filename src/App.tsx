@@ -21,7 +21,6 @@ function App() {
     <>
       <Router>
         <Navbar />
-
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/exam/:id" element={<ExamSend />} />

@@ -17,7 +17,6 @@ export type TestSummary = {
 };
 const Dashboard = () => {
   const [tests, setTests] = useState<TestSummary[]>([]);
-  console.log(tests);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -29,13 +28,10 @@ const Dashboard = () => {
     const getData = async () => {
       try {
         setTests([]);
-        const responce = await fetch(
-          "https://sertificate-backend12.onrender.com/api/exam/",
-          {
-            method: "GET",
-            headers: {},
-          }
-        );
+        const responce = await fetch(`http://192.168.1.104:5000/api/exam/`, {
+          method: "GET",
+          headers: {},
+        });
         const data = await responce.json();
         setLoading(false);
         setTests(data);

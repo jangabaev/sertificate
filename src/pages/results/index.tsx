@@ -10,9 +10,7 @@ export const Results = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://sertificate-backend12.onrender.com/api/exam"
-        );
+        const response = await fetch(`${import.meta.env.BEKETND_API}/exam`);
         const result = await response.json();
         setData(result);
       } catch (error) {

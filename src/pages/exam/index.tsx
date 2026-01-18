@@ -228,7 +228,7 @@ export const ExamSend: React.FC = () => {
         };
 
         const res = await fetch(
-          `https://sertificate-backend12.onrender.com/api/exam/${id}/test`,
+          `${import.meta.env.BEKETND_API}/exam/${id}/test`,
           {
             method: "PATCH",
             headers: {
@@ -246,10 +246,10 @@ export const ExamSend: React.FC = () => {
   };
   return (
     <section className="min-h-screen bg-[rgb(var(--background))] flex justify-center py-10 px-3 mb-10 transition-colors duration-500">
-      <div className="w-full max-w-2xl bg-[rgb(var(--surface))]/90 backdrop-blur-md shadow-xl rounded-3xl border border-[rgb(var(--border))]/50 p-5 transition-all duration-300 hover:shadow-2xl hover:border-[rgb(var(--primary))]/40">
+      <div className="w-full max-w-2xl bg-[rgb(var(--surface))]/90 backdrop-blur-md shadow-xl rounded-3xl border border-[rgb(var(--border))]/50 p-5 transition-all duration-300">
         {/* HEADER */}
         <header className="text-center font-extrabold text-3xl uppercase tracking-wide text-[rgb(var(--primary))] drop-shadow-sm">
-          {oneExam?.name}
+          {oneExam?.name || "Imtihon testi"}
         </header>
 
         <div className="pt-8">
@@ -258,19 +258,19 @@ export const ExamSend: React.FC = () => {
             {dataMock.map((q, qIndex) => (
               <div
                 key={qIndex}
-                className="mb-10 flex items-center gap-6 justify-start"
+                className="mb-10 flex items-center gap-3 justify-start"
               >
                 <h3 className="text-xl font-bold text-[rgb(var(--text))] w-6">
                   {qIndex + 1}.
                 </h3>
 
-                <div className="flex gap-4">
+                <div className="flex gap-2">
                   {Array(q.options)
                     .fill(null)
                     .map((_, index) => (
                       <label
                         key={index}
-                        className={`flex items-center justify-center w-[45px] h-[45px] rounded-full font-bold text-lg border-2 transition-all duration-300 ease-in-out cursor-pointer select-none shadow-sm
+                        className={`flex items-center justify-center w-[40px] h-[40px] rounded-full font-bold text-lg border-2 transition-all duration-300 ease-in-out cursor-pointer select-none shadow-sm
                     ${
                       answers[qIndex] === answersResponce(index)
                         ? "bg-[rgb(var(--green))] text-white border-[rgb(var(--success))] shadow-lg scale-110"

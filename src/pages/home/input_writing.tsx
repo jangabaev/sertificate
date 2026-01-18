@@ -90,6 +90,7 @@ export default function RestrictedMathInput({
       style={{
         maxWidth: 640,
         margin: "24px auto",
+        padding: "0px 0px",
         fontFamily: "sans-serif",
       }}
     >
@@ -111,8 +112,8 @@ export default function RestrictedMathInput({
           display: "block",
           border: "1px solid #ccc",
           borderRadius: 8,
-          padding: 10,
-          minHeight: 50,
+          padding: 0,
+          minHeight: 30,
           fontSize: 20,
           background: "#fff",
         }}
