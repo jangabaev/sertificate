@@ -56,7 +56,7 @@ export const ExamSend: React.FC = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(user),
-          }
+          },
         );
 
         const data = await res.json();
@@ -235,7 +235,7 @@ export const ExamSend: React.FC = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(test),
-          }
+          },
         );
 
         const data = await res.json();
