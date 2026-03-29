@@ -97,9 +97,9 @@ const Dashboard = () => {
                 <FaCalendarAlt /> Boshlangan:{" "}
                 {test.startedAt
                   ? new Date(test.startedAt).toLocaleDateString([], {
-                      day: "2-digit",
-                      month: "short",
-                    })
+                    day: "2-digit",
+                    month: "short",
+                  })
                   : "—"}
               </p>
             </div>
@@ -123,22 +123,21 @@ const Dashboard = () => {
                 <IoAlarm />{" "}
                 {test.endsAt
                   ? new Date(test.endsAt).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
                   : "—"}
               </span>
             </div>
 
             {/* Qatnashish tugmasi */}
-            <div className="relative z-10">
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                onClick={() => navigateClick(test.id)}
-                className="w-full py-2.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full font-semibold text-sm shadow-lg hover:shadow-cyan-500/30 transition-all duration-200"
-              >
-                🚀 Qatnashish
-              </motion.button>
+            <div className="relative z-10">            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigateClick(test.id)}
+              className="w-full py-2.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full font-semibold text-sm shadow-lg hover:shadow-cyan-500/30 transition-all duration-200"
+            >
+              🚀 Qatnashish
+            </motion.button>
             </div>
 
             {/* Dekorativ “shine” effekt */}

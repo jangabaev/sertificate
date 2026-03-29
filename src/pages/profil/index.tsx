@@ -117,13 +117,12 @@ export const Profil = () => {
                     {test?.name}
                   </td>
                   <td
-                    className={`px-3 py-2 border-b text-center font-bold ${
-                      test.score >= 80
-                        ? "text-[rgb(var(--success))]"
-                        : test.score >= 60
+                    className={`px-3 py-2 border-b text-center font-bold ${test.score >= 80
+                      ? "text-[rgb(var(--success))]"
+                      : test.score >= 60
                         ? "text-[rgb(var(--secondary))]"
                         : "text-[rgb(var(--error))]"
-                    }`}
+                      }`}
                   >
                     {Math.floor(test?.score || "")}
                   </td>

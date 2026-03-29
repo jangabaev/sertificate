@@ -6,6 +6,7 @@ import Dashboard from "./pages/home";
 import { Profil } from "./pages/profil";
 import { Results } from "./pages/results";
 import { ResultId } from "./pages/results/resultId";
+import Settings from "./pages/settings";
 import Navbar from "./components/layouts/navbar";
 function App() {
   // Shaxnoza
@@ -30,6 +31,7 @@ function App() {
           <Route path="/profil" element={<Profil />} />
           {/* 404 sahifa */}
           <Route path="*" element={<>Not found</>} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </Router>
     </>
