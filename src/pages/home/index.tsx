@@ -51,12 +51,34 @@ const Dashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         className="flex items-center justify-between mb-6"
       >
-        <h1 className="text-2xl font-extrabold tracking-tight">
-          🎯{" "}
-          <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-            Faol testlar
-          </span>
-        </h1>
+        <div className="flex gap-3 items-center text-[rgb(var(--text))]">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            version="1.0"
+            width="30.000000pt"
+            height="28.996312pt"
+            viewBox="0 0 198.000000 138.996312"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <metadata>
+              Created by potrace 1.12, written by Peter Selinger 2001-2015
+            </metadata>
+            <g
+              transform="translate(-6.000000,170.996312) scale(0.100000,-0.100000)"
+              stroke="none"
+              fill="currentColor"
+              className="text-[rgb(var(--text))]"
+            >
+              <path d="M575 1323 c-332 -642 -515 -998 -515 -1000 0 -2 58 -3 129 -3 l129 0 76 150 77 150 98 0 98 0 54 81 c42 65 55 78 63 66 6 -8 32 -44 58 -80 l47 -66 97 -3 97 -3 76 -145 76 -145 129 -3 c120 -2 128 -1 122 15 -4 10 -146 286 -315 613 -170 327 -327 632 -350 678 -23 45 -42 82 -44 82 -1 0 -92 -174 -202 -387z m300 -309 c50 -96 91 -179 93 -185 2 -5 -73 -9 -192 -9 l-196 0 46 93 c75 148 145 277 152 277 4 0 48 -79 97 -176z" />
+              <path d="M1660 910 l0 -109 -112 -3 -113 -3 -3 -72 -3 -73 116 0 115 0 0 -110 0 -110 75 0 75 0 1 88 c1 48 2 96 3 107 1 19 9 20 114 23 l112 3 0 74 0 74 -112 3 -112 3 3 108 3 107 -81 0 -81 0 0 -110z" />
+              <path d="M722 547 c-51 -52 -52 -54 -52 -112 l0 -59 53 52 52 52 53 -52 52 -53 0 58 c0 55 -3 61 -47 113 -27 29 -50 54 -53 54 -3 0 -29 -24 -58 -53z" />
+            </g>
+          </svg>
+          <h1 className="text-2xl font-extrabold tracking-tight">
+            {" "}
+            <span className="bg-clip-text">Testlar</span>
+          </h1>
+        </div>
         <button
           onClick={() => window.location.reload()}
           className="bg-[rgb(var(--border))] cursor-pointer flex gap-1 justify-center items-center backdrop-blur-lg px-3 py-1.5 rounded-full text-sm hover:bg-white/20 transition"

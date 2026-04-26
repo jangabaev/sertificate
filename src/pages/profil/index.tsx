@@ -29,7 +29,7 @@ export const Profil = () => {
     setUser(tg.initDataUnsafe?.user);
     let token = CryptoJS.AES.encrypt(
       "1849659907",
-      "telegram_sertifikate_secret"
+      "telegram_sertifikate_secret",
     ).toString();
     const getUserData = async () => {
       try {
@@ -41,7 +41,7 @@ export const Profil = () => {
               "Content-Type": "application/json",
               token,
             },
-          }
+          },
         );
         const result = await response.json();
         // setUser(result);
@@ -121,8 +121,8 @@ export const Profil = () => {
                       test.score >= 80
                         ? "text-[rgb(var(--success))]"
                         : test.score >= 60
-                        ? "text-[rgb(var(--secondary))]"
-                        : "text-[rgb(var(--error))]"
+                          ? "text-[rgb(var(--secondary))]"
+                          : "text-[rgb(var(--error))]"
                     }`}
                   >
                     {Math.floor(test?.score || "")}
@@ -136,7 +136,7 @@ export const Profil = () => {
           </table>
         </div>
       </div>
-
+      <MathCalculator />
       {/* Tugma */}
       <button className="mt-6 w-full max-w-md bg-[rgb(var(--primary))] hover:bg-[rgb(var(--secondary))] text-white py-3 rounded-xl font-semibold shadow-md transition-colors">
         WebApp ni yopish

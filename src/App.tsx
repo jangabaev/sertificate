@@ -8,7 +8,6 @@ import { Results } from "./pages/results";
 import { ResultId } from "./pages/results/resultId";
 import Navbar from "./components/layouts/navbar";
 function App() {
-  // Shaxnoza
   useEffect(() => {
     const tg = window?.Telegram.WebApp;
     if (tg.initDataUnsafe?.user) {
