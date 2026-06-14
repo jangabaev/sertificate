@@ -58,6 +58,48 @@ export const Profil = () => {
       }
     };
     getUserData();
+
+    const postUsers = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/users",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: "Muxtar",
+              email: "muxtar@gmail.com",
+              age: 20
+            }),
+          })
+        return response
+      } catch (error) {
+        console.log("error")
+      }
+    }
+    postUsers()
+
+
+      const getUser = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/users`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              token,
+            },
+          },
+        );
+        const result = await response.json();
+       console.log(response)
+      } catch (error) {
+        console.error("Maʼlumotni olishda xatolik:", error);
+      }
+    };
+    getUser();
   }, []);
 
   return (
@@ -117,13 +159,12 @@ export const Profil = () => {
                     {test?.name}
                   </td>
                   <td
-                    className={`px-3 py-2 border-b text-center font-bold ${
-                      test.score >= 80
-                        ? "text-[rgb(var(--success))]"
-                        : test.score >= 60
-                          ? "text-[rgb(var(--secondary))]"
-                          : "text-[rgb(var(--error))]"
-                    }`}
+                    className={`px-3 py-2 border-b text-center font-bold ${test.score >= 80
+                      ? "text-[rgb(var(--success))]"
+                      : test.score >= 60
+                        ? "text-[rgb(var(--secondary))]"
+                        : "text-[rgb(var(--error))]"
+                      }`}
                   >
                     {Math.floor(test?.score || "")}
                   </td>
@@ -136,7 +177,7 @@ export const Profil = () => {
           </table>
         </div>
       </div>
-      <MathCalculator />
+      {/*<MathCalculator />*/}
       {/* Tugma */}
       <button className="mt-6 w-full max-w-md bg-[rgb(var(--primary))] hover:bg-[rgb(var(--secondary))] text-white py-3 rounded-xl font-semibold shadow-md transition-colors">
         WebApp ni yopish

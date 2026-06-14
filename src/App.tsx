@@ -6,6 +6,7 @@ import Dashboard from "./pages/home";
 import { Profil } from "./pages/profil";
 import { Results } from "./pages/results";
 import { ResultId } from "./pages/results/resultId";
+import Anwers from "./pages/answers";
 import Settings from "./pages/settings";
 import Navbar from "./components/layouts/navbar";
 function App() {
@@ -31,6 +32,7 @@ function App() {
           {/* 404 sahifa */}
           <Route path="*" element={<>Not found</>} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/createtest" element={<Anwers/>}/>
         </Routes>
       </Router>
     </>
