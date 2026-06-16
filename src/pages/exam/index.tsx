@@ -222,13 +222,12 @@ export const ExamSend: React.FC = () => {
     const testCheck = async () => {
       try {
         const test = {
-          user_id: 1849659907,
-          test: answers,
-          name: getRandomName(),
+          user_id: 9,
+          responce: answers,
         };
 
         const res = await fetch(
-          `${import.meta.env.BEKETND_API}/exam/${id}/test`,
+          `http://localhost:3000/test/${id}`,
           {
             method: "PATCH",
             headers: {

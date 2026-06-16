@@ -28,7 +28,7 @@ const Dashboard = () => {
     const getData = async () => {
       try {
         setTests([]);
-        const responce = await fetch(`http://192.168.1.104:5000/api/exam/`, {
+        const responce = await fetch(`http://localhost:3000/test`, {
           method: "GET",
           headers: {},
         });

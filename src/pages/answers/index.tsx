@@ -21,35 +21,35 @@ const Anwers = () => {
     };
 
     const handleSubmit = async () => {
-  try {
-    console.log({
-        name,
-        responce: answers,
-        status:"ACTIVE"
-      })
-    const res = await fetch("http://localhost:3000/test", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        responce: answers,
-        status:"ACTIVE"
-      }),
-    });
+        try {
+            console.log({
+                name,
+                responce: answers,
+                status: "ACTIVE"
+            })
+            const res = await fetch("http://localhost:3000/test", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name,
+                    responce: answers,
+                    status: "ACTIVE"
+                }),
+            });
 
-    if (!res.ok) {
-      throw new Error("Backendga yuborishda xatolik");
-    }
+            if (!res.ok) {
+                throw new Error("Backendga yuborishda xatolik");
+            }
 
-    const data = await res.json();
-    setModalData(data);
-  } catch (error) {
-    console.error("Xatolik:", error);
-    alert("Hammasini toltir")
-  }
-};
+            const data = await res.json();
+            setModalData(data);
+        } catch (error) {
+            console.error("Xatolik:", error);
+            alert("Hammasini toltir")
+        }
+    };
     return (<section className="min-h-screen bg-[rgb(var(--background))] flex justify-center py-10 px-3 mb-10 transition-colors duration-500">
         <div className="w-full max-w-2xl bg-[rgb(var(--surface))]/90 backdrop-blur-md shadow-xl rounded-3xl border border-[rgb(var(--border))]/50 p-5 transition-all duration-300">
             {/* HEADER */}
@@ -65,13 +65,13 @@ const Anwers = () => {
                     label=""
                     type="text"
                     placeholder="Test nomini kirgizing"
-                    required 
+                    required
                 />
             </div>
 
 
             <div className="pt-8">
-                  <h1 className="text-center text-[rgb(var(--text))] text-2xl font-bold mb-2">Test Javoblari</h1>
+                <h1 className="text-center text-[rgb(var(--text))] text-2xl font-bold mb-2">Test Javoblari</h1>
                 <>
                     {/* SAVOLLAR */}
                     {dataMock.map((q, qIndex) => (
@@ -150,43 +150,41 @@ const Anwers = () => {
                     </button>
                 </>
             </div>
-
-             
         </div>
         {modalData && (
-                <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-                    <div className="w-full max-w-sm p-6 text-center shadow-2xl bg-[rgb(var(--surface))] border border-[rgb(var(--border))]/80 rounded-2xl scale-in-animation">
-                        <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-green-100 rounded-full dark:bg-green-900/30">
-                            <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        
-                        <h2 className="text-xl font-bold text-[rgb(var(--text))] mb-2">
-                            Test muvaffaqiyatli yaratildi!
-                        </h2>
-                        
-                        <div className="p-3 my-4 text-left text-sm rounded-xl bg-[rgb(var(--background))] border border-[rgb(var(--border))]/50">
-                            <p className="text-[rgb(var(--text))]/70">
-                                <strong className="text-[rgb(var(--text))]">ID:</strong> {modalData.id || modalData._id || "Mavjud emas"}
-                            </p>
-                            <p className="text-[rgb(var(--text))]/70 mt-1">
-                                <strong className="text-[rgb(var(--text))]">Nomi:</strong> {modalData.name || name}
-                            </p>
-                            <p className="text-[rgb(var(--text))]/70 mt-1">
-                                <strong className="text-[rgb(var(--text))]">Holati:</strong> {modalData.status || "ACTIVE"}
-                            </p>
-                        </div>
-
-                        <button
-                            onClick={() => window.location.href = "/"}
-                            className="w-full py-3 font-semibold text-white rounded-xl bg-[rgb(var(--primary))] hover:opacity-90 shadow-md transition-all active:scale-95"
-                        >
-                            Bosh sahifaga oʻtish
-                        </button>
+            <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+                <div className="w-full max-w-sm p-6 text-center shadow-2xl bg-[rgb(var(--surface))] border border-[rgb(var(--border))]/80 rounded-2xl scale-in-animation">
+                    <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-green-100 rounded-full dark:bg-green-900/30">
+                        <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
                     </div>
+
+                    <h2 className="text-xl font-bold text-[rgb(var(--text))] mb-2">
+                        Test muvaffaqiyatli yaratildi!
+                    </h2>
+
+                    <div className="p-3 my-4 text-left text-sm rounded-xl bg-[rgb(var(--background))] border border-[rgb(var(--border))]/50">
+                        <p className="text-[rgb(var(--text))]/70">
+                            <strong className="text-[rgb(var(--text))]">ID:</strong> {modalData.id || modalData._id || "Mavjud emas"}
+                        </p>
+                        <p className="text-[rgb(var(--text))]/70 mt-1">
+                            <strong className="text-[rgb(var(--text))]">Nomi:</strong> {modalData.name || name}
+                        </p>
+                        <p className="text-[rgb(var(--text))]/70 mt-1">
+                            <strong className="text-[rgb(var(--text))]">Holati:</strong> {modalData.status || "ACTIVE"}
+                        </p>
+                    </div>
+
+                    <button
+                        onClick={() => window.location.href = "/"}
+                        className="w-full py-3 font-semibold text-white rounded-xl bg-[rgb(var(--primary))] hover:opacity-90 shadow-md transition-all active:scale-95"
+                    >
+                        Bosh sahifaga oʻtish
+                    </button>
                 </div>
-            )}
+            </div>
+        )}
     </section>)
 }
 
