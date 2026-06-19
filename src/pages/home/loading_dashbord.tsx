@@ -1,30 +1,33 @@
-import React from "react";
+const SkeletonLine = ({ className = "" }: { className?: string }) => (
+  <div
+    className={`animate-pulse rounded-full bg-[rgb(var(--background))] ${className}`}
+  />
+);
 
 export const TestListSkeleton = () => {
   return (
-    <div className="p-3 grid grid-cols-1 gap-4">
-      {[1, 2, 3, 4].map((i) => (
+    <section className="flex flex-col gap-3">
+      {[1, 2, 3, 4].map((item) => (
         <div
-          key={i}
-          className="relative overflow-hidden bg-white/90 dark:bg-gray-800 rounded-2xl shadow-md p-4 border border-gray-200/50 dark:border-gray-700/50"
+          key={item}
+          className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-4 shadow-sm"
         >
-          {/* Gradient shine animation */}
-          <div className="absolute inset-0 -translate-x-full animate-[shine_1.5s_infinite] bg-gradient-to-r from-transparent via-white/60 dark:via-gray-600/30 to-transparent"></div>
-
-          <div className="flex justify-between items-center mb-3">
-            <div className="h-4 w-1/3 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded"></div>
-            <div className="h-4 w-12 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-full"></div>
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1">
+              <SkeletonLine className="h-5 w-3/4" />
+              <SkeletonLine className="mt-3 h-4 w-1/2" />
+            </div>
+            <SkeletonLine className="h-7 w-16" />
           </div>
 
-          <div className="h-5 w-3/4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded mb-3"></div>
-          <div className="h-4 w-1/2 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded mb-4"></div>
-
-          <div className="flex justify-between items-center">
-            <div className="h-9 w-28 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-full"></div>
-            <div className="h-9 w-9 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-full"></div>
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <SkeletonLine className="h-10 w-full rounded-xl" />
+            <SkeletonLine className="h-10 w-full rounded-xl" />
           </div>
+
+          <SkeletonLine className="mt-4 h-11 w-full rounded-xl" />
         </div>
       ))}
-    </div>
+    </section>
   );
 };
