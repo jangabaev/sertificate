@@ -27,7 +27,7 @@ const Anwers = () => {
                 responce: answers,
                 status: "ACTIVE"
             })
-            const res = await fetch("http://localhost:3000/test", {
+            const res = await fetch("https://sertificatebackend-production.up.railway.app/test", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

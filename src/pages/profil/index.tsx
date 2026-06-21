@@ -284,12 +284,12 @@ export const Profil = () => {
         tests: currentUser.tests,
       }));
     }
-    const encryptedToken = CryptoJS.AES.encrypt("1", "math").toString();
+    const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id, "math").toString();
 
     console.log(encryptedToken)
     const getUserData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/users/12`,{
+        const response = await fetch(`https://sertificatebackend-production.up.railway.app/users/${telegramUser?.id}`,{
           method:"GET",
           headers: {
           'token': encryptedToken, 

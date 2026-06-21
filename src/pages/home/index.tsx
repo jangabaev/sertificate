@@ -61,7 +61,7 @@ navigate(`/exam/${testId}`)
     const getData = async () => {
       try {
         setTests([]);
-        const response = await fetch(`http://localhost:3000/test`, {
+        const response = await fetch(`https://sertificatebackend-production.up.railway.app/test`, {
           method: "GET",
           headers: {},
         });
