@@ -6,7 +6,6 @@ import { Input } from "../../components/input";
 const Anwers = () => {
     const [answers, setAnswers] = useState(Array(55).fill(null));
     const [modalData, setModalData] = useState<any>(null);
-    console.log(answers)
     const [name, setName] = useState("")
     const handleOptionChange = (qIndex: any, optionIndex: any) => {
         const newAnswers = [...answers];

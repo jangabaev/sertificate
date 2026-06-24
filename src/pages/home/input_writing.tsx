@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 type MathfieldElement = HTMLElement & {
   value: string;
@@ -21,13 +21,23 @@ export default function RestrictedMathInput({
   value,
   onChange,
 }: RestrictedMathInputProps) {
-  const [isFocused, setIsFocused] = useState(false);
   const mfRef = useRef<MathfieldElement | null>(null);
+  const isFocusedRef = useRef(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       import("mathlive");
     }
+
+    const handlePopState = () => {
+      if (isFocusedRef.current) {
+        mfRef.current?.blur();
+        isFocusedRef.current = false;
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
   const isBanned = (s: string) => BANNED_REGEX.test(s);
@@ -49,7 +59,6 @@ export default function RestrictedMathInput({
     onChange(el.value);
   };
 
-  // ✅ Faqat ruxsat etilgan belgilarni qo‘shish
   const insert = (code: string) => {
     if (isBanned(code)) return;
     if (mfRef.current?.executeCommand) {
@@ -60,37 +69,12 @@ export default function RestrictedMathInput({
     }
   };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      import("mathlive");
-    }
-
-    const handleBackButton = (event: PopStateEvent) => {
-      if (isFocused) {
-        // klaviaturani yopish
-        mfRef.current?.blur();
-        setIsFocused(false);
-        // sahifani orqaga qaytmasin
-        history.pushState(null, "", window.location.href);
-      }
-    };
-
-    // mobil brauzerlar uchun "back" hodisasini kuzatamiz
-    window.addEventListener("popstate", handleBackButton);
-    // bir marta push qilib qo‘yamiz, shunda back ishlaydi
-    history.pushState(null, "", window.location.href);
-
-    return () => {
-      window.removeEventListener("popstate", handleBackButton);
-    };
-  }, [isFocused]);
-
   return (
     <div
       style={{
-        maxWidth: 640,
-        margin: "24px auto",
-        padding: "0px 0px",
+        width: "100%",
+        margin: 0,
+        padding: 0,
         fontFamily: "sans-serif",
       }}
     >
@@ -106,8 +90,13 @@ export default function RestrictedMathInput({
         data-menu="false"
         onBeforeinput={handleBeforeInput as any}
         onInput={handleInput as any}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={() => {
+          isFocusedRef.current = true;
+          history.pushState(null, "", window.location.href);
+        }}
+        onBlur={() => {
+          isFocusedRef.current = false;
+        }}
         style={{
           display: "block",
           border: "1px solid #ccc",
