@@ -65,12 +65,7 @@ export const Results = () => {
             </h1>
           </div>
 
-          <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] px-3 py-2 text-right shadow-sm">
-            <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
-              Jami
-            </p>
-            <p className="text-2xl font-bold">{loading ? "-" : data.length}</p>
-          </div>
+          
         </header>
 
         <section className="grid grid-cols-2 gap-3">
