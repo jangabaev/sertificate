@@ -280,51 +280,50 @@ export const Profil = () => {
     const telegramUser = tg?.initDataUnsafe?.user;
 
 
-    // if (telegramUser) {
-    //   setUser((currentUser) => ({
-    //     ...currentUser,
-    //     ...telegramUser,
-    //     tests: currentUser.tests,
-    //   }));
-    // }
-    const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id, "math").toString();
-setUserId(encryptedToken)
-    // console.log(encryptedToken)
-    // const getUserData = async () => {
-    //   try {
-    //     const response = await fetch(`https://sertificatebackend-production.up.railway.app/users/${telegramUser?.id}`,{
-    //       method:"GET",
-    //       headers: {
-    //       'token': encryptedToken, 
-    //       'Content-Type': 'application/json'
-    //     }
-    //     });
+    if (telegramUser) {
+      setUser((currentUser) => ({
+        ...currentUser,
+        ...telegramUser,
+        tests: currentUser.tests,
+      }));
+    }
+    const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id.toString(), "math").toString();
+    
+    const getUserData = async () => {
+      try {
+        const response = await fetch(`https://sertificatebackend-production.up.railway.app/users/${telegramUser?.id}`,{
+          method:"GET",
+          headers: {
+          'token': encryptedToken, 
+          'Content-Type': 'application/json'
+        }
+        });
         
-    //     const result: BackendUser = await response.json();
-    //     console.log(result)
-    //     const backendTests = result.results ?? result.tests;
+        const result: BackendUser = await response.json();
+        console.log(result)
+        const backendTests = result.results ?? result.tests;
 
-    //     setUser((currentUser) => ({
-    //       ...currentUser,
-    //       first_name: result.first_name || currentUser.first_name,
-    //       last_name: result.last_name || currentUser.last_name,
-    //       username: result.username || currentUser.username,
-    //       photo_url: result.photo_url || currentUser.photo_url,
-    //       id: result.id || currentUser.id,
-    //       tests: normalizeResults(backendTests),
-    //     }));
-    //   } catch (error) {
-    //     console.error("Ma'lumotni olishda xatolik:", error);
-    //     setUser((currentUser) => ({
-    //       ...currentUser,
-    //       tests: mockResults,
-    //     }));
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
+        setUser((currentUser) => ({
+          ...currentUser,
+          first_name: result.first_name || currentUser.first_name,
+          last_name: result.last_name || currentUser.last_name,
+          username: result.username || currentUser.username,
+          photo_url: result.photo_url || currentUser.photo_url,
+          id: result.id || currentUser.id,
+          tests: normalizeResults(backendTests),
+        }));
+      } catch (error) {
+        console.error("Ma'lumotni olishda xatolik:", error);
+        setUser((currentUser) => ({
+          ...currentUser,
+          tests: mockResults,
+        }));
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // getUserData();
+    getUserData();
   }, []);
 
   return (
