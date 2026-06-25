@@ -69,14 +69,13 @@ const mockResults: ProfileResult[] = [
 
 const defaultUser: ProfileUser = {
   allows_write_to_pm: true,
-  first_name: "Jangabaev",
-  id: 1849659907,
+  first_name: "",
+  id: 0,
   language_code: "en",
-  last_name: "M",
-  photo_url:
-    "https://t.me/i/userpic/320/mpEXrW80MoSdfI6FZ34PKSFxVgmF2s3WWwuIBEBl6w0.svg",
-  username: "muxtar_dev",
-  tests: mockResults,
+  last_name: "",
+  photo_url:"",
+  username: "",
+  tests: [],
 };
 
 const degreeColors: Record<string, { text: string; bg: string; stroke: string }> = {
@@ -244,7 +243,6 @@ export const Profil = () => {
     null
   );
   const [loading, setLoading] = useState(true);
-  console.log(user)
   const results = user.tests?.length ? user.tests : mockResults;
   const sortedResults = useMemo(
     () =>
@@ -280,13 +278,13 @@ export const Profil = () => {
     const telegramUser = tg?.initDataUnsafe?.user;
 
 
-    if (telegramUser) {
-      setUser((currentUser) => ({
-        ...currentUser,
-        ...telegramUser,
-        tests: currentUser.tests,
-      }));
-    }
+    // if (telegramUser) {
+    //   setUser((currentUser) => ({
+    //     ...currentUser,
+    //     ...telegramUser,
+    //     tests: currentUser.tests,
+    //   }));
+    // }
     const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id.toString(), "math").toString();
     setUserId(encryptedToken)
     const getUserData = async () => {
@@ -294,7 +292,7 @@ export const Profil = () => {
         const response = await fetch(`https://sertificatebackend-production.up.railway.app/users/${telegramUser?.id}`,{
           method:"GET",
           headers: {
-          'token': encryptedToken, 
+          'token': "U2FsdGVkX1+peS7kR9fEjXVagl5PDk3EAfDfJloAbxw=", 
           'Content-Type': 'application/json'
         }
         });
@@ -302,14 +300,14 @@ export const Profil = () => {
         const result: BackendUser = await response.json();
         console.log(result)
         const backendTests = result.results ?? result.tests;
-
+        console.log(backendTests)
         setUser((currentUser) => ({
           ...currentUser,
-          first_name: result.first_name || currentUser.first_name,
-          last_name: result.last_name || currentUser.last_name,
-          username: result.username || currentUser.username,
-          photo_url: result.photo_url || currentUser.photo_url,
-          id: result.id || currentUser.id,
+          first_name: result.first_name || telegramUser.first_name,
+          last_name: result.last_name || telegramUser.last_name,
+          username: result.username || telegramUser.username,
+          photo_url: result.photo_url || telegramUser.photo_url,
+          id: result.id || telegramUser.id,
           tests: normalizeResults(backendTests),
         }));
       } catch (error) {
