@@ -59,12 +59,7 @@ type BackendUser = Omit<ProfileUser, "tests"> & {
 };
 
 const mockResults: ProfileResult[] = [
-  { id: 1, name: "Mock 24", score: 52, degree: "C", date: "2026-02-12" },
-  { id: 2, name: "Mock 25", score: 61, degree: "C+", date: "2026-03-03" },
-  { id: 3, name: "Mock 26", score: 68, degree: "B", date: "2026-03-28" },
-  { id: 4, name: "Mock 27", score: 74, degree: "B+", date: "2026-04-18" },
-  { id: 5, name: "Mock 28", score: 82, degree: "A", date: "2026-05-09" },
-  { id: 6, name: "Mock 29", score: 91, degree: "A+", date: "2026-06-02" },
+  { id: 1, name: "Mock", score: 40, degree: " ", date: "2026-06-02" },
 ];
 
 const defaultUser: ProfileUser = {
