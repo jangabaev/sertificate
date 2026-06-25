@@ -59,7 +59,6 @@ type BackendUser = Omit<ProfileUser, "tests"> & {
 };
 
 const mockResults: ProfileResult[] = [
-  { id: 1, name: "Mock", score: 40, degree: " ", date: "2026-06-02" },
 ];
 
 const defaultUser: ProfileUser = {
