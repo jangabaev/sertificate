@@ -287,8 +287,8 @@ export const Profil = () => {
     //     tests: currentUser.tests,
     //   }));
     // }
-    // const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id, "math").toString();
-setUserId(telegramUser?.id?.toString()??"")
+    const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id, "math").toString();
+setUserId(encryptedToken)
     // console.log(encryptedToken)
     // const getUserData = async () => {
     //   try {
