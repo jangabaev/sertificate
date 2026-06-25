@@ -288,7 +288,7 @@ export const Profil = () => {
       }));
     }
     const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id.toString(), "math").toString();
-    
+    setUserId(encryptedToken)
     const getUserData = async () => {
       try {
         const response = await fetch(`https://sertificatebackend-production.up.railway.app/users/${telegramUser?.id}`,{
