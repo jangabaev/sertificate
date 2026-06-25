@@ -273,13 +273,13 @@ export const Profil = () => {
     const telegramUser = tg?.initDataUnsafe?.user;
 
 
-    // if (telegramUser) {
-    //   setUser((currentUser) => ({
-    //     ...currentUser,
-    //     ...telegramUser,
-    //     tests: currentUser.tests,
-    //   }));
-    // }
+    if (telegramUser) {
+      setUser((currentUser) => ({
+        ...currentUser,
+        ...telegramUser,
+        tests: currentUser.tests,
+      }));
+    }
     const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id.toString(), "math").toString();
     setUserId(encryptedToken)
     const getUserData = async () => {
@@ -298,11 +298,11 @@ export const Profil = () => {
         console.log(backendTests)
         setUser((currentUser) => ({
           ...currentUser,
-          first_name: result.first_name || telegramUser.first_name,
-          last_name: result.last_name || telegramUser.last_name,
-          username: result.username || telegramUser.username,
-          photo_url: result.photo_url || telegramUser.photo_url,
-          id: result.id || telegramUser.id,
+          first_name: (result.first_name || telegramUser?.first_name)??"",
+          last_name: (result.last_name || telegramUser?.last_name)??"",
+          username: (result.username || telegramUser?.username)??"",
+          photo_url: (result.photo_url || telegramUser?.photo_url)??"",
+          id: (result.id || telegramUser?.id)??"",
           tests: normalizeResults(backendTests),
         }));
       } catch (error) {
