@@ -237,6 +237,7 @@ const LatexValue = ({ value }: { value?: string }) => {
 
 export const Profil = () => {
   const [user, setUser] = useState<ProfileUser>(defaultUser);
+  const [userId,setUserId]=useState("")
   const [selectedTest, setSelectedTest] = useState<ProfileResult | null>(null);
   const [hoveredResultId, setHoveredResultId] = useState<ProfileResult["id"] | null>(
     null
@@ -277,6 +278,7 @@ export const Profil = () => {
 
     const telegramUser = tg?.initDataUnsafe?.user;
 
+
     if (telegramUser) {
       setUser((currentUser) => ({
         ...currentUser,
@@ -285,7 +287,7 @@ export const Profil = () => {
       }));
     }
     const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id, "math").toString();
-
+setUserId(telegramUser?.id?.toString()??"")
     console.log(encryptedToken)
     const getUserData = async () => {
       try {
@@ -326,7 +328,7 @@ export const Profil = () => {
 
   return (
     <main className="min-h-screen bg-[rgb(var(--background))] px-4 pb-24 pt-4 text-[rgb(var(--text))]">
-      <div className="mx-auto flex w-full max-w-xl flex-col gap-5">
+      {/* <div className="mx-auto flex w-full max-w-xl flex-col gap-5">
         <section className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-5 shadow-sm">
           <div className="flex items-center gap-4">
             <img
@@ -648,7 +650,8 @@ export const Profil = () => {
             </div>
           </section>
         </div>
-      )}
+      )} */}
+      {userId}
     </main>
   );
 };
