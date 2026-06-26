@@ -644,7 +644,6 @@ export const Profil = () => {
           </section>
         </div>
       )}
-     userId:{userId}
     </main>
   );
 };
