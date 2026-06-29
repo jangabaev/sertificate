@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FiArrowLeft, FiAward, FiSearch, FiUsers } from "react-icons/fi";
-import { mockResult } from "./mockdata";
 
 type StudentResult = {
   id?: number | string;
@@ -68,6 +67,7 @@ export const ResultId = () => {
     const fetchResult = async () => {
       try {
         const response = await fetch(`https://sertificatebackend-production.up.railway.app/test/${id}`);
+        // const response = await fetch(`http://localhost:3000/test/${id}`);
         const result = await response.json();
         setTestTitle(result?.name || "");
         setData(result?.rash?.new_students || []);

@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { TestListSkeleton } from "./loading_dashbord";
-import { mockExams } from "../results/mockdata";
 import { motion } from "framer-motion";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoMdRefresh } from "react-icons/io";
@@ -68,7 +67,7 @@ navigate(`/exam/${testId}`)
         const data = await response.json();
         setTests(data);
       } catch {
-        setTests(mockExams);
+        setTests([]);
       } finally {
         setLoading(false);
       }

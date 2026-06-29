@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 import { FiArrowRight, FiBarChart2, FiClock, FiFileText } from "react-icons/fi";
 import { MdPeopleAlt } from "react-icons/md";
-import { mockExams } from "./mockdata";
 import { SkeletonCard } from "./loading";
 
 type ResultTest = {
@@ -36,10 +35,11 @@ export const Results = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(`https://sertificatebackend-production.up.railway.app/test?sort_by=noactive`);
+        // const response = await fetch(`http://localhost:3000/test?sort_by=noactive`);
         const result = await response.json();
         setData(result);
       } catch (error) {
-        setData(mockExams);
+        setData([]);
         console.error("Xatolik yuz berdi:", error);
       } finally {
         setLoading(false);

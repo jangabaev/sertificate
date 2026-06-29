@@ -33,6 +33,7 @@ function App() {
           <Route path="*" element={<>Not found</>} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/createtest" element={<Anwers/>}/>
+          <Route path="/createtest/:id" element={<Anwers/>}/>
         </Routes>
       </Router>
     </>
