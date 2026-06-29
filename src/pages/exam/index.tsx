@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { answersResponce } from "../../utils/responce";
 import MathFormulaInput from "../home/input_writing";
-import { getRandomName } from "../../utils/responce";
 import { dataMock } from "../home/mockdata";
 
 export const ExamSend: React.FC = () => {
   const [answers, setAnswers] = useState(Array(55).fill(null));
   const [oneExam, setOneExam] = useState<any>(null);
+  const [modal, setModal] = useState<{ show: boolean; success: boolean }>({ show: false, success: false });
+  const [loading, setLoading] = useState(false);
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
   const handleOptionChange = (qIndex: any, optionIndex: any) => {
     const newAnswers = [...answers];
     newAnswers[qIndex] = answersResponce(optionIndex);
@@ -21,32 +24,34 @@ export const ExamSend: React.FC = () => {
     setAnswers(updated);
   };
 
+  const handleSubmit = async () => {
+    const tg = window.Telegram?.WebApp;
+    tg?.ready();
+    tg?.expand();
+    const telegramUser = tg?.initDataUnsafe?.user;
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `https://sertificatebackend-production.up.railway.app/test/${id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_id: telegramUser?.id, responce: answers }),
+        },
+      );
+      if (!res.ok) throw new Error("Server xatosi");
+      await res.json();
+      setModal({ show: true, success: true });
+    } catch {
+      setModal({ show: true, success: false });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const handleSubmit = () => {
-    // setFinished(true);
-    const testCheck = async () => {
-      try {
-        const test = {
-          user_id: 9,
-          responce: answers,
-        };
-
-        const res = await fetch(
-          `https://sertificatebackend-production.up.railway.app/test/${id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(test),
-          },
-        );
-
-        const data = await res.json();
-        console.log("✅ Serverdan javob:", data);
-      } catch (error) {}
-    };
-    testCheck();
+  const handleModalClose = () => {
+    setModal({ show: false, success: false });
+    navigate("/");
   };
   return (
     <section className="min-h-screen bg-[rgb(var(--background))] flex justify-center py-10 px-3 mb-10 transition-colors duration-500">
@@ -131,13 +136,37 @@ export const ExamSend: React.FC = () => {
             {/* SUBMIT BUTTON */}
             <button
               onClick={handleSubmit}
+              disabled={loading}
               className="mt-8 w-full py-4 rounded-2xl font-semibold text-lg text-white bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] hover:from-[rgb(var(--secondary))] hover:to-[rgb(var(--primary))] shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 disabled:opacity-50"
             >
-              ✅ Yakunlash
+              {loading ? "Yuborilmoqda..." : "✅ Yakunlash"}
             </button>
           </>
         </div>
       </div>
+
+      {/* MODAL */}
+      {modal.show && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-[rgb(var(--surface))] rounded-3xl shadow-2xl p-8 mx-4 max-w-sm w-full text-center border border-[rgb(var(--border))]/50 animate-fade-in">
+            <div className="text-5xl mb-4">{modal.success ? "✅" : "❌"}</div>
+            <h2 className="text-2xl font-bold text-[rgb(var(--text))] mb-2">
+              {modal.success ? "Muvaffaqiyatli!" : "Hatolik!"}
+            </h2>
+            <p className="text-[rgb(var(--text))]/70 mb-6">
+              {modal.success
+                ? "Javobingiz muvaffaqiyatli yuborildi."
+                : "Javob yuborishda xatolik yuz berdi. Qayta urinib ko'ring."}
+            </p>
+            <button
+              onClick={handleModalClose}
+              className="w-full py-3 rounded-2xl font-semibold text-white bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] hover:opacity-90 transition-all duration-300 active:scale-95"
+            >
+              Bosh sahifaga o'tish
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
