@@ -53,95 +53,130 @@ export const ExamSend: React.FC = () => {
     setModal({ show: false, success: false });
     navigate("/");
   };
-  return (
-    <section className="min-h-screen bg-[rgb(var(--background))] flex justify-center py-10 px-3 mb-10 transition-colors duration-500">
-      <div className="w-full max-w-2xl bg-[rgb(var(--surface))]/90 backdrop-blur-md shadow-xl rounded-3xl border border-[rgb(var(--border))]/50 p-5 transition-all duration-300">
-        {/* HEADER */}
-        <header className="text-center font-extrabold text-3xl uppercase tracking-wide text-[rgb(var(--primary))] drop-shadow-sm">
-          {oneExam?.name || "Imtihon testi"}
-        </header>
+  const answeredCount = answers.filter((a) => a !== null).length;
+  const totalCount = dataMock.length + 20;
+  const progressPercent = Math.round((answeredCount / totalCount) * 100);
 
-        <div className="pt-8">
-          <>
-            {/* SAVOLLAR */}
-            {dataMock.map((q, qIndex) => (
+  return (
+    <section className="min-h-screen bg-[rgb(var(--background))] justify-center pb-24 pt-6 px-3 transition-colors duration-500">
+      <div className="w-full max-w-2xl m-auto">
+        {/* HEADER */}
+        {/* <header className="mb-6 rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] px-5 py-4 shadow-sm"> */}
+          <h1 className="text-center text-2xl font-extrabold tracking-wide text-[rgb(var(--primary))] px-5 py-4">
+            {oneExam?.name || "Imtihon testi"}
+          </h1>
+          {/* <div className="mt-3">
+            <div className="mb-1 flex justify-between text-xs font-semibold text-[rgb(var(--text-muted))]">
+              <span>{answeredCount} / {totalCount} javoblandi</span>
+              <span>{progressPercent}%</span>
+            </div>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-[rgb(var(--background))]">
+              <div
+                className="h-full rounded-full bg-[rgb(var(--primary))] transition-all duration-500"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </div> */}
+        {/* </header> */}
+
+        {/* SAVOLLAR */}
+        <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] shadow-sm overflow-hidden">
+          {dataMock.map((q, qIndex) => {
+            const selected = answers[qIndex];
+            return (
               <div
                 key={qIndex}
-                className="mb-10 flex items-center gap-3 justify-start"
+                className="flex items-center gap-3 px-4 py-2.5 border-b border-[rgb(var(--border))] last:border-b-0"
               >
-                <h3 className="text-xl font-bold text-[rgb(var(--text))] w-6">
+                <span className="w-7 shrink-0 text-sm font-bold text-[rgb(var(--text-muted))]">
                   {qIndex + 1}.
-                </h3>
-
-                <div className="flex gap-2">
+                </span>
+                <div className="flex gap-1.5 flex-wrap">
                   {Array(q.options)
                     .fill(null)
-                    .map((_, index) => (
-                      <label
-                        key={index}
-                        className={`flex items-center justify-center w-[40px] h-[40px] rounded-full font-bold text-lg border-2 transition-all duration-300 ease-in-out cursor-pointer select-none shadow-sm
-                    ${
-                      answers[qIndex] === answersResponce(index)
-                        ? "bg-[rgb(var(--green))] text-white border-[rgb(var(--success))] shadow-lg scale-110"
-                        : "bg-[rgb(var(--surface))] text-[rgb(var(--text))] border-[rgb(var(--border))] hover:border-[rgb(var(--primary))]/50 hover:shadow-md hover:scale-105"
-                    }`}
-                      >
-                        <input
-                          type="radio"
-                          name={`question-${qIndex}`}
-                          value={answersResponce(index)}
-                          checked={answers[qIndex] === answersResponce(index)}
-                          onChange={() => handleOptionChange(qIndex, index)}
-                          className="hidden"
-                        />
-                        <span
-                          className={`transition-transform duration-200 ${
-                            answers[qIndex] === answersResponce(index)
-                              ? "scale-110"
-                              : "scale-100"
-                          }`}
+                    .map((_, index) => {
+                      const letter = answersResponce(index);
+                      const isSelected = selected === letter;
+                      return (
+                        <label
+                          key={index}
+                          className={`flex items-center justify-center w-9 h-9 rounded-xl font-bold text-sm border-2 cursor-pointer select-none transition-all duration-200
+                            ${isSelected
+                              ? "bg-[rgb(var(--primary))] text-white border-[rgb(var(--primary))] shadow-md shadow-[rgb(var(--primary))]/30 scale-105"
+                              : "bg-[rgb(var(--background))] text-[rgb(var(--text))] border-[rgb(var(--border))] hover:border-[rgb(var(--primary))]/60 hover:text-[rgb(var(--primary))]"
+                            }`}
                         >
-                          {answersResponce(index)}
-                        </span>
-                      </label>
-                    ))}
+                          <input
+                            type="radio"
+                            name={`question-${qIndex}`}
+                            value={letter}
+                            checked={isSelected}
+                            onChange={() => handleOptionChange(qIndex, index)}
+                            className="hidden"
+                          />
+                          {letter}
+                        </label>
+                      );
+                    })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* FORMULA INPUTLAR */}
+        <div className="mt-4 rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] shadow-sm overflow-hidden">
+          {Array(20)
+            .fill(null)
+            .map((_, qIndex) => (
+              <div
+                key={qIndex}
+                className="flex gap-3 items-center px-4 py-2.5 border-b border-[rgb(var(--border))] last:border-b-0"
+              >
+                <p className="text-sm font-bold text-[rgb(var(--text-muted))] w-10 shrink-0 text-right">
+                  {qIndex % 2 === 1
+                    ? `${Math.floor(qIndex / 2) + 36}b`
+                    : `${Math.round(qIndex / 2) + 36}a`}
+                </p>
+                <div className="w-full mathInputContainer">
+                  <MathFormulaInput
+                    value={answers[qIndex + 35]}
+                    onChange={(newLatex) =>
+                      handleLatexChange(qIndex + 35, newLatex)
+                    }
+                  />
                 </div>
               </div>
             ))}
+        </div>
+      </div>
 
-            {/* FORMULA INPUTLAR */}
-            {Array(20)
-              .fill(null)
-              .map((_, qIndex) => (
-                <div
-                  key={qIndex}
-                  className="flex gap-3 justify-center items-center mb-6"
-                >
-                  <p className="text-xl font-bold text-[rgb(var(--text))] w-8 text-right">
-                    {qIndex % 2 === 1
-                      ? `${Math.floor(qIndex / 2) + 36}b`
-                      : `${Math.round(qIndex / 2) + 36}a`}
-                  </p>
-                  <div className="w-full mathInputContainer">
-                    <MathFormulaInput
-                      value={answers[qIndex + 35]}
-                      onChange={(newLatex) =>
-                        handleLatexChange(qIndex + 35, newLatex)
-                      }
-                    />
-                  </div>
-                </div>
-              ))}
-
-            {/* SUBMIT BUTTON */}
-            <button
-              onClick={handleSubmit}
-              disabled={loading}
-              className="mt-8 w-full py-4 rounded-2xl font-semibold text-lg text-white bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] hover:from-[rgb(var(--secondary))] hover:to-[rgb(var(--primary))] shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 disabled:opacity-50"
-            >
-              {loading ? "Yuborilmoqda..." : "✅ Yakunlash"}
-            </button>
-          </>
+      {/* SUBMIT — sticky pastki panel */}
+      <div className=" bottom-10 left-0 right-0 z-40 border-t border-[rgb(var(--border))]  px-2 py-2">
+        <div className="mx-auto w-full max-w-2xl">
+     
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="w-full h-13 rounded-2xl font-bold text-base text-white bg-[rgb(var(--primary))] hover:bg-[rgb(var(--secondary))] shadow-md shadow-[rgb(var(--primary))]/25 transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <>
+                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
+                Yuborilmoqda...
+              </>
+            ) : (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Testni yakunlash
+              </>
+            )}
+          </button>
         </div>
       </div>
 

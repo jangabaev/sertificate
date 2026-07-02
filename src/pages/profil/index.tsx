@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { FiAward, FiRefreshCw, FiTrendingUp, FiUser, FiX } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { FiAward, FiCreditCard, FiPlusCircle, FiRefreshCw, FiTrendingUp, FiUser, FiX } from "react-icons/fi";
 import CryptoJS from 'crypto-js'
 
 type ProfileUser = {
@@ -10,6 +11,7 @@ type ProfileUser = {
   last_name?: string;
   photo_url?: string;
   username?: string;
+  balance?: number;
   tests?: ProfileResult[];
 };
 
@@ -31,6 +33,9 @@ type TelegramWebApp = {
     user?: ProfileUser;
   };
 };
+
+const formatBalance = (value?: number) =>
+  `${Math.max(0, Math.floor(value ?? 0)).toLocaleString("ru-RU")} so'm`;
 
 type BackendResult = {
   id?: number | string;
@@ -54,6 +59,7 @@ type BackendResult = {
 };
 
 type BackendUser = Omit<ProfileUser, "tests"> & {
+  balance?: number;
   results?: BackendResult[];
   tests?: BackendResult[];
 };
@@ -70,6 +76,7 @@ const defaultUser: ProfileUser = {
   last_name: "",
   photo_url:"",
   username: "",
+  balance: 0,
   tests: [],
 };
 
@@ -282,12 +289,14 @@ export const Profil = () => {
     }
     const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id.toString(), "math").toString();
     setUserId(encryptedToken)
+    console.log(encryptedToken)
     const getUserData = async () => {
       try {
         const response = await fetch(`https://sertificatebackend-production.up.railway.app/users/${telegramUser?.id}`,{
           method:"GET",
           headers: {
-          'token': "U2FsdGVkX1+peS7kR9fEjXVagl5PDk3EAfDfJloAbxw=", 
+          'token': "U2FsdGVkX1+peS7kR9fEjXVagl5PDk3EAfDfJloAbxw=",
+          // encryptedToken, 
           'Content-Type': 'application/json'
         }
         });
@@ -303,6 +312,7 @@ export const Profil = () => {
           username: (result.username || telegramUser?.username)??"",
           photo_url: (result.photo_url || telegramUser?.photo_url)??"",
           id: (result.id || telegramUser?.id)??"",
+          balance: Number(result.balance ?? 0),
           tests: normalizeResults(backendTests),
         }));
       } catch (error) {
@@ -343,6 +353,28 @@ export const Profil = () => {
           </div>
         </section>
 
+        <section className="relative overflow-hidden rounded-2xl border border-[rgb(var(--border))] bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] p-5 shadow-sm text-white">
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-white/80">Balans</p>
+              <p className="mt-1 truncate text-3xl font-extrabold tracking-tight">
+                {loading ? "-" : formatBalance(user.balance)}
+              </p>
+            </div>
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/15">
+              <FiCreditCard className="text-2xl" />
+            </div>
+          </div>
+
+          <Link
+            to="/balance"
+            className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white/15 px-4 text-sm font-bold text-white shadow-sm backdrop-blur transition hover:bg-white/25 active:scale-[0.98]"
+          >
+            <FiPlusCircle className="text-lg" />
+            Balansni to'ldirish
+          </Link>
+        </section>
+
         <section className="grid grid-cols-3 gap-3">
           <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-3 shadow-sm">
             <FiUser className="mb-2 text-lg text-[rgb(var(--primary))]" />
@@ -358,7 +390,7 @@ export const Profil = () => {
             <FiTrendingUp className="mb-2 text-lg text-[rgb(var(--primary))]" />
             <p className="text-xs text-[rgb(var(--text-muted))]">O'sish</p>
             <p className="text-xl font-bold">
-              {loading ? "-" : `${growth >= 0 ? "+" : ""}${growth}`}
+              {loading ? "-" : `${growth >= 0 ? "+" : ""}${Math.floor((growth)?growth*100:0)/100}`}
             </p>
           </div>
         </section>

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ExamSend } from "./pages/exam";
 import Dashboard from "./pages/home";
 import { Profil } from "./pages/profil";
+import BalancePage from "./pages/balance";
 import { Results } from "./pages/results";
 import { ResultId } from "./pages/results/resultId";
 import Anwers from "./pages/answers";
@@ -29,6 +30,7 @@ function App() {
           <Route path="/results" element={<Results />} />
           <Route path="/results/:id" element={<ResultId />} />
           <Route path="/profil" element={<Profil />} />
+          <Route path="/balance" element={<BalancePage />} />
           {/* 404 sahifa */}
           <Route path="*" element={<>Not found</>} />
           <Route path="/settings" element={<Settings />} />

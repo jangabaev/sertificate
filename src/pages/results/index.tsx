@@ -141,7 +141,7 @@ export const Results = () => {
                   <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
                     <div className="flex items-center gap-2 rounded-xl bg-[rgb(var(--background))] px-3 py-2 text-[rgb(var(--text-muted))]">
                       <MdPeopleAlt className="text-base text-[rgb(var(--primary))]" />
-                      <span>{test.participantsCount ?? 0} kishi</span>
+                      <span>{test?.students?.length ?? 0} kishi</span>
                     </div>
                     <div className="flex items-center gap-2 rounded-xl bg-[rgb(var(--background))] px-3 py-2 text-[rgb(var(--text-muted))]">
                       <FiClock className="text-base text-[rgb(var(--primary))]" />

@@ -85,12 +85,45 @@ math-field::part(copy) {
 }
 
 .mathInputContainer > div > math-field {
-  color: rbg(var(--text)) !important;
-  background-color: rgb(var(--border)) !important;
+  color: rgb(var(--text)) !important;
+  background-color: rgb(var(--surface)) !important;
 }
 
 .ML__base {
   color: rgb(var(--text)) !important;
+}
+
+/* MathLive virtual keyboard — dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --keyboard-background: #1a2236;
+    --keyboard-border: rgba(255, 255, 255, 0.08);
+    --keycap-background: #243049;
+    --keycap-background--hover: #2e3d5e;
+    --keycap-background--active: #06b6d4;
+    --keycap-border: rgba(255, 255, 255, 0.1);
+    --keycap-text: #f9fafb;
+    --keycap-text--active: #ffffff;
+    --keycap-secondary-text: #9ca3af;
+    --keyboard-toolbar-background: #141e30;
+    --keyboard-toolbar-text: #f9fafb;
+    --keyboard-toolbar-background--hover: #1a2236;
+  }
+}
+
+.dark {
+  --keyboard-background: #1a2236;
+  --keyboard-border: rgba(255, 255, 255, 0.08);
+  --keycap-background: #243049;
+  --keycap-background--hover: #2e3d5e;
+  --keycap-background--active: #06b6d4;
+  --keycap-border: rgba(255, 255, 255, 0.1);
+  --keycap-text: #f9fafb;
+  --keycap-text--active: #ffffff;
+  --keycap-secondary-text: #9ca3af;
+  --keyboard-toolbar-background: #141e30;
+  --keyboard-toolbar-text: #f9fafb;
+  --keyboard-toolbar-background--hover: #1a2236;
 }
 
 body {
