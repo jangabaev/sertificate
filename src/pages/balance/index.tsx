@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft, FiCreditCard } from "react-icons/fi";
 
-const BASE_URL = "https://sertificatebackend-production.up.railway.app";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const PRESET_AMOUNTS = [10000, 25000, 50000, 100000, 200000];
 
@@ -49,7 +49,7 @@ const BalancePage = () => {
 
     const getBalance = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/users/${telegramUser?.id}`, {
+        const response = await fetch(`${BASE_URL}/users`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -89,11 +89,12 @@ const BalancePage = () => {
 
     setSubmitting(true);
     try {
-      const response = await fetch(`${BASE_URL}/payment/${method}`, {
+      const response = await fetch(`${BASE_URL}/users/balance`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          user_id: telegramUser?.id,
+          userId: "1",
+          // telegramUser?.id, waqtinsha
           amount: selectedAmount,
         }),
       });
@@ -109,7 +110,7 @@ const BalancePage = () => {
     } catch (err) {
       console.error("To'lov xatoligi:", err);
       setError(
-        "To'lov tizimi hali ulanmagan. Birozdan so'ng qayta urinib ko'ring."
+        "To'lov tizimi hali ulanmagan. Birozdan so'ng qayta urinib ko'ring.",
       );
     } finally {
       setSubmitting(false);

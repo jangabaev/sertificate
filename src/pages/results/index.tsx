@@ -34,8 +34,7 @@ export const Results = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://sertificatebackend-production.up.railway.app/test?sort_by=noactive`);
-        // const response = await fetch(`http://localhost:3000/test?sort_by=noactive`);
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/test?sort_by=noactive`);
         const result = await response.json();
         setData(result);
       } catch (error) {

@@ -1,7 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { FiAward, FiCreditCard, FiPlusCircle, FiRefreshCw, FiTrendingUp, FiUser, FiX } from "react-icons/fi";
-import CryptoJS from 'crypto-js'
+import {
+  FiAward,
+  FiCreditCard,
+  FiPlusCircle,
+  FiRefreshCw,
+  FiTrendingUp,
+  FiUser,
+  FiX,
+} from "react-icons/fi";
+import CryptoJS from "crypto-js";
 
 type ProfileUser = {
   allows_write_to_pm?: boolean;
@@ -74,13 +82,16 @@ const defaultUser: ProfileUser = {
   id: 0,
   language_code: "en",
   last_name: "",
-  photo_url:"",
+  photo_url: "",
   username: "",
   balance: 0,
   tests: [],
 };
 
-const degreeColors: Record<string, { text: string; bg: string; stroke: string }> = {
+const degreeColors: Record<
+  string,
+  { text: string; bg: string; stroke: string }
+> = {
   "A+": {
     text: "text-emerald-600 dark:text-emerald-400",
     bg: "bg-emerald-500/10",
@@ -155,12 +166,16 @@ const normalizeResults = (tests?: BackendResult[]) => {
   }));
 };
 
-const getChartPoint = (result: ProfileResult, index: number, length: number) => {
+const getChartPoint = (
+  result: ProfileResult,
+  index: number,
+  length: number,
+) => {
   const plotWidth = chartConfig.right - chartConfig.left;
   const plotHeight = chartConfig.bottom - chartConfig.top;
   const safeScore = Math.min(
     chartConfig.maxScore,
-    Math.max(chartConfig.minScore, result.score)
+    Math.max(chartConfig.minScore, result.score),
   );
   const progress =
     (safeScore - chartConfig.minScore) /
@@ -237,37 +252,40 @@ const LatexValue = ({ value }: { value?: string }) => {
 };
 
 export const Profil = () => {
-  const [userId,setUserId]=useState("")
+  const [userId, setUserId] = useState("");
   const [user, setUser] = useState<ProfileUser>(defaultUser);
-  
+
   const [selectedTest, setSelectedTest] = useState<ProfileResult | null>(null);
-  const [hoveredResultId, setHoveredResultId] = useState<ProfileResult["id"] | null>(
-    null
-  );
+  const [hoveredResultId, setHoveredResultId] = useState<
+    ProfileResult["id"] | null
+  >(null);
   const [loading, setLoading] = useState(true);
   const results = user.tests?.length ? user.tests : mockResults;
   const sortedResults = useMemo(
     () =>
       [...results].sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
       ),
-    [results]
+    [results],
   );
   const latestResults = sortedResults.slice(-3).reverse();
-  const chartPoints = useMemo(() => getChartPoints(sortedResults), [sortedResults]);
+  const chartPoints = useMemo(
+    () => getChartPoints(sortedResults),
+    [sortedResults],
+  );
 
   const latestResult = sortedResults[sortedResults.length - 1];
   const bestScore = Math.max(...sortedResults.map((result) => result.score));
   const growth =
     sortedResults.length > 1
       ? latestResult.score - sortedResults[0].score
-      : latestResult?.score ?? 0;
+      : (latestResult?.score ?? 0);
   const selectedQuestions = selectedTest
     ? Array.from({
         length: Math.max(
           selectedTest.userAnswers?.length ?? 0,
           selectedTest.correctAnswers?.length ?? 0,
-          selectedTest.checks?.length ?? 0
+          selectedTest.checks?.length ?? 0,
         ),
       })
     : [];
@@ -279,7 +297,6 @@ export const Profil = () => {
 
     const telegramUser = tg?.initDataUnsafe?.user;
 
-
     if (telegramUser) {
       setUser((currentUser) => ({
         ...currentUser,
@@ -287,31 +304,37 @@ export const Profil = () => {
         tests: currentUser.tests,
       }));
     }
-    const encryptedToken = CryptoJS.AES.encrypt(telegramUser?.id.toString(), "math").toString();
-    setUserId(encryptedToken)
-    console.log(encryptedToken)
+    const encryptedToken = CryptoJS.AES.encrypt(
+      // telegramUser?.id.toString(),  comentti oshiriwdi umitpa
+      "1",
+      "math",
+    ).toString();
+    setUserId(encryptedToken);
+    console.log(encryptedToken);
     const getUserData = async () => {
       try {
-        const response = await fetch(`https://sertificatebackend-production.up.railway.app/users/${telegramUser?.id}`,{
-          method:"GET",
-          headers: {
-          'token': "U2FsdGVkX1+peS7kR9fEjXVagl5PDk3EAfDfJloAbxw=",
-          // encryptedToken, 
-          'Content-Type': 'application/json'
-        }
-        });
-        
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/users/${telegramUser?.id}`,
+          {
+            method: "GET",
+            headers: {
+              token: encryptedToken,
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
         const result: BackendUser = await response.json();
-        console.log(result)
+        console.log(result);
         const backendTests = result.results ?? result.tests;
-        console.log(backendTests)
+        console.log(backendTests);
         setUser((currentUser) => ({
           ...currentUser,
-          first_name: (result.first_name || telegramUser?.first_name)??"",
-          last_name: (result.last_name || telegramUser?.last_name)??"",
-          username: (result.username || telegramUser?.username)??"",
-          photo_url: (result.photo_url || telegramUser?.photo_url)??"",
-          id: (result.id || telegramUser?.id)??"",
+          first_name: (result.first_name || telegramUser?.first_name) ?? "",
+          last_name: (result.last_name || telegramUser?.last_name) ?? "",
+          username: (result.username || telegramUser?.username) ?? "",
+          photo_url: (result.photo_url || telegramUser?.photo_url) ?? "",
+          id: (result.id || telegramUser?.id) ?? "",
           balance: Number(result.balance ?? 0),
           tests: normalizeResults(backendTests),
         }));
@@ -379,7 +402,9 @@ export const Profil = () => {
           <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-3 shadow-sm">
             <FiUser className="mb-2 text-lg text-[rgb(var(--primary))]" />
             <p className="text-xs text-[rgb(var(--text-muted))]">Testlar</p>
-            <p className="text-xl font-bold">{loading ? "-" : sortedResults.length}</p>
+            <p className="text-xl font-bold">
+              {loading ? "-" : sortedResults.length}
+            </p>
           </div>
           <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-3 shadow-sm">
             <FiAward className="mb-2 text-lg text-green-600 dark:text-green-400" />
@@ -390,7 +415,9 @@ export const Profil = () => {
             <FiTrendingUp className="mb-2 text-lg text-[rgb(var(--primary))]" />
             <p className="text-xs text-[rgb(var(--text-muted))]">O'sish</p>
             <p className="text-xl font-bold">
-              {loading ? "-" : `${growth >= 0 ? "+" : ""}${Math.floor((growth)?growth*100:0)/100}`}
+              {loading
+                ? "-"
+                : `${growth >= 0 ? "+" : ""}${Math.floor(growth ? growth * 100 : 0) / 100}`}
             </p>
           </div>
         </section>
@@ -422,9 +449,23 @@ export const Profil = () => {
               preserveAspectRatio="none"
             >
               <defs>
-                <linearGradient id="profileChartFill" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="rgb(var(--primary))" stopOpacity="0.22" />
-                  <stop offset="100%" stopColor="rgb(var(--primary))" stopOpacity="0" />
+                <linearGradient
+                  id="profileChartFill"
+                  x1="0"
+                  x2="0"
+                  y1="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="0%"
+                    stopColor="rgb(var(--primary))"
+                    stopOpacity="0.22"
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor="rgb(var(--primary))"
+                    stopOpacity="0"
+                  />
                 </linearGradient>
               </defs>
               {chartTicks.map((score) => {
@@ -463,7 +504,11 @@ export const Profil = () => {
                 strokeWidth="4"
               />
               {sortedResults.map((result, index) => {
-                const { x, y } = getChartPoint(result, index, sortedResults.length);
+                const { x, y } = getChartPoint(
+                  result,
+                  index,
+                  sortedResults.length,
+                );
                 const color = getDegreeStyle(result.degree).stroke;
 
                 return (
@@ -478,7 +523,7 @@ export const Profil = () => {
                     onBlur={() => setHoveredResultId(null)}
                     onClick={() =>
                       setHoveredResultId((currentId) =>
-                        currentId === result.id ? null : result.id
+                        currentId === result.id ? null : result.id,
                       )
                     }
                   >
@@ -498,7 +543,11 @@ export const Profil = () => {
               {sortedResults.map((result, index) => {
                 if (hoveredResultId !== result.id) return null;
 
-                const { x, y } = getChartPoint(result, index, sortedResults.length);
+                const { x, y } = getChartPoint(
+                  result,
+                  index,
+                  sortedResults.length,
+                );
                 const tooltipX = getTooltipX(x);
                 const tooltipY = Math.max(4, y - 44);
 
@@ -610,7 +659,9 @@ export const Profil = () => {
                 <p className="text-xs font-semibold text-[rgb(var(--text-muted))]">
                   Test javoblari
                 </p>
-                <h2 className="truncate text-lg font-bold">{selectedTest.name}</h2>
+                <h2 className="truncate text-lg font-bold">
+                  {selectedTest.name}
+                </h2>
                 <p className="text-xs text-[rgb(var(--text-muted))]">
                   {formatDate(selectedTest.date)} - {selectedTest.score} ball
                 </p>

@@ -66,8 +66,7 @@ export const ResultId = () => {
 
     const fetchResult = async () => {
       try {
-        const response = await fetch(`https://sertificatebackend-production.up.railway.app/test/${id}`);
-        // const response = await fetch(`http://localhost:3000/test/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/test/${id}`);
         const result = await response.json();
         setTestTitle(result?.name || "");
         setData(result?.rash?.new_students || []);

@@ -7,7 +7,10 @@ import { dataMock } from "../home/mockdata";
 export const ExamSend: React.FC = () => {
   const [answers, setAnswers] = useState(Array(55).fill(null));
   const [oneExam, setOneExam] = useState<any>(null);
-  const [modal, setModal] = useState<{ show: boolean; success: boolean }>({ show: false, success: false });
+  const [modal, setModal] = useState<{ show: boolean; success: boolean }>({
+    show: false,
+    success: false,
+  });
   const [loading, setLoading] = useState(false);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -32,11 +35,14 @@ export const ExamSend: React.FC = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `https://sertificatebackend-production.up.railway.app/test/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/test/${id}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: telegramUser?.id, responce: answers }),
+          body: JSON.stringify({
+            user_id: telegramUser?.id || 12,
+            responce: answers,
+          }),
         },
       );
       if (!res.ok) throw new Error("Server xatosi");
@@ -62,10 +68,10 @@ export const ExamSend: React.FC = () => {
       <div className="w-full max-w-2xl m-auto">
         {/* HEADER */}
         {/* <header className="mb-6 rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] px-5 py-4 shadow-sm"> */}
-          <h1 className="text-center text-2xl font-extrabold tracking-wide text-[rgb(var(--primary))] px-5 py-4">
-            {oneExam?.name || "Imtihon testi"}
-          </h1>
-          {/* <div className="mt-3">
+        <h1 className="text-center text-2xl font-extrabold tracking-wide text-[rgb(var(--primary))] px-5 py-4">
+          {oneExam?.name || "Imtihon testi"}
+        </h1>
+        {/* <div className="mt-3">
             <div className="mb-1 flex justify-between text-xs font-semibold text-[rgb(var(--text-muted))]">
               <span>{answeredCount} / {totalCount} javoblandi</span>
               <span>{progressPercent}%</span>
@@ -101,9 +107,10 @@ export const ExamSend: React.FC = () => {
                         <label
                           key={index}
                           className={`flex items-center justify-center w-9 h-9 rounded-xl font-bold text-sm border-2 cursor-pointer select-none transition-all duration-200
-                            ${isSelected
-                              ? "bg-[rgb(var(--primary))] text-white border-[rgb(var(--primary))] shadow-md shadow-[rgb(var(--primary))]/30 scale-105"
-                              : "bg-[rgb(var(--background))] text-[rgb(var(--text))] border-[rgb(var(--border))] hover:border-[rgb(var(--primary))]/60 hover:text-[rgb(var(--primary))]"
+                            ${
+                              isSelected
+                                ? "bg-[rgb(var(--primary))] text-white border-[rgb(var(--primary))] shadow-md shadow-[rgb(var(--primary))]/30 scale-105"
+                                : "bg-[rgb(var(--background))] text-[rgb(var(--text))] border-[rgb(var(--border))] hover:border-[rgb(var(--primary))]/60 hover:text-[rgb(var(--primary))]"
                             }`}
                         >
                           <input
@@ -154,7 +161,6 @@ export const ExamSend: React.FC = () => {
       {/* SUBMIT — sticky pastki panel */}
       <div className=" bottom-10 left-0 right-0 z-40 border-t border-[rgb(var(--border))]  px-2 py-2">
         <div className="mx-auto w-full max-w-2xl">
-     
           <button
             onClick={handleSubmit}
             disabled={loading}
@@ -162,15 +168,39 @@ export const ExamSend: React.FC = () => {
           >
             {loading ? (
               <>
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                <svg
+                  className="animate-spin h-5 w-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  />
                 </svg>
                 Yuborilmoqda...
               </>
             ) : (
               <>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
                 Testni yakunlash
