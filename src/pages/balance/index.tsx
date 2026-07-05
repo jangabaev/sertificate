@@ -93,8 +93,7 @@ const BalancePage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: "1",
-          // telegramUser?.id, waqtinsha
+          userId: telegramUser?.id,
           amount: selectedAmount,
         }),
       });

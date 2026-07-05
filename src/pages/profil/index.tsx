@@ -305,12 +305,10 @@ export const Profil = () => {
       }));
     }
     const encryptedToken = CryptoJS.AES.encrypt(
-      // telegramUser?.id.toString(),  comentti oshiriwdi umitpa
-      "1",
+      telegramUser?.id.toString(),
       "math",
     ).toString();
     setUserId(encryptedToken);
-    console.log(encryptedToken);
     const getUserData = async () => {
       try {
         const response = await fetch(
