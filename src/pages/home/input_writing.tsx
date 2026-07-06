@@ -56,8 +56,24 @@ function ensureBackButtonHandlerBound() {
 }
 
 // MathLive virtual klaviaturasi alohida panel sifatida document.body'ga
-// joylashtiriladi (".ML__keyboard"). Shu panelning yuqori-o'ng burchagiga
-// yopish tugmasini joylashtiramiz, panel real DOM o'lchamiga moslab.
+// joylashtiriladi (".ML__keyboard"). Yopish tugmasini klaviatura ICHIDA,
+// "orqaga o'chirish" (⌫, backspace) tugmasi yoniga joylashtiramiz — xuddi
+// MathLive'ning o'zi "compact"/"minimalist" bazaviy tartiblarida
+// [hide-keyboard] tugmasini [backspace] yoniga qo'ygani kabi.
+function findBackspaceKeycap(panel: HTMLElement): HTMLElement | null {
+  const uses = panel.querySelectorAll("use");
+  for (const use of Array.from(uses)) {
+    const href = use.getAttribute("xlink:href") || use.getAttribute("href");
+    if (href !== "#svg-delete-backward") continue;
+    const keycap = use.closest("div[id]") as HTMLElement | null;
+    if (keycap) {
+      const r = keycap.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) return keycap;
+    }
+  }
+  return null;
+}
+
 function KeyboardCloseBar({ onClose }: { onClose: () => void }) {
   const [rect, setRect] = useState<{ top: number; right: number } | null>(
     null,
@@ -70,13 +86,10 @@ function KeyboardCloseBar({ onClose }: { onClose: () => void }) {
       const panel = document.querySelector(
         ".ML__keyboard",
       ) as HTMLElement | null;
-      if (panel) {
-        const r = panel.getBoundingClientRect();
-        if (r.width > 0 && r.height > 0) {
-          setRect({ top: r.top, right: window.innerWidth - r.right });
-        } else {
-          raf = requestAnimationFrame(update);
-        }
+      const backspaceKey = panel ? findBackspaceKeycap(panel) : null;
+      if (backspaceKey) {
+        const r = backspaceKey.getBoundingClientRect();
+        setRect({ top: r.top, right: window.innerWidth - r.right });
       } else {
         raf = requestAnimationFrame(update);
       }
@@ -112,10 +125,10 @@ function KeyboardCloseBar({ onClose }: { onClose: () => void }) {
       }}
       style={{
         position: "fixed",
-        top: rect.top - 18,
-        right: Math.max(rect.right, 8) + 4,
-        width: 36,
-        height: 36,
+        top: rect.top - 16,
+        right: Math.max(rect.right - 12, 4),
+        width: 32,
+        height: 32,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
