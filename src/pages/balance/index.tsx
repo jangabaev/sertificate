@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft, FiCreditCard } from "react-icons/fi";
+import CryptoJS from "crypto-js";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -46,12 +47,18 @@ const BalancePage = () => {
     tg?.expand();
 
     const telegramUser = tg?.initDataUnsafe?.user;
-
+    const encryptedToken = CryptoJS.AES.encrypt(
+      telegramUser?.id.toString(),
+      "math",
+    ).toString();
     const getBalance = async () => {
       try {
         const response = await fetch(`${BASE_URL}/users`, {
           method: "GET",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            token: encryptedToken,
+            "Content-Type": "application/json",
+          },
         });
         const result = await response.json();
         setBalance(Number(result?.balance ?? 0));
@@ -103,6 +110,7 @@ const BalancePage = () => {
       const data = await response.json();
       if (data?.url) {
         window.location.href = data.url;
+        setBalance(data?.balance);
       } else {
         throw new Error("To'lov havolasi topilmadi");
       }
