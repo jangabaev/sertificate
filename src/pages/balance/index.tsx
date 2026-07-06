@@ -49,11 +49,11 @@ const BalancePage = () => {
     const telegramUser = tg?.initDataUnsafe?.user;
     const encryptedToken = CryptoJS.AES.encrypt(
       telegramUser?.id.toString(),
-      "math",
+      import.meta.env.VITE_JWT_SECRET,
     ).toString();
     const getBalance = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/users`, {
+        const response = await fetch(`${BASE_URL}/users/12`, {
           method: "GET",
           headers: {
             token: encryptedToken,
@@ -96,11 +96,15 @@ const BalancePage = () => {
 
     setSubmitting(true);
     try {
+      const encryptedToken = CryptoJS.AES.encrypt(
+            telegramUser?.id.toString(), 
+            import.meta.env.VITE_JWT_SECRET,
+          ).toString();
+          
       const response = await fetch(`${BASE_URL}/users/balance`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { token:encryptedToken,"Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: telegramUser?.id,
           amount: selectedAmount,
         }),
       });

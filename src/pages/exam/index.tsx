@@ -6,7 +6,6 @@ import { dataMock } from "../home/mockdata";
 
 export const ExamSend: React.FC = () => {
   const [answers, setAnswers] = useState(Array(55).fill(null));
-  const [oneExam, setOneExam] = useState<any>(null);
   const [modal, setModal] = useState<{ show: boolean; success: boolean }>({
     show: false,
     success: false,
@@ -59,33 +58,13 @@ export const ExamSend: React.FC = () => {
     setModal({ show: false, success: false });
     navigate("/");
   };
-  const answeredCount = answers.filter((a) => a !== null).length;
-  const totalCount = dataMock.length + 20;
-  const progressPercent = Math.round((answeredCount / totalCount) * 100);
 
   return (
     <section className="min-h-screen bg-[rgb(var(--background))] justify-center pb-24 pt-6 px-3 transition-colors duration-500">
       <div className="w-full max-w-2xl m-auto">
-        {/* HEADER */}
-        {/* <header className="mb-6 rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] px-5 py-4 shadow-sm"> */}
         <h1 className="text-center text-2xl font-extrabold tracking-wide text-[rgb(var(--primary))] px-5 py-4">
-          {oneExam?.name || "Imtihon testi"}
+          {"Imtihon testi"}
         </h1>
-        {/* <div className="mt-3">
-            <div className="mb-1 flex justify-between text-xs font-semibold text-[rgb(var(--text-muted))]">
-              <span>{answeredCount} / {totalCount} javoblandi</span>
-              <span>{progressPercent}%</span>
-            </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-[rgb(var(--background))]">
-              <div
-                className="h-full rounded-full bg-[rgb(var(--primary))] transition-all duration-500"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
-          </div> */}
-        {/* </header> */}
-
-        {/* SAVOLLAR */}
         <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] shadow-sm overflow-hidden">
           {dataMock.map((q, qIndex) => {
             const selected = answers[qIndex];
@@ -225,7 +204,7 @@ export const ExamSend: React.FC = () => {
             </p>
             <button
               onClick={handleModalClose}
-              className="w-full py-3 rounded-2xl font-semibold text-white bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] hover:opacity-90 transition-all duration-300 active:scale-95"
+              className="w-full py-3 rounded-2xl font-semibold text-white from-[rgb(var(--primary))] to-[rgb(var(--secondary))] hover:opacity-90 transition-all duration-300 active:scale-95"
             >
               Bosh sahifaga o'tish
             </button>

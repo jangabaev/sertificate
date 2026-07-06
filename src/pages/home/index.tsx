@@ -62,10 +62,8 @@ const Dashboard = () => {
     setBuyError(null);
     setBuying(true);
     const encryptedToken = CryptoJS.AES.encrypt(
-      // telegramUser?.id.toString(),  comentti oshiriwdi umitpa
-      "1",
-      "math",
-      // import.meta.env.JWT_SECRET,
+      telegramId.toString(), 
+      import.meta.env.VITE_JWT_SECRET,
     ).toString();
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/test/buy`, {

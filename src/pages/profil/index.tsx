@@ -305,8 +305,8 @@ export const Profil = () => {
       }));
     }
     const encryptedToken = CryptoJS.AES.encrypt(
-      telegramUser?.id.toString(),
-      "math",
+      telegramUser?.id.toString()||"1",
+      import.meta.env.VITE_JWT_SECRET,
     ).toString();
     setUserId(encryptedToken);
     const getUserData = async () => {
