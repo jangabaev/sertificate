@@ -252,7 +252,6 @@ const LatexValue = ({ value }: { value?: string }) => {
 };
 
 export const Profil = () => {
-  const [userId, setUserId] = useState("");
   const [user, setUser] = useState<ProfileUser>(defaultUser);
 
   const [selectedTest, setSelectedTest] = useState<ProfileResult | null>(null);
@@ -304,15 +303,15 @@ export const Profil = () => {
         tests: currentUser.tests,
       }));
     }
+
     const encryptedToken = CryptoJS.AES.encrypt(
       telegramUser?.id.toString()||"1",
       import.meta.env.VITE_JWT_SECRET,
     ).toString();
-    setUserId(encryptedToken);
     const getUserData = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/users/${telegramUser?.id}`,
+          `${import.meta.env.VITE_API_BASE_URL}/users/12`,
           {
             method: "GET",
             headers: {
@@ -374,7 +373,7 @@ export const Profil = () => {
           </div>
         </section>
 
-        <section className="relative overflow-hidden rounded-2xl border border-[rgb(var(--border))] bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] p-5 shadow-sm text-white">
+        {/* <section className="relative overflow-hidden rounded-2xl border border-[rgb(var(--border))] bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] p-5 shadow-sm text-white">
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
               <p className="text-sm font-medium text-white/80">Balans</p>
@@ -418,7 +417,7 @@ export const Profil = () => {
                 : `${growth >= 0 ? "+" : ""}${Math.floor(growth ? growth * 100 : 0) / 100}`}
             </p>
           </div>
-        </section>
+        </section> */}
 
         <section className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-5 shadow-sm">
           <div className="mb-5 flex items-start justify-between gap-4">
