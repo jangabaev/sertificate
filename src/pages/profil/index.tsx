@@ -259,7 +259,7 @@ export const Profil = () => {
     ProfileResult["id"] | null
   >(null);
   const [loading, setLoading] = useState(true);
-  const results = user.tests?.length ? user.tests : mockResults;
+  const results = user?.tests?.length ? user.tests : mockResults;
   const sortedResults = useMemo(
     () =>
       [...results].sort(
@@ -304,49 +304,48 @@ export const Profil = () => {
       }));
     }
 
-    // const encryptedToken = CryptoJS.AES.encrypt(
-    //   telegramUser?.id.toString()||"1",
-    //   import.meta.env.VITE_JWT_SECRET,
-    // ).toString();
-    // const getUserData = async () => {
-    //   try {
-    //     const response = await fetch(
-    //       `${import.meta.env.VITE_API_BASE_URL}/users/12`,
-    //       {
-    //         method: "GET",
-    //         headers: {
-    //           token: encryptedToken,
-    //           "Content-Type": "application/json",
-    //         },
-    //       },
-    //     );
+    const telegramUserId = telegramUser?.id?.toString() || "1849659907";
+    const encryptedToken = CryptoJS.AES.encrypt(
+      telegramUserId,
+      import.meta.env.VITE_JWT_SECRET,
+    ).toString();
+    const getUserData = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/users/${telegramUserId}`,
+          {
+            method: "GET",
+            headers: {
+              token: encryptedToken,
+              "Content-Type": "application/json",
+            },
+          },
+        );
 
-    //     const result: BackendUser = await response.json();
-    //     console.log(result);
-    //     const backendTests = result.results ?? result.tests;
-    //     console.log(backendTests);
-    //     setUser((currentUser) => ({
-    //       ...currentUser,
-    //       first_name: (result.first_name || telegramUser?.first_name) ?? "",
-    //       last_name: (result.last_name || telegramUser?.last_name) ?? "",
-    //       username: (result.username || telegramUser?.username) ?? "",
-    //       photo_url: (result.photo_url || telegramUser?.photo_url) ?? "",
-    //       id: (result.id || telegramUser?.id) ?? "",
-    //       balance: Number(result.balance ?? 0),
-    //       tests: normalizeResults(backendTests),
-    //     }));
-    //   } catch (error) {
-    //     console.error("Ma'lumotni olishda xatolik:", error);
-    //     setUser((currentUser) => ({
-    //       ...currentUser,
-    //       tests: mockResults,
-    //     }));
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
+        const result: BackendUser = await response.json();
+        const backendTests = result.results ?? result.tests;
+        setUser((currentUser) => ({
+          ...currentUser,
+          first_name: (result.first_name || telegramUser?.first_name) ?? "",
+          last_name: (result.last_name || telegramUser?.last_name) ?? "",
+          username: (result.username || telegramUser?.username) ?? "",
+          photo_url: (result.photo_url || telegramUser?.photo_url) ?? "",
+          id: (result.id || telegramUser?.id) ?? "",
+          balance: Number(result.balance ?? 0),
+          tests: normalizeResults(backendTests),
+        }));
+      } catch (error) {
+        console.error("Ma'lumotni olishda xatolik:", error);
+        setUser((currentUser) => ({
+          ...currentUser,
+          tests: mockResults,
+        }));
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // getUserData();
+    getUserData();
   }, []);
 
   return (
