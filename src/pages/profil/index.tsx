@@ -290,19 +290,19 @@ export const Profil = () => {
     : [];
 
   useEffect(() => {
-    // const tg = window.Telegram?.WebApp;
-    // tg?.ready();
-    // tg?.expand();
+    const tg = window.Telegram?.WebApp;
+    tg?.ready();
+    tg?.expand();
 
-    // const telegramUser = tg?.initDataUnsafe?.user;
+    const telegramUser = tg?.initDataUnsafe?.user;
 
-    // if (telegramUser) {
-    //   setUser((currentUser) => ({
-    //     ...currentUser,
-    //     ...telegramUser,
-    //     tests: currentUser.tests,
-    //   }));
-    // }
+    if (telegramUser) {
+      setUser((currentUser) => ({
+        ...currentUser,
+        ...telegramUser,
+        tests: currentUser.tests,
+      }));
+    }
 
     // const encryptedToken = CryptoJS.AES.encrypt(
     //   telegramUser?.id.toString()||"1",
