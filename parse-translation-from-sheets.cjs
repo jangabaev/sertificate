@@ -1,72 +1,128 @@
-var fs = require('fs');
+const fs = require("fs");
+const path = require("path");
 
-fetch(`https://sheet.best/api/sheets/4959bc48-afb9-426b-a28b-e4a764af7ce3`).then((res) => res.json()).then(async (data) => {
-    const keys = [] // Name spaces
-    data.forEach((element) => {
-        const key = element.key.slice(0, element.key.indexOf("."))
+const API_URL =
+  "https://api.sheetbest.com/sheets/66cd2188-d0d9-44d9-baaa-b22b772d3ef9";
 
-        if (!keys.includes(key)) {
-            keys.push(key)
-        }
-    });
+const LANGUAGES = ["en", "qq", "qqKir", "ru", "uz", "uzKir"];
 
-    function transformData() {
-        const result = {
-            en: {},
-            qq: {},
-            qqKir: {},
-            ru: {},
-            uz: {},
-            uzKir: {},
-        };
+const LOCALES_PATH = "./src/i18n/locales";
 
-        data.forEach(item => {
-            const [section, ...rest] = item.key.split('.');
-            const key = rest.join('.');
+function setNestedValue(obj, keys, value) {
+  let current = obj;
 
-            if (!result.en[section]) result.en[section] = {};
-            if (!result.qq[section]) result.qq[section] = {};
-            if (!result.qqKir[section]) result.qqKir[section] = {};
-            if (!result.ru[section]) result.ru[section] = {};
-            if (!result.uz[section]) result.uz[section] = {};
-            if (!result.uzKir[section]) result.uzKir[section] = {};
+  keys.forEach((key, index) => {
+    const isLast = index === keys.length - 1;
 
-            result.en[section][key] = item.en || '';
-            result.qq[section][key] = item.qq || '';
-            result.qqKir[section][key] = item.qqKir || '';
-            result.ru[section][key] = item.ru || '';
-            result.uz[section][key] = item.uz || '';
-            result.uzKir[section][key] = item.uzKir || '';
-        });
-
-        keys.forEach((key) => {
-            fs.writeFile(`./src/common/locales/en/${key}.json`, JSON.stringify(result.en[key]), {encoding: 'utf8'}, (err) => {
-                if (err) console.error(err);
-                else console.log(`Файл ${key}.json успешно записан`);
-            });
-            fs.writeFile(`./src/common/locales/qq/${key}.json`, JSON.stringify(result.qq[key]), {encoding: 'utf8'}, (err) => {
-                if (err) console.error(err);
-                else console.log(`Файл ${key}.json успешно записан`);
-            });
-            fs.writeFile(`./src/common/locales/qqKir/${key}.json`, JSON.stringify(result.qqKir[key]), {encoding: 'utf8'}, (err) => {
-                if (err) console.error(err);
-                else console.log(`Файл ${key}.json успешно записан`);
-            });
-            fs.writeFile(`./src/common/locales/ru/${key}.json`, JSON.stringify(result.ru[key]), {encoding: 'utf8'}, (err) => {
-                if (err) console.error(err);
-                else console.log(`Файл ${key}.json успешно записан`);
-            });
-            
-            fs.writeFile(`./src/common/locales/uz/${key}.json`, JSON.stringify(result.uz[key]), {encoding: 'utf8'}, (err) => {
-                if (err) console.error(err);
-                else console.log(`Файл ${key}.json успешно записан`);
-            });
-            fs.writeFile(`./src/common/locales/uzKir/${key}.json`, JSON.stringify(result.uzKir[key]), {encoding: 'utf8'}, (err) => {
-                if (err) console.error(err);
-                else console.log(`Файл ${key}.json успешно записан`);
-            });
-        })
+    if (isLast) {
+      current[key] = value;
+      return;
     }
 
-    transformData();
-})
+    if (!current[key]) {
+      current[key] = {};
+    }
+
+    current = current[key];
+  });
+}
+
+function createFolders() {
+  LANGUAGES.forEach((lang) => {
+    const folderPath = path.join(LOCALES_PATH, lang);
+
+    fs.mkdirSync(folderPath, {
+      recursive: true,
+    });
+  });
+}
+
+async function generateTranslations() {
+  try {
+    console.log("Translations yuklanmoqda...");
+
+    const response = await fetch(API_URL);
+
+    if (!response.ok) {
+      throw new Error(
+        `API error: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data = await response.json();
+
+    const result = {};
+
+    LANGUAGES.forEach((lang) => {
+      result[lang] = {};
+    });
+
+    const namespaces = new Set();
+
+    data.forEach((item) => {
+      if (!item.key) return;
+
+      const parts = item.key.split(".");
+
+      if (parts.length < 2) {
+        console.warn(`Noto'g'ri key o'tkazib yuborildi: ${item.key}`);
+        return;
+      }
+
+      const namespace = parts[0];
+      const translationKeys = parts.slice(1);
+
+      namespaces.add(namespace);
+
+      LANGUAGES.forEach((lang) => {
+        if (!result[lang][namespace]) {
+          result[lang][namespace] = {};
+        }
+
+        setNestedValue(
+          result[lang][namespace],
+          translationKeys,
+          item[lang] || ""
+        );
+      });
+    });
+
+    createFolders();
+
+    let fileCount = 0;
+
+    for (const lang of LANGUAGES) {
+      for (const namespace of namespaces) {
+        const filePath = path.join(
+          LOCALES_PATH,
+          lang,
+          `${namespace}.json`
+        );
+
+        const json = JSON.stringify(
+          result[lang][namespace],
+          null,
+          2
+        );
+
+        fs.writeFileSync(filePath, json, "utf8");
+
+        console.log(`✓ ${filePath}`);
+
+        fileCount++;
+      }
+    }
+
+    console.log("");
+    console.log("Translations muvaffaqiyatli yaratildi.");
+    console.log(`Namespaces: ${namespaces.size}`);
+    console.log(`Languages: ${LANGUAGES.length}`);
+    console.log(`JSON files: ${fileCount}`);
+  } catch (error) {
+    console.error("Translation generate error:");
+    console.error(error);
+    process.exit(1);
+  }
+}
+
+generateTranslations();

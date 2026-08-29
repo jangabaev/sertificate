@@ -1,0 +1,23 @@
+{
+  "settings": "General settings",
+  "lang": "Language",
+  "profile": "Profile",
+  "noUsername": "No username",
+  "balance": "Balance",
+  "upBalance": "Top up balance",
+  "uzs": "UZS",
+  "save": "Save",
+  "exam": "Exams",
+  "cancel": "Cancel",
+  "best": "Best",
+  "saveChange": "Do you want to save the selected language?",
+  "increase": "Growth",
+  "graphic": "Result chart",
+  "changelang": "Do you want to change the language?",
+  "dinamic": "Growth dynamics",
+  "darkmode": "Dark mode",
+  "sun": "Light",
+  "dark": "Dark",
+  "last": "Latest",
+  "lastexam": "Latest exams"
+}

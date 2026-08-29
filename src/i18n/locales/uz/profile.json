@@ -1,0 +1,23 @@
+{
+  "settings": "Umumiy sozlamalar",
+  "lang": "Til",
+  "profile": "Profil",
+  "noUsername": "Username yo'q",
+  "balance": "Hisob",
+  "upBalance": "Balansni to'ldirish",
+  "uzs": "so'm",
+  "save": "Saqlash",
+  "exam": "Testlar",
+  "cancel": "Bekor qilish",
+  "best": "Eng yaxshisi",
+  "saveChange": "Tanlangan tilni saqlamoqchimisiz?",
+  "increase": "O'sish",
+  "graphic": "Natija grafigi",
+  "changelang": "Tilni o'zgartirmoqchimisiz?",
+  "dinamic": "O'sish dinamikasi",
+  "darkmode": "rejim",
+  "sun": "Yorug'",
+  "dark": "Qorong'i",
+  "last": "Oxirgi",
+  "lastexam": "Oxirgi testlar"
+}

@@ -9,6 +9,7 @@ import {
   FiUser,
   FiX,
 } from "react-icons/fi";
+import { IoMdSettings } from "react-icons/io";
 import CryptoJS from "crypto-js";
 
 type ProfileUser = {
@@ -370,6 +371,11 @@ export const Profil = () => {
               <p className="truncate text-sm text-[rgb(var(--text-muted))]">
                 @{user.username || "username yo'q"}
               </p>
+            </div>
+            <div className="text-[rgb(var(--text))] absolute right-[40px] top-[40px] text-2xl">
+              <Link to="/settings">
+                <IoMdSettings />
+              </Link>
             </div>
           </div>
         </section>
