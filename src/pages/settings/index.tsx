@@ -20,7 +20,9 @@ const Settings = () => {
     photo_url: "",
   });
 
-  const [darkligth, setDarkligth] = useState("");
+  const [darkligth, setDarkligth] = useState(
+    localStorage.getItem("darkligth") ?? "",
+  );
 
   const [pendingLanguage, setPendingLanguage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,6 +56,7 @@ const Settings = () => {
     document.body.classList.remove("light", "dark");
     document.body.classList.add(value);
     setDarkligth(value);
+    localStorage.setItem("darkligth", value);
   };
 
   useEffect(() => {
@@ -61,7 +64,7 @@ const Settings = () => {
 
     if (!tg) return;
 
-    // userData(tg.initDataUnsafe?.user);
+    userData(tg.initDataUnsafe?.user);
 
     setDarkligth(tg.colorScheme);
   }, []);
