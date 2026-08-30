@@ -3,12 +3,14 @@ import { Link } from "react-router";
 import { IoHomeOutline } from "react-icons/io5";
 import { CiCircleList } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 const Navbar = () => {
   const [active, setActive] = useState("/");
+  const { t } = useTranslation("common");
   const items = [
-    { id: "/", label: "Home", icon: <IoHomeOutline /> },
-    { id: "/results", label: "Testlar", icon: <CiCircleList /> },
-    { id: "/profil", label: "Profil", icon: <FaRegUserCircle /> },
+    { id: "/", label: t("home"), icon: <IoHomeOutline /> },
+    { id: "/results", label: t("exams"), icon: <CiCircleList /> },
+    { id: "/profil", label: t("profil"), icon: <FaRegUserCircle /> },
   ];
   return (
     <div className="fixed bottom-0 left-0 w-full bg-[rgb(var(--background))] text-[rgb(var(--text))] border-t border-gray-300 shadow-md flex justify-around items-center h-16 z-50">

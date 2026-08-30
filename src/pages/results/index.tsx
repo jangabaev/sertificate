@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { FiArrowRight, FiBarChart2, FiClock, FiFileText } from "react-icons/fi";
 import { MdPeopleAlt } from "react-icons/md";
 import { SkeletonCard } from "./loading";
+import { useTranslation } from "react-i18next";
 
 type ResultTest = {
   id: string;
@@ -25,16 +26,19 @@ const formatTime = (date?: string | null) => {
 export const Results = () => {
   const [data, setData] = useState<ResultTest[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation("common");
 
   const activeCount = useMemo(
     () => data.filter((test) => test.isActive !== false).length,
-    [data]
+    [data],
   );
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/test?sort_by=noactive`);
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/test?sort_by=noactive`,
+        );
         const result = await response.json();
         setData(result);
       } catch (error) {
@@ -57,26 +61,26 @@ export const Results = () => {
               <FiBarChart2 className="text-xl" />
             </div>
             <p className="text-sm font-medium text-[rgb(var(--text-muted))]">
-              Results
+              {t("title")}
             </p>
             <h1 className="text-3xl font-bold tracking-normal">
-              Test natijalari
+              {t("examresult")}
             </h1>
           </div>
-
-          
         </header>
 
         <section className="grid grid-cols-2 gap-3">
           <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-4 shadow-sm">
             <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
-              Mavjud testlar
+              {t("haveExam")}
             </p>
-            <p className="mt-1 text-2xl font-bold">{loading ? "-" : data.length}</p>
+            <p className="mt-1 text-2xl font-bold">
+              {loading ? "-" : data.length}
+            </p>
           </div>
           <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-4 shadow-sm">
             <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
-              Faol testlar
+              {t("activeExam")}
             </p>
             <p className="mt-1 text-2xl font-bold">
               {loading ? "-" : activeCount}
@@ -98,9 +102,9 @@ export const Results = () => {
             <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-[rgb(var(--primary))]/10 text-[rgb(var(--primary))]">
               <FiFileText className="text-xl" />
             </div>
-            <p className="text-base font-semibold">Hozircha natijalar yo'q</p>
+            <p className="text-base font-semibold">{t("noResult")}</p>
             <p className="mt-1 text-sm text-[rgb(var(--text-muted))]">
-              Test natijalari tayyor bo'lganda shu yerda ko'rinadi.
+              {t("noSeeResult")}
             </p>
           </section>
         )}
@@ -122,7 +126,7 @@ export const Results = () => {
                         {test.name}
                       </h2>
                       <p className="mt-2 text-sm text-[rgb(var(--text-muted))]">
-                        Natijalar va ishtirokchilar reytingi
+                        {t("reatingPersons")}
                       </p>
                     </div>
 
@@ -133,14 +137,16 @@ export const Results = () => {
                           : "bg-red-500/10 text-red-600 dark:text-red-400"
                       }`}
                     >
-                      {isActive ? "Faol" : "Yopiq"}
+                      {isActive ? t("active") : t("close")}
                     </span>
                   </div>
 
                   <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
                     <div className="flex items-center gap-2 rounded-xl bg-[rgb(var(--background))] px-3 py-2 text-[rgb(var(--text-muted))]">
                       <MdPeopleAlt className="text-base text-[rgb(var(--primary))]" />
-                      <span>{test?.students?.length ?? 0} kishi</span>
+                      <span>
+                        {test?.students?.length ?? 0} {t("person")}
+                      </span>
                     </div>
                     <div className="flex items-center gap-2 rounded-xl bg-[rgb(var(--background))] px-3 py-2 text-[rgb(var(--text-muted))]">
                       <FiClock className="text-base text-[rgb(var(--primary))]" />
@@ -149,7 +155,7 @@ export const Results = () => {
                   </div>
 
                   <div className="mt-4 flex h-11 items-center justify-between rounded-xl bg-[rgb(var(--primary))] px-4 text-sm font-bold text-white shadow-sm shadow-[rgb(var(--primary))]/20 transition group-hover:bg-[rgb(var(--secondary))]">
-                    <span>Natijani ko'rish</span>
+                    <span>{t("seeResult")}</span>
                     <FiArrowRight className="text-lg transition group-hover:translate-x-0.5" />
                   </div>
                 </Link>

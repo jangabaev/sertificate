@@ -18,6 +18,13 @@
   "darkmode": "Dark mode",
   "sun": "Light",
   "dark": "Dark",
+  "ball": "Points",
+  "trueAn": "Correct",
+  "you": "You",
+  "noAnswersInfo": "Answers are not available for this test.",
+  "noAnswers": "No answers found",
+  "claose": "Close",
+  "examAnswers": "Test answers",
   "last": "Latest",
   "lastexam": "Latest exams"
 }

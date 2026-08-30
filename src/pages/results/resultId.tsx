@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FiArrowLeft, FiAward, FiSearch, FiUsers } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 type StudentResult = {
   id?: number | string;
@@ -34,13 +35,15 @@ export const ResultId = () => {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const { t } = useTranslation("common");
+
   const filteredData = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
 
     if (!normalizedSearch) return data;
 
     return data.filter((item) =>
-      item.name.toLowerCase().includes(normalizedSearch)
+      item.name.toLowerCase().includes(normalizedSearch),
     );
   }, [data, search]);
 
@@ -48,7 +51,10 @@ export const ResultId = () => {
     return degreeTypes.map((degree) => ({
       degree,
       count: data.filter(
-        (item) => String(item.degree ?? "").trim().toUpperCase() === degree
+        (item) =>
+          String(item.degree ?? "")
+            .trim()
+            .toUpperCase() === degree,
       ).length,
     }));
   }, [data]);
@@ -66,7 +72,9 @@ export const ResultId = () => {
 
     const fetchResult = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/test/${id}`);
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/test/${id}`,
+        );
         const result = await response.json();
         setTestTitle(result?.name || "");
         setData(result?.rash?.new_students || []);
@@ -91,20 +99,20 @@ export const ResultId = () => {
               className="mb-4 inline-flex h-10 items-center gap-2 rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] px-3 text-sm font-semibold text-[rgb(var(--text-muted))] shadow-sm transition hover:border-[rgb(var(--primary))]/40 hover:text-[rgb(var(--primary))]"
             >
               <FiArrowLeft className="text-lg" />
-              <span>Orqaga</span>
+              <span>{t("back")}</span>
             </Link>
 
             <p className="text-sm font-medium text-[rgb(var(--text-muted))]">
-              Test natijalari
+              {t("examresult")}
             </p>
             <h1 className="mt-1 truncate text-3xl font-bold tracking-normal">
-              {testTitle || "Natijalar"}
+              {testTitle || t("title")}
             </h1>
           </div>
 
           <div className="shrink-0 rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] px-3 py-2 text-right shadow-sm">
             <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
-              Jami
+              {t("all")}
             </p>
             <p className="text-2xl font-bold">{loading ? "-" : data.length}</p>
           </div>
@@ -116,9 +124,11 @@ export const ResultId = () => {
               <FiUsers className="text-lg" />
             </div>
             <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
-              Ishtirokchilar
+              {t("participants")}
             </p>
-            <p className="mt-1 text-2xl font-bold">{loading ? "-" : data.length}</p>
+            <p className="mt-1 text-2xl font-bold">
+              {loading ? "-" : data.length}
+            </p>
           </div>
 
           <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-4 shadow-sm">
@@ -128,10 +138,10 @@ export const ResultId = () => {
               </div>
               <div>
                 <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
-                  Darajalar statistikasi
+                  {t("degreeStatsic")}
                 </p>
                 <p className="text-sm font-semibold text-[rgb(var(--text))]">
-                  Sertifikat taqsimoti
+                  {t("shareSertificate")}
                 </p>
               </div>
             </div>
@@ -168,8 +178,8 @@ export const ResultId = () => {
           <div className="grid grid-cols-[38px_minmax(0,1fr)_70px_76px] gap-2 border-b border-[rgb(var(--border))] bg-[rgb(var(--background))] px-4 py-3 text-xs font-bold uppercase text-[rgb(var(--text-muted))]">
             <span>#</span>
             <span>F.I.O</span>
-            <span className="text-right">Daraja</span>
-            <span className="text-right">Ball</span>
+            <span className="text-right">{t("degree")}</span>
+            <span className="text-right">{t("ball")}</span>
           </div>
 
           {loading && (
@@ -190,9 +200,9 @@ export const ResultId = () => {
 
           {!loading && filteredData.length === 0 && (
             <div className="px-5 py-12 text-center">
-              <p className="font-semibold">Ma'lumot topilmadi</p>
+              <p className="font-semibold">{t("noResultExam")}</p>
               <p className="mt-1 text-sm text-[rgb(var(--text-muted))]">
-                Qidiruv so'zini o'zgartirib ko'ring.
+                {t("noParticipants")}
               </p>
             </div>
           )}
@@ -202,7 +212,8 @@ export const ResultId = () => {
               {filteredData.map((item, index) => {
                 const studentUserId = item.user_id ?? item.id;
                 const isCurrentUser =
-                  currentUserId !== null && String(studentUserId) === currentUserId;
+                  currentUserId !== null &&
+                  String(studentUserId) === currentUserId;
 
                 return (
                   <div

@@ -8,6 +8,7 @@ import { MdPeopleAlt } from "react-icons/md";
 import { IoAlarm } from "react-icons/io5";
 import CryptoJS from "crypto-js";
 import confetti from "canvas-confetti";
+import { useTranslation } from "react-i18next";
 
 export type TestSummary = {
   id: string;
@@ -48,13 +49,39 @@ const Dashboard = () => {
   const [buyError, setBuyError] = useState<string | null>(null);
   const [showBalanceModal, setShowBalanceModal] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation("dashboard");
   const telegramId =
     (window as any).Telegram?.WebApp.initDataUnsafe?.user?.id || "1";
 
   const fireConfetti = () => {
-    confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 }, colors: ["#f59e0b", "#fbbf24", "#fde68a", "#ffffff"] });
-    setTimeout(() => confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0, y: 0.7 }, colors: ["#f59e0b", "#fbbf24", "#fff"] }), 150);
-    setTimeout(() => confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1, y: 0.7 }, colors: ["#f59e0b", "#fbbf24", "#fff"] }), 300);
+    confetti({
+      particleCount: 80,
+      spread: 70,
+      origin: { y: 0.7 },
+      colors: ["#f59e0b", "#fbbf24", "#fde68a", "#ffffff"],
+    });
+    setTimeout(
+      () =>
+        confetti({
+          particleCount: 50,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.7 },
+          colors: ["#f59e0b", "#fbbf24", "#fff"],
+        }),
+      150,
+    );
+    setTimeout(
+      () =>
+        confetti({
+          particleCount: 50,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.7 },
+          colors: ["#f59e0b", "#fbbf24", "#fff"],
+        }),
+      300,
+    );
   };
 
   const handleBuyPremium = async () => {
@@ -82,7 +109,9 @@ const Dashboard = () => {
       const data = await res.json();
       if (data?.url) {
         fireConfetti();
-        setTimeout(() => { window.location.href = data.url; }, 600);
+        setTimeout(() => {
+          window.location.href = data.url;
+        }, 600);
       } else {
         fireConfetti();
         setTests((prev) =>
@@ -168,9 +197,11 @@ const Dashboard = () => {
                 </svg>
               </div>
               <p className="text-sm font-medium text-[rgb(var(--text-muted))]">
-                Dashboard
+                {t("title")}
               </p>
-              <h1 className="text-3xl font-bold tracking-normal">Testlar</h1>
+              <h1 className="text-3xl font-bold tracking-normal">
+                {t("exam")}
+              </h1>
             </div>
 
             <button
@@ -179,7 +210,7 @@ const Dashboard = () => {
               aria-label="Testlarni yangilash"
             >
               <IoMdRefresh className="text-lg" />
-              <span>Yangilash</span>
+              <span>{t("reflesh")}</span>
             </button>
           </motion.header>
 
@@ -191,7 +222,7 @@ const Dashboard = () => {
           >
             <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-4 shadow-sm">
               <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
-                Jami testlar
+                {t("allexam")}
               </p>
               <p className="mt-1 text-2xl font-bold">
                 {loading ? "-" : tests.length}
@@ -199,7 +230,7 @@ const Dashboard = () => {
             </div>
             <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-4 shadow-sm">
               <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
-                Faol testlar
+                {t("activeExam")}
               </p>
               <p className="mt-1 text-2xl font-bold">
                 {loading ? "-" : activeTestsCount}
@@ -215,11 +246,9 @@ const Dashboard = () => {
               animate={{ opacity: 1 }}
               className="rounded-2xl border border-dashed border-[rgb(var(--border))] bg-[rgb(var(--surface))] px-5 py-12 text-center shadow-sm"
             >
-              <p className="text-base font-semibold">
-                Hozircha faol testlar yo'q
-              </p>
+              <p className="text-base font-semibold">{t("noActiveExam")}</p>
               <p className="mt-1 text-sm text-[rgb(var(--text-muted))]">
-                Testlar qo'shilganda shu yerda ko'rinadi.
+                {t("infoNoExam")}
               </p>
             </motion.div>
           )}
@@ -249,7 +278,7 @@ const Dashboard = () => {
                         {/* Premium badge */}
                         {isPremium && (
                           <span className="mb-1.5 inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] font-bold text-amber-600 dark:text-amber-400">
-                            ⭐ PREMIUM
+                            ⭐ {t("premium")}
                           </span>
                         )}
                         <h2 className="line-clamp-2 text-base font-bold leading-snug text-[rgb(var(--text))]">
@@ -269,7 +298,7 @@ const Dashboard = () => {
                             : "bg-green-500/10 text-green-600 dark:text-green-400"
                         }`}
                       >
-                        {isEnded ? "Tugadi" : "Faol"}
+                        {isEnded ? t("end") : t("active")}
                       </span>
                     </div>
 
@@ -277,7 +306,9 @@ const Dashboard = () => {
                     <div className="mt-3 flex items-center gap-2 text-xs text-[rgb(var(--text-muted))]">
                       <div className="flex items-center gap-1.5 rounded-xl bg-[rgb(var(--background))] px-3 py-2">
                         <MdPeopleAlt className="text-sm text-[rgb(var(--primary))]" />
-                        <span>{test?.students?.length ?? 0} kishi</span>
+                        <span>
+                          {test?.students?.length ?? 0} {t("person")}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1.5 rounded-xl bg-[rgb(var(--background))] px-3 py-2">
                         <IoAlarm className="text-sm text-[rgb(var(--primary))]" />
@@ -285,7 +316,9 @@ const Dashboard = () => {
                       </div>
                       {isPremium && test.price != null && (
                         <div className="ml-auto flex items-center gap-1 rounded-xl bg-amber-500/10 px-3 py-2 font-bold text-amber-600 dark:text-amber-400">
-                          <span>{test.price.toLocaleString("ru-RU")} so'm</span>
+                          <span>
+                            {test.price.toLocaleString("ru-RU")} {t("sum")}
+                          </span>
                         </div>
                       )}
                     </div>
@@ -317,21 +350,21 @@ const Dashboard = () => {
                       }`}
                     >
                       {isEnded ? (
-                        "Natijalarni ko'rish"
+                        t("seeResult")
                       ) : test.userTest &&
                         test.userTest.includes(String(telegramId)) ? (
-                        "Test topshiringiz mumkin, sotib olgansiz"
+                        t("bougthExam")
                       ) : isPremium ? (
                         <>
                           <span>⭐</span>
                           <span>
                             {test.price != null
-                              ? `${test.price.toLocaleString("ru-RU")} so'm to'lab topshirish`
-                              : "Premium — Qatnashish"}
+                              ? `${test.price.toLocaleString("ru-RU")} ${t("priceExam")}`
+                              : t("primeJoin")}
                           </span>
                         </>
                       ) : (
-                        "Bepul topshirish"
+                        t("freeJoin")
                       )}
                     </motion.button>
                   </motion.article>
@@ -342,11 +375,9 @@ const Dashboard = () => {
         </div>
       </main>
 
-      {/* Premium bottom sheet */}
       <AnimatePresence>
         {premiumTest && (
           <>
-            {/* Backdrop */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
@@ -369,7 +400,6 @@ const Dashboard = () => {
               transition={{ type: "spring", damping: 28, stiffness: 320 }}
               className="fixed bottom-0 left-0 right-0 z-50 rounded-t-3xl bg-[rgb(var(--surface))] px-5 pb-10 pt-4 shadow-2xl"
             >
-              {/* Handle */}
               <div className="mx-auto mb-5 h-1.5 w-10 rounded-full bg-[rgb(var(--border))]" />
 
               {/* Icon */}
@@ -381,27 +411,26 @@ const Dashboard = () => {
                 {premiumTest?.name}
               </h2>
               <p className="mt-2 text-center text-sm text-[rgb(var(--text-muted))]">
-                Bu imtihon premium hisoblanadi. To'lovdan so'ng darhol kirish
-                imkoniyatiga ega bo'lasiz.
+                {t("primeInfo")}
               </p>
               {premiumTest?.price != null && (
                 <p className="mt-2 text-center text-xl font-extrabold text-amber-500">
-                  {premiumTest.price.toLocaleString("ru-RU")} so'm
+                  {premiumTest.price.toLocaleString("ru-RU")} {t("sum")}
                 </p>
               )}
 
               <div className="mt-5 flex flex-col gap-3 rounded-2xl border border-amber-400/30 bg-amber-500/8 p-4">
                 <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
                   <span className="text-amber-500">✓</span>
-                  <span>Barcha premium testlarga kirish</span>
+                  <span>{t("primeExamInfo")}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
                   <span className="text-amber-500">✓</span>
-                  <span>Natijalarni darhol ko'rish</span>
+                  <span>{t("seeResultFast")}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
                   <span className="text-amber-500">✓</span>
-                  <span>Xavfsiz to'lov tizimi</span>
+                  <span>{t("paySafe")}</span>
                 </div>
               </div>
 
@@ -417,7 +446,7 @@ const Dashboard = () => {
                 disabled={buying}
                 className="mt-5 h-13 w-full rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-base font-extrabold text-white shadow-lg shadow-amber-500/30 transition active:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {buying ? "Yuborilmoqda..." : "⭐ Sotib olish"}
+                {buying ? t("sending") : `⭐ ${t("buying")}`}
               </motion.button>
 
               <button
@@ -427,14 +456,13 @@ const Dashboard = () => {
                 }}
                 className="mt-3 w-full rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--background))] py-3 text-sm font-semibold text-[rgb(var(--text-muted))] transition hover:text-[rgb(var(--text))]"
               >
-                Bekor qilish
+                {t("cancel")}
               </button>
             </motion.div>
           </>
         )}
       </AnimatePresence>
 
-      {/* Balance yetarli emas modal */}
       <AnimatePresence>
         {showBalanceModal && (
           <>
@@ -462,10 +490,10 @@ const Dashboard = () => {
               </div>
 
               <h2 className="text-center text-xl font-extrabold text-[rgb(var(--text))]">
-                Balans yetarli emas
+                {t("haveNotMoney")}
               </h2>
               <p className="mt-2 text-center text-sm text-[rgb(var(--text-muted))]">
-                Premium imtihonni sotib olish uchun balansni to'ldiring.
+                {t("needUpBalance")}
               </p>
 
               <motion.button
@@ -476,14 +504,14 @@ const Dashboard = () => {
                 }}
                 className="mt-6 h-13 w-full rounded-2xl bg-[rgb(var(--primary))] text-base font-extrabold text-white shadow-md shadow-[rgb(var(--primary))]/25 transition active:opacity-90"
               >
-                Balansni to'ldirish
+                {t("upBalance")}
               </motion.button>
 
               <button
                 onClick={() => setShowBalanceModal(false)}
                 className="mt-3 w-full rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--background))] py-3 text-sm font-semibold text-[rgb(var(--text-muted))] transition hover:text-[rgb(var(--text))]"
               >
-                Bekor qilish
+                {t("cancel")}
               </button>
             </motion.div>
           </>

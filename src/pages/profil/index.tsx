@@ -4,13 +4,13 @@ import {
   FiAward,
   FiCreditCard,
   FiPlusCircle,
-  FiRefreshCw,
   FiTrendingUp,
   FiUser,
   FiX,
 } from "react-icons/fi";
 import { IoMdSettings } from "react-icons/io";
 import CryptoJS from "crypto-js";
+import { useTranslation } from "react-i18next";
 
 type ProfileUser = {
   allows_write_to_pm?: boolean;
@@ -255,6 +255,7 @@ const LatexValue = ({ value }: { value?: string }) => {
 export const Profil = () => {
   const [userId, setUserId] = useState("");
   const [user, setUser] = useState<ProfileUser>(defaultUser);
+  const { t } = useTranslation("profile");
 
   const [selectedTest, setSelectedTest] = useState<ProfileResult | null>(null);
   const [hoveredResultId, setHoveredResultId] = useState<
@@ -363,13 +364,13 @@ export const Profil = () => {
             />
             <div className="min-w-0">
               <p className="text-sm font-medium text-[rgb(var(--text-muted))]">
-                Profil
+                {t("profile")}
               </p>
               <h1 className="truncate text-2xl font-bold">
                 {user.first_name} {user.last_name || ""}
               </h1>
               <p className="truncate text-sm text-[rgb(var(--text-muted))]">
-                @{user.username || "username yo'q"}
+                @{user.username || t("noUsername")}
               </p>
             </div>
             <div className="text-[rgb(var(--text))] absolute right-[40px] top-[40px] text-2xl">
@@ -383,7 +384,9 @@ export const Profil = () => {
         <section className="relative overflow-hidden rounded-2xl border border-[rgb(var(--border))] bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] p-5 shadow-sm text-white">
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="text-sm font-medium text-white/80">Balans</p>
+              <p className="text-sm font-medium text-white/80">
+                {t("balance")}
+              </p>
               <p className="mt-1 truncate text-3xl font-extrabold tracking-tight">
                 {loading ? "-" : formatBalance(user.balance)}
               </p>
@@ -398,26 +401,28 @@ export const Profil = () => {
             className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white/15 px-4 text-sm font-bold text-white shadow-sm backdrop-blur transition hover:bg-white/25 active:scale-[0.98]"
           >
             <FiPlusCircle className="text-lg" />
-            Balansni to'ldirish
+            {t("upBalance")}
           </Link>
         </section>
 
         <section className="grid grid-cols-3 gap-3">
           <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-3 shadow-sm">
             <FiUser className="mb-2 text-lg text-[rgb(var(--primary))]" />
-            <p className="text-xs text-[rgb(var(--text-muted))]">Testlar</p>
+            <p className="text-xs text-[rgb(var(--text-muted))]">{t("exam")}</p>
             <p className="text-xl font-bold">
               {loading ? "-" : sortedResults.length}
             </p>
           </div>
           <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-3 shadow-sm">
             <FiAward className="mb-2 text-lg text-green-600 dark:text-green-400" />
-            <p className="text-xs text-[rgb(var(--text-muted))]">Eng yaxshi</p>
+            <p className="text-xs text-[rgb(var(--text-muted))]">{t("best")}</p>
             <p className="text-xl font-bold">{loading ? "-" : bestScore}</p>
           </div>
           <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-3 shadow-sm">
             <FiTrendingUp className="mb-2 text-lg text-[rgb(var(--primary))]" />
-            <p className="text-xs text-[rgb(var(--text-muted))]">O'sish</p>
+            <p className="text-xs text-[rgb(var(--text-muted))]">
+              {t("increase")}
+            </p>
             <p className="text-xl font-bold">
               {loading
                 ? "-"
@@ -430,16 +435,16 @@ export const Profil = () => {
           <div className="mb-5 flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-medium text-[rgb(var(--text-muted))]">
-                Natija grafigi
+                {t("graphic")}
               </p>
-              <h2 className="text-xl font-bold">O'sish dinamikasi</h2>
+              <h2 className="text-xl font-bold">{t("dinamic")}</h2>
             </div>
             <div
               className={`rounded-xl px-3 py-2 text-right ${
                 getDegreeStyle(latestResult.degree).bg
               } ${getDegreeStyle(latestResult.degree).text}`}
             >
-              <p className="text-xs font-semibold">Oxirgi</p>
+              <p className="text-xs font-semibold">{t("last")}</p>
               <p className="text-lg font-bold">
                 {latestResult.score} / {latestResult.degree}
               </p>
@@ -581,7 +586,7 @@ export const Profil = () => {
                       y={tooltipY + 28}
                       className="fill-[rgb(var(--primary))] text-[11px] font-bold"
                     >
-                      {result.score} ball
+                      {result.score} {t("ball")}
                     </text>
                   </g>
                 );
@@ -607,7 +612,7 @@ export const Profil = () => {
                     </span>
                   </div>
                   <p className="text-[rgb(var(--text-muted))]">
-                    {formatDate(result.date)} - {result.score} ball
+                    {formatDate(result.date)} - {result.score} {t("ball")}
                   </p>
                 </div>
               );
@@ -616,7 +621,7 @@ export const Profil = () => {
         </section>
 
         <section className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-4 shadow-sm">
-          <h2 className="mb-3 text-lg font-bold">Oxirgi testlar</h2>
+          <h2 className="mb-3 text-lg font-bold">{t("lastexam")}</h2>
           <div className="flex flex-col divide-y divide-[rgb(var(--border))]">
             {latestResults.map((test) => {
               const style = getDegreeStyle(test.degree);
@@ -661,20 +666,21 @@ export const Profil = () => {
             <header className="flex items-start justify-between gap-3 border-b border-[rgb(var(--border))] p-4">
               <div className="min-w-0">
                 <p className="text-xs font-semibold text-[rgb(var(--text-muted))]">
-                  Test javoblari
+                  {t("examAnswers")}
                 </p>
                 <h2 className="truncate text-lg font-bold">
                   {selectedTest.name}
                 </h2>
                 <p className="text-xs text-[rgb(var(--text-muted))]">
-                  {formatDate(selectedTest.date)} - {selectedTest.score} ball
+                  {formatDate(selectedTest.date)} - {selectedTest.score}{" "}
+                  {t("ball")}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setSelectedTest(null)}
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[rgb(var(--background))] text-[rgb(var(--text-muted))] transition hover:text-[rgb(var(--text))]"
-                aria-label="Yopish"
+                aria-label={t("close")}
               >
                 <FiX className="text-xl" />
               </button>
@@ -683,9 +689,9 @@ export const Profil = () => {
             <div className="max-h-[72vh] overflow-y-auto p-4">
               {selectedQuestions.length === 0 ? (
                 <div className="rounded-xl bg-[rgb(var(--background))] px-4 py-8 text-center">
-                  <p className="font-semibold">Javoblar topilmadi</p>
+                  <p className="font-semibold">{t("noAnswers")}</p>
                   <p className="mt-1 text-sm text-[rgb(var(--text-muted))]">
-                    Bu test uchun javoblar backenddan kelmagan.
+                    {t("noAnswersInfo")}
                   </p>
                 </div>
               ) : (
@@ -706,12 +712,12 @@ export const Profil = () => {
                         <div className="min-w-0">
                           <p className="truncate text-sm font-semibold">
                             <span className="text-[rgb(var(--text-muted))]">
-                              Siz:
+                              {t("you")}:
                             </span>{" "}
                             <LatexValue value={userAnswer} />
                           </p>
                           <p className="mt-1 truncate text-xs font-medium text-[rgb(var(--text-muted))]">
-                            To'g'ri: <LatexValue value={correctAnswer} />
+                            {t("trueAn")}: <LatexValue value={correctAnswer} />
                           </p>
                         </div>
                         <span

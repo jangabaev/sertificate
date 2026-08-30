@@ -3,15 +3,18 @@ import { useParams, useNavigate } from "react-router-dom";
 import { answersResponce } from "../../utils/responce";
 import MathFormulaInput from "../home/input_writing";
 import { dataMock } from "../home/mockdata";
+import { useTranslation } from "react-i18next";
 
 export const ExamSend: React.FC = () => {
   const [answers, setAnswers] = useState(Array(55).fill(null));
   const [oneExam, setOneExam] = useState<any>(null);
+
   const [modal, setModal] = useState<{ show: boolean; success: boolean }>({
     show: false,
     success: false,
   });
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation("dashboard");
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -69,7 +72,7 @@ export const ExamSend: React.FC = () => {
         {/* HEADER */}
         {/* <header className="mb-6 rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] px-5 py-4 shadow-sm"> */}
         <h1 className="text-center text-2xl font-extrabold tracking-wide text-[rgb(var(--primary))] px-5 py-4">
-          {oneExam?.name || "Imtihon testi"}
+          {oneExam?.name || t("examTitle")}
         </h1>
         {/* <div className="mt-3">
             <div className="mb-1 flex justify-between text-xs font-semibold text-[rgb(var(--text-muted))]">
@@ -187,7 +190,7 @@ export const ExamSend: React.FC = () => {
                     d="M4 12a8 8 0 018-8v8z"
                   />
                 </svg>
-                Yuborilmoqda...
+                {t("examSending")}
               </>
             ) : (
               <>
@@ -203,7 +206,7 @@ export const ExamSend: React.FC = () => {
                 >
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
-                Testni yakunlash
+                {t("sendExam")}
               </>
             )}
           </button>
@@ -216,18 +219,16 @@ export const ExamSend: React.FC = () => {
           <div className="bg-[rgb(var(--surface))] rounded-3xl shadow-2xl p-8 mx-4 max-w-sm w-full text-center border border-[rgb(var(--border))]/50 animate-fade-in">
             <div className="text-5xl mb-4">{modal.success ? "✅" : "❌"}</div>
             <h2 className="text-2xl font-bold text-[rgb(var(--text))] mb-2">
-              {modal.success ? "Muvaffaqiyatli!" : "Hatolik!"}
+              {modal.success ? t("successful") : t("error")}
             </h2>
             <p className="text-[rgb(var(--text))]/70 mb-6">
-              {modal.success
-                ? "Javobingiz muvaffaqiyatli yuborildi."
-                : "Javob yuborishda xatolik yuz berdi. Qayta urinib ko'ring."}
+              {modal.success ? t("santSuccessful") : t("santError")}
             </p>
             <button
               onClick={handleModalClose}
               className="w-full py-3 rounded-2xl font-semibold text-white bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] hover:opacity-90 transition-all duration-300 active:scale-95"
             >
-              Bosh sahifaga o'tish
+              {t("backHome")}
             </button>
           </div>
         </div>

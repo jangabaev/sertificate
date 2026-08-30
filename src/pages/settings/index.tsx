@@ -82,8 +82,11 @@ const Settings = () => {
               />
             ) : (
               <h3 className="uppercase">
-                {data?.first_name.slice(0, 1) +
-                  (data?.last_name.slice(0, 1) ?? data?.first_name.slice(1, 2))}
+                {data?.first_name || data?.last_name
+                  ? data?.first_name.slice(0, 1) +
+                    (data?.last_name.slice(0, 1) ??
+                      data?.first_name.slice(1, 2))
+                  : "AA"}
               </h3>
             )}
           </div>
