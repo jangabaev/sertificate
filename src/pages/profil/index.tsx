@@ -253,7 +253,6 @@ const LatexValue = ({ value }: { value?: string }) => {
 };
 
 export const Profil = () => {
-  const [userId, setUserId] = useState("");
   const [user, setUser] = useState<ProfileUser>(defaultUser);
   const { t } = useTranslation("profile");
 
@@ -262,7 +261,7 @@ export const Profil = () => {
     ProfileResult["id"] | null
   >(null);
   const [loading, setLoading] = useState(true);
-  const results = user.tests?.length ? user.tests : mockResults;
+  const results = user?.tests?.length ? user.tests : mockResults;
   const sortedResults = useMemo(
     () =>
       [...results].sort(
@@ -306,15 +305,16 @@ export const Profil = () => {
         tests: currentUser.tests,
       }));
     }
+
+    const telegramUserId = telegramUser?.id?.toString() || "1849659907";
     const encryptedToken = CryptoJS.AES.encrypt(
-      telegramUser?.id.toString(),
-      "math",
+      telegramUserId,
+      import.meta.env.VITE_JWT_SECRET,
     ).toString();
-    setUserId(encryptedToken);
     const getUserData = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/users/${telegramUser?.id}`,
+          `${import.meta.env.VITE_API_BASE_URL}/users/${telegramUserId}`,
           {
             method: "GET",
             headers: {
@@ -325,9 +325,7 @@ export const Profil = () => {
         );
 
         const result: BackendUser = await response.json();
-        console.log(result);
         const backendTests = result.results ?? result.tests;
-        console.log(backendTests);
         setUser((currentUser) => ({
           ...currentUser,
           first_name: (result.first_name || telegramUser?.first_name) ?? "",
