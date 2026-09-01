@@ -60,11 +60,16 @@ const Anwers = () => {
   };
 
   const handleSubmit = async () => {
+    const tg = window.Telegram?.WebApp;
+    tg?.ready();
+    tg?.expand();
+
+    const telegramUser = tg?.initDataUnsafe?.user;
     const body: Record<string, any> = {
       name,
       responce: answers,
       status: "ACTIVE",
-      user_id: 1849659907,
+      user_id: telegramUser.id,
       type: testType,
       ...(testType === "PREMIUM" && { price: Number(price) }),
     };
