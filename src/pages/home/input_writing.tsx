@@ -75,9 +75,7 @@ function findBackspaceKeycap(panel: HTMLElement): HTMLElement | null {
 }
 
 function KeyboardCloseBar({ onClose }: { onClose: () => void }) {
-  const [rect, setRect] = useState<{ top: number; right: number } | null>(
-    null,
-  );
+  const [rect, setRect] = useState<{ top: number; right: number } | null>(null);
 
   useEffect(() => {
     let raf = 0;
@@ -114,40 +112,6 @@ function KeyboardCloseBar({ onClose }: { onClose: () => void }) {
   }, []);
 
   if (!rect) return null;
-
-  return createPortal(
-    <button
-      type="button"
-      aria-label="Klaviaturani yopish"
-      onMouseDown={(e) => {
-        e.preventDefault();
-        onClose();
-      }}
-      style={{
-        position: "fixed",
-        top: rect.top - 16,
-        right: Math.max(rect.right - 12, 4),
-        width: 32,
-        height: 32,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        border: "2px solid rgb(var(--surface))",
-        borderRadius: "50%",
-        background: "rgb(var(--primary))",
-        color: "#fff",
-        fontSize: 16,
-        lineHeight: 1,
-        cursor: "pointer",
-        padding: 0,
-        zIndex: 2147483000,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.35)",
-      }}
-    >
-      ✕
-    </button>,
-    document.body,
-  );
 }
 
 export default function RestrictedMathInput({
