@@ -7,11 +7,15 @@ import { useTranslation } from "react-i18next";
 
 export const ExamSend: React.FC = () => {
   const [answers, setAnswers] = useState(Array(55).fill(null));
-  const [oneExam, setOneExam] = useState<any>(null);
 
-  const [modal, setModal] = useState<{ show: boolean; success: boolean }>({
+  const [modal, setModal] = useState<{
+    show: boolean;
+    success: boolean;
+    status: number;
+  }>({
     show: false,
     success: false,
+    status: 404,
   });
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation("dashboard");
@@ -51,8 +55,8 @@ export const ExamSend: React.FC = () => {
       if (!res.ok) throw new Error("Server xatosi");
       await res.json();
       setModal({ show: true, success: true });
-    } catch {
-      setModal({ show: true, success: false });
+    } catch (error) {
+      setModal({ show: true, success: false, status: 209 });
     } finally {
       setLoading(false);
     }
@@ -67,7 +71,7 @@ export const ExamSend: React.FC = () => {
     <section className="min-h-screen bg-[rgb(var(--background))] justify-center pb-24 pt-6 px-3 transition-colors duration-500">
       <div className="w-full max-w-2xl m-auto">
         <h1 className="text-center text-2xl font-extrabold tracking-wide text-[rgb(var(--primary))] px-5 py-4">
-          {oneExam?.name || t("examTitle")}
+          {t("examTitle")}
         </h1>
         <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] shadow-sm overflow-hidden">
           {dataMock.map((q, qIndex) => {
@@ -197,12 +201,19 @@ export const ExamSend: React.FC = () => {
       {modal.show && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="bg-[rgb(var(--surface))] rounded-3xl shadow-2xl p-8 mx-4 max-w-sm w-full text-center border border-[rgb(var(--border))]/50 animate-fade-in">
-            <div className="text-5xl mb-4">{modal.success ? "✅" : "❌"}</div>
+            <div className="text-5xl mb-4">
+              {modal.status === 209 || modal.success ? "✅" : "❌"}
+            </div>
             <h2 className="text-2xl font-bold text-[rgb(var(--text))] mb-2">
-              {modal.success ? t("successful") : t("error")}
+              {modal.status === 209 || modal.success
+                ? t("successful")
+                : t("error")}
             </h2>
             <p className="text-[rgb(var(--text))]/70 mb-6">
-              {modal.success ? t("santSuccessful") : t("santError")}
+              {modal.status === 209 && "Siz ilgari Test topshirgansiz"}
+              {modal.status !== 209 && modal.success
+                ? t("santSuccessful")
+                : t("santError")}
             </p>
             <button
               onClick={handleModalClose}

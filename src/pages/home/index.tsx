@@ -171,11 +171,16 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+    tg?.ready();
+    tg?.expand();
+    const telegramUser = tg?.initDataUnsafe?.user;
+    const telegramId = telegramUser?.id;
     const getData = async () => {
       try {
         setTests([]);
         const response = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/test?sort_by=active`,
+          `${import.meta.env.VITE_API_BASE_URL}/test?sort_by=active${telegramId ? `&user_id=${telegramId}` : ""}`,
           {
             method: "GET",
             headers: {},
