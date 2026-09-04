@@ -43,7 +43,7 @@ export const ExamSend: React.FC = () => {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            user_id: telegramUser?.id || 12,
+            user_id: telegramUser?.id,
             responce: answers,
           }),
         },

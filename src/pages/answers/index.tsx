@@ -16,7 +16,7 @@ const Anwers = () => {
   const [modalData, setModalData] = useState<any>(null);
   const [name, setName] = useState("");
   const [testType, setTestType] = useState<"FREE" | "PREMIUM">("FREE");
-  const [price, setPrice] = useState("");
+  const [channelId, setChanelId] = useState("");
   const [loading, setLoading] = useState(!!id);
 
   useEffect(() => {
@@ -69,17 +69,17 @@ const Anwers = () => {
       name,
       responce: answers,
       status: "ACTIVE",
-      user_id: telegramUser.id,
+      user_id: telegramUser?.id ?? 1849659907,
       type: testType,
-      ...(testType === "PREMIUM" && { price: Number(price) }),
+      ...(testType === "PREMIUM" && { channelId: String(channelId) }),
     };
 
     try {
       const isUpdate = !!id;
-      const url = isUpdate ? `${BASE_URL}/test/${id}` : `${BASE_URL}/test`;
-      const method = isUpdate ? "PUT" : "POST";
-
-      console.log({ method, url, body });
+      const url = isUpdate
+        ? `${BASE_URL}/test/change/${id}`
+        : `${BASE_URL}/test`;
+      const method = isUpdate ? "PATCH" : "POST";
 
       const res = await fetch(url, {
         method,
@@ -234,7 +234,7 @@ const Anwers = () => {
                 </button>
               </div>
 
-              {testType === "PREMIUM" && (
+              {/* {testType === "PREMIUM" && (
                 <div className="mt-3">
                   <label className="block text-sm font-medium text-[rgb(var(--text-muted))] mb-1.5">
                     Narxi (so'm)
@@ -249,8 +249,24 @@ const Anwers = () => {
                     className="h-12 w-full rounded-xl border border-amber-400/50 bg-[rgb(var(--background))] px-4 text-sm font-medium text-[rgb(var(--text))] outline-none transition placeholder:text-[rgb(var(--text-muted))] focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10"
                   />
                 </div>
-              )}
+              )} */}
             </div>
+
+            {testType === "PREMIUM" && (
+              <div className="mt-3">
+                <label className="block text-sm font-medium text-[rgb(var(--text-muted))] mb-1.5">
+                  telegram kanal Id
+                </label>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={channelId}
+                  onChange={(e) => setChanelId(e.target.value)}
+                  placeholder="Masalan: 123456"
+                  className="h-12 w-full rounded-xl border border-amber-400/50 bg-[rgb(var(--background))] px-4 text-sm font-medium text-[rgb(var(--text))] outline-none transition placeholder:text-[rgb(var(--text-muted))] focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10"
+                />
+              </div>
+            )}
 
             {/* SUBMIT BUTTON */}
             <button

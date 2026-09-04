@@ -21,6 +21,7 @@ export type TestSummary = {
   type?: "FREE" | "PREMIUM";
   price?: number;
   userTest?: string[];
+  channelId?: string;
 };
 
 const formatDate = (date?: string | null) => {
@@ -50,8 +51,7 @@ const Dashboard = () => {
   const [showBalanceModal, setShowBalanceModal] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation("dashboard");
-  const telegramId =
-    (window as any).Telegram?.WebApp.initDataUnsafe?.user?.id || "1";
+  const telegramId = (window as any).Telegram?.WebApp.initDataUnsafe?.user?.id;
 
   const fireConfetti = () => {
     confetti({
@@ -85,47 +85,48 @@ const Dashboard = () => {
   };
 
   const handleBuyPremium = async () => {
-    if (!premiumTest) return;
-    setBuyError(null);
-    setBuying(true);
-    const encryptedToken = CryptoJS.AES.encrypt(
-      telegramId.toString(), 
-      import.meta.env.VITE_JWT_SECRET,
-    ).toString();
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/test/buy`, {
-        method: "POST",
-        headers: { token: encryptedToken, "Content-Type": "application/json" },
-        body: JSON.stringify({ id: premiumTest.id }),
-      });
-      if (res.status === 401) {
-        setPremiumTest(null);
-        setShowBalanceModal(true);
-        return;
-      }
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      if (data?.url) {
-        fireConfetti();
-        setTimeout(() => {
-          window.location.href = data.url;
-        }, 600);
-      } else {
-        fireConfetti();
-        setTests((prev) =>
-          prev.map((t) =>
-            t.id === premiumTest.id
-              ? { ...t, userTest: [...(t.userTest ?? []), String(telegramId)] }
-              : t,
-          ),
-        );
-        setPremiumTest(null);
-      }
-    } catch {
-      setBuyError("Xatolik yuz berdi. Qayta urinib ko'ring.");
-    } finally {
-      setBuying(false);
-    }
+    // if (!premiumTest) return;
+    // setBuyError(null);
+    // setBuying(true);
+    // const encryptedToken = CryptoJS.AES.encrypt(
+    //   telegramId.toString(),
+    //   import.meta.env.VITE_JWT_SECRET,
+    // ).toString();
+    // try {
+    //   const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/test/buy`, {
+    //     method: "POST",
+    //     headers: { token: encryptedToken, "Content-Type": "application/json" },
+    //     body: JSON.stringify({ id: premiumTest.id }),
+    //   });
+    //   if (res.status === 401) {
+    //     setPremiumTest(null);
+    //     setShowBalanceModal(true);
+    //     return;
+    //   }
+    //   if (!res.ok) throw new Error();
+    //   const data = await res.json();
+    //   if (data?.url) {
+    //     fireConfetti();
+    //     setTimeout(() => {
+    //       window.location.href = data.url;
+    //     }, 600);
+    //   } else {
+    //     fireConfetti();
+    //     setTests((prev) =>
+    //       prev.map((t) =>
+    //         t.id === premiumTest.id
+    //           ? { ...t, userTest: [...(t.userTest ?? []), String(telegramId)] }
+    //           : t,
+    //       ),
+    //     );
+    //     setPremiumTest(null);
+    //   }
+    // } catch {
+    //   setBuyError("Xatolik yuz berdi. Qayta urinib ko'ring.");
+    // } finally {
+    //   setBuying(false);
+    // }
+    navigate("https://t.me/@roo_admin");
   };
 
   const activeTestsCount = useMemo(
@@ -138,6 +139,34 @@ const Dashboard = () => {
       navigate(`/results/${testId}`);
     } else {
       navigate(`/exam/${testId}`);
+    }
+  };
+
+  const hendleClickTestChannel = async (data: TestSummary) => {
+    if (data.channelId && telegramId) {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/test/checkMember`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            channelId: data.channelId,
+            userId: telegramId,
+          }),
+        },
+      );
+      const isMember = await response.json();
+
+      console.log(isMember);
+
+      if (isMember?.isMember) {
+        navigate(`/exam/${data.id}`);
+      } else {
+        setPremiumTest(data);
+      }
     }
   };
 
@@ -330,7 +359,8 @@ const Dashboard = () => {
                           !isEnded &&
                           !test.userTest?.includes(String(telegramId))
                         ) {
-                          setPremiumTest(test);
+                          // setPremiumTest(test);
+                          hendleClickTestChannel(test);
                         } else {
                           navigateClick(test.id, test?.status || "");
                         }
@@ -354,7 +384,7 @@ const Dashboard = () => {
                         t("bougthExam")
                       ) : isPremium ? (
                         <>
-                          <span>⭐</span>
+                          <span></span>
                           <span>
                             {test.price != null
                               ? `${test.price.toLocaleString("ru-RU")} ${t("priceExam")}`
@@ -409,7 +439,9 @@ const Dashboard = () => {
                 {premiumTest?.name}
               </h2>
               <p className="mt-2 text-center text-sm text-[rgb(var(--text-muted))]">
-                {t("primeInfo")}
+                {/* {t("primeInfo")} */}
+
+                {"Testi satip aliw ushin adminga jazin test bahasi 15 000 sum"}
               </p>
               {premiumTest?.price != null && (
                 <p className="mt-2 text-center text-xl font-extrabold text-amber-500">
@@ -426,10 +458,10 @@ const Dashboard = () => {
                   <span className="text-amber-500">✓</span>
                   <span>{t("seeResultFast")}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
+                {/* <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
                   <span className="text-amber-500">✓</span>
                   <span>{t("paySafe")}</span>
-                </div>
+                </div> */}
               </div>
 
               {buyError && (
@@ -437,16 +469,19 @@ const Dashboard = () => {
                   {buyError}
                 </p>
               )}
-
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                onClick={handleBuyPremium}
-                disabled={buying}
-                className="mt-5 h-13 w-full rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-base font-extrabold text-white shadow-lg shadow-amber-500/30 transition active:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {buying ? t("sending") : `⭐ ${t("buying")}`}
-              </motion.button>
-
+              <div className="my-2 w-full flex">
+                <motion.a
+                  whileTap={{ scale: 0.97 }}
+                  href="https://t.me/roo_admin"
+                  // onClick={handleBuyPremium}
+                  // disabled={buying}
+                  // watinsha   className="mt-5 h-13 w-full rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-base font-extrabold text-white shadow-lg shadow-amber-500/30 transition active:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="p-3 mt-1 w-full text-center rounded-2xl bg-[rgb(var(--primary))] text-base font-extrabold text-white shadow-md shadow-[rgb(var(--primary))]/25 transition active:opacity-90"
+                >
+                  {/* {buying ? t("sending") : ` ${t("buying")}`} */}
+                  stip aliw ushin adminge jaziw
+                </motion.a>
+              </div>
               <button
                 onClick={() => {
                   setPremiumTest(null);
