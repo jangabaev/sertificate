@@ -306,7 +306,7 @@ export const Profil = () => {
       }));
     }
 
-    const telegramUserId = telegramUser?.id?.toString() || "1849659907";
+    const telegramUserId = telegramUser?.id?.toString();
 
     const encryptedToken = CryptoJS.AES.encrypt(
       telegramUserId,
@@ -319,7 +319,7 @@ export const Profil = () => {
           {
             method: "GET",
             headers: {
-              token: encryptedToken,
+              token: telegramUserId,
               "Content-Type": "application/json",
             },
           },
