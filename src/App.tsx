@@ -34,8 +34,8 @@ function App() {
           {/* 404 sahifa */}
           <Route path="*" element={<>Not found</>} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/createtest" element={<Anwers/>}/>
-          <Route path="/createtest/:id" element={<Anwers/>}/>
+          <Route path="/createtest/:userId" element={<Anwers />} />
+          <Route path="/createtest/:userId/:id" element={<Anwers />} />
         </Routes>
       </Router>
     </>

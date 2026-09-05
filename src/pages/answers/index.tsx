@@ -8,7 +8,9 @@ import { Input } from "../../components/input";
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Anwers = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id, userId } = useParams<{ id: string; userId: string }>();
+  console.log(userId);
+  console.log(id);
 
   const [answers, setAnswers] = useState<(string | null)[]>(
     Array(55).fill(null),
@@ -69,7 +71,7 @@ const Anwers = () => {
       name,
       responce: answers,
       status: "ACTIVE",
-      user_id: telegramUser?.id ?? 1849659907,
+      user_id: telegramUser?.id ?? userId,
       type: testType,
       ...(testType === "PREMIUM" && { channelId: String(channelId) }),
     };
