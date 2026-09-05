@@ -317,7 +317,7 @@ const Dashboard = () => {
 
                         {isPending && (
                           <span className="mb-1.5 inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] font-bold text-amber-600 dark:text-amber-400">
-                            Test Vati Tugadi
+                            {t("timeIsUp")}
                           </span>
                         )}
                         <h2 className="line-clamp-2 text-base font-bold leading-snug text-[rgb(var(--text))]">
@@ -332,12 +332,16 @@ const Dashboard = () => {
                       {/* Status badge */}
                       <span
                         className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${
-                          isEnded
+                          isEnded || isPending
                             ? "bg-red-500/10 text-red-500 dark:text-red-400"
                             : "bg-green-500/10 text-green-600 dark:text-green-400"
                         }`}
                       >
-                        {isEnded ? t("end") : t("active")}
+                        {isPending
+                          ? t("pending")
+                          : isEnded
+                            ? t("end")
+                            : t("active")}
                       </span>
                     </div>
 
@@ -453,7 +457,7 @@ const Dashboard = () => {
               <p className="mt-2 text-center text-sm text-[rgb(var(--text-muted))]">
                 {/* {t("primeInfo")} */}
 
-                {"Testti satip aliw ushin adminga jazin test bahasi 15 000 sum"}
+                {t("sendAdminInfo")}
               </p>
               {premiumTest?.price != null && (
                 <p className="mt-2 text-center text-xl font-extrabold text-amber-500">
@@ -464,13 +468,11 @@ const Dashboard = () => {
               <div className="mt-5 flex flex-col gap-3 rounded-2xl border border-amber-400/30 bg-amber-500/8 p-4">
                 <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
                   <span className="text-amber-500">✓</span>
-                  {/* <span>{t("primeExamInfo")}</span> */}
+                  <span>{t("testInfo1")}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
                   <span className="text-amber-500">✓</span>
-                  <span>
-                    Test tawsilg'annan son test boyinsha sertifikatlar keledi
-                  </span>
+                  <span>{t("testInfo2")}</span>
                 </div>
                 {/* <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
                   <span className="text-amber-500">✓</span>

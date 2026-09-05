@@ -24,6 +24,7 @@
   "buying": "Sotib olish",
   "cancel": "Bekor qilish",
   "upBalance": "Balansni to'ldirish",
+  "pending": "Vaqt tugadi",
   "haveNotMoney": "Balans yetarli emas",
   "needUpBalance": "Premium testni sotib olish uchun balansni to'ldiring.",
   "sendExam": "Testni yakunlash",
@@ -33,5 +34,9 @@
   "error": "Xatolik!",
   "santSuccessful": "Javoblaringiz muvaffaqiyatli yuborildi.",
   "santError": "Javoblarni yuborishda xatolik yuz berdi. Qayta urinib ko'ring.",
+  "testInfo1": "Test tugagandan so‘ng test bo‘yicha sertifikatlar keladi",
+  "testInfo2": "Adminga yozing va o‘z testingiz ustida ishlashda davom eting",
+  "sendAdminInfo": "Testni sotib olish uchun adminga yozing. Test narxi — 15 000 so‘m",
+  "timeIsUp": "Test vaqti tugadi",
   "backHome": "Bosh sahifaga o'tish"
 }

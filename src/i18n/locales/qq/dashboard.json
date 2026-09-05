@@ -8,7 +8,7 @@
   "infoNoExam": "Testler qosılǵannan keyin usı jerde kórinedi.",
   "premium": "PREMIUM",
   "end": "Tamamlandı",
-  "active": "Belsendi",
+  "active": "Baslandi",
   "person": "adam",
   "sum": "som",
   "seeResult": "Nátiyjelerdi kóriw",
@@ -24,6 +24,7 @@
   "buying": "Satıp alıw",
   "cancel": "Biykar etiw",
   "upBalance": "Balanstı toltırıw",
+  "pending": "Waqıt tawsıldı",
   "haveNotMoney": "Balans jetkilikli emes",
   "needUpBalance": "Premium testti satıp alıw ushın balansıńızdı toltırıń.",
   "sendExam": "Testti juwmaqlaw",
@@ -33,5 +34,9 @@
   "error": "Qátelik!",
   "santSuccessful": "Juwaplarıńız sátli jiberildi.",
   "santError": "Juwaplarıńızdı jiberiwde qátelik júz berdi. Qaytadan urınıp kóriń.",
+  "testInfo1": "Test tawsılǵannan soń test boyınsha sertifikatlar keledi",
+  "testInfo2": "Adminǵa jazıń hám óz testińizdi islewde dawam etiń",
+  "sendAdminInfo": "Testti satıp alıw ushın adminǵa jazıń. Test bahası 15 000 sum",
+  "timeIsUp": "Test waqtı tawsıldı",
   "backHome": "Bas betke ótiw"
 }

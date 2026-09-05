@@ -31,15 +31,25 @@ function getTelegramWebApp(): any {
 
 function closeActiveKeyboard() {
   const field = activeMathField;
+
   activeMathField = null;
+
   if (field) {
     try {
       field.executeCommand("hideVirtualKeyboard");
-    } catch {
-      // ignore
-    }
+    } catch {}
+
     field.blur();
+
+    requestAnimationFrame(() => {
+      try {
+        field.executeCommand("hideVirtualKeyboard");
+      } catch {}
+
+      field.blur();
+    });
   }
+
   getTelegramWebApp()?.BackButton?.hide();
 }
 
@@ -119,7 +129,12 @@ export default function RestrictedMathInput({
   onChange,
 }: RestrictedMathInputProps) {
   const mfRef = useRef<MathfieldElement | null>(null);
+
   const isFocusedRef = useRef(false);
+
+  const suppressFocusRef = useRef(false);
+
+  const historyLockedRef = useRef(false);
   const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
@@ -130,19 +145,41 @@ export default function RestrictedMathInput({
     ensureBackButtonHandlerBound();
 
     const handlePopState = () => {
-      if (isFocusedRef.current) {
-        closeActiveKeyboard();
-        isFocusedRef.current = false;
-        setIsFocused(false);
-        // ortga qaytishni "qopqonga olamiz" — aks holda navbatdagi
-        // orqaga bosish butun sahifani/Mini App'ni yopib yuboradi
-        history.pushState(null, "", window.location.href);
+      if (!isFocusedRef.current) {
+        return;
       }
+
+      suppressFocusRef.current = true;
+
+      const field = mfRef.current;
+
+      isFocusedRef.current = false;
+      setIsFocused(false);
+
+      activeMathField = null;
+
+      try {
+        field?.executeCommand("hideVirtualKeyboard");
+      } catch {}
+
+      field?.blur();
+
+      getTelegramWebApp()?.BackButton?.hide();
+
+      historyLockedRef.current = false;
+
+      history.pushState(null, "", window.location.href);
+
+      setTimeout(() => {
+        suppressFocusRef.current = false;
+      }, 300);
     };
 
     window.addEventListener("popstate", handlePopState);
+
     return () => {
       window.removeEventListener("popstate", handlePopState);
+
       if (activeMathField === mfRef.current) {
         closeActiveKeyboard();
       }
@@ -150,19 +187,43 @@ export default function RestrictedMathInput({
   }, []);
 
   const handleFocus = () => {
+    // Back bosilgandan keyin MathLive qayta focus qilishga
+    // urinsa, keyboardni qayta ochmaymiz
+    if (suppressFocusRef.current) {
+      mfRef.current?.blur();
+
+      try {
+        mfRef.current?.executeCommand("hideVirtualKeyboard");
+      } catch {}
+
+      return;
+    }
+
     isFocusedRef.current = true;
     setIsFocused(true);
+
     activeMathField = mfRef.current;
+
     ensureBackButtonHandlerBound();
+
     getTelegramWebApp()?.BackButton?.show();
-    history.pushState(null, "", window.location.href);
+
+    // Har focusda yangi history yozib tashlamaymiz
+    if (!historyLockedRef.current) {
+      history.pushState({ mathKeyboard: true }, "", window.location.href);
+
+      historyLockedRef.current = true;
+    }
   };
 
   const handleBlur = () => {
     isFocusedRef.current = false;
+
     setIsFocused(false);
+
     if (activeMathField === mfRef.current) {
       activeMathField = null;
+
       getTelegramWebApp()?.BackButton?.hide();
     }
   };

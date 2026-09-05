@@ -380,7 +380,7 @@ export const Profil = () => {
           </div>
         </section>
 
-        <section className="relative overflow-hidden rounded-2xl border border-[rgb(var(--border))] bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] p-5 shadow-sm text-white">
+        {/* <section className="relative overflow-hidden rounded-2xl border border-[rgb(var(--border))] bg-gradient-to-r from-[rgb(var(--primary))] to-[rgb(var(--secondary))] p-5 shadow-sm text-white">
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
               <p className="text-sm font-medium text-white/80">
@@ -402,7 +402,7 @@ export const Profil = () => {
             <FiPlusCircle className="text-lg" />
             {t("upBalance")}
           </Link>
-        </section>
+        </section> */}
 
         <section className="grid grid-cols-3 gap-3">
           <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-3 shadow-sm">
