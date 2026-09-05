@@ -291,6 +291,7 @@ const Dashboard = () => {
                 const isActive = test.isActive !== false;
                 const isPremium = test.type === "PREMIUM";
                 const isEnded = test.status === "INACTIVE";
+                const isPending = test.status === "PENDING";
 
                 return (
                   <motion.article
@@ -311,6 +312,12 @@ const Dashboard = () => {
                         {isPremium && (
                           <span className="mb-1.5 inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] font-bold text-amber-600 dark:text-amber-400">
                             ⭐ {t("premium")}
+                          </span>
+                        )}
+
+                        {isPending && (
+                          <span className="mb-1.5 inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+                            Test Vati Tugadi
                           </span>
                         )}
                         <h2 className="line-clamp-2 text-base font-bold leading-snug text-[rgb(var(--text))]">
@@ -370,7 +377,7 @@ const Dashboard = () => {
                           navigateClick(test.id, test?.status || "");
                         }
                       }}
-                      disabled={!isActive}
+                      disabled={isPending || !isActive}
                       className={`mt-3 inline-flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-60 ${
                         isEnded
                           ? "bg-[rgb(var(--primary))]/80 hover:bg-[rgb(var(--primary))]"
