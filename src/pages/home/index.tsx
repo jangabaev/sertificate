@@ -446,7 +446,7 @@ const Dashboard = () => {
               <p className="mt-2 text-center text-sm text-[rgb(var(--text-muted))]">
                 {/* {t("primeInfo")} */}
 
-                {"Testi satip aliw ushin adminga jazin test bahasi 15 000 sum"}
+                {"Testti satip aliw ushin adminga jazin test bahasi 15 000 sum"}
               </p>
               {premiumTest?.price != null && (
                 <p className="mt-2 text-center text-xl font-extrabold text-amber-500">
@@ -457,11 +457,13 @@ const Dashboard = () => {
               <div className="mt-5 flex flex-col gap-3 rounded-2xl border border-amber-400/30 bg-amber-500/8 p-4">
                 <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
                   <span className="text-amber-500">✓</span>
-                  <span>{t("primeExamInfo")}</span>
+                  {/* <span>{t("primeExamInfo")}</span> */}
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
                   <span className="text-amber-500">✓</span>
-                  <span>{t("seeResultFast")}</span>
+                  <span>
+                    Test tawsilg'annan son test boyinsha sertifikatlar keledi
+                  </span>
                 </div>
                 {/* <div className="flex items-center gap-2 text-sm text-[rgb(var(--text))]">
                   <span className="text-amber-500">✓</span>
@@ -484,7 +486,7 @@ const Dashboard = () => {
                   className="p-3 mt-1 w-full text-center rounded-2xl bg-[rgb(var(--primary))] text-base font-extrabold text-white shadow-md shadow-[rgb(var(--primary))]/25 transition active:opacity-90"
                 >
                   {/* {buying ? t("sending") : ` ${t("buying")}`} */}
-                  stip aliw ushin adminge jaziw
+                  satip aliw ushin adminge jaziw
                 </motion.a>
               </div>
               <button

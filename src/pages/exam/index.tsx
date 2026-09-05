@@ -217,7 +217,7 @@ export const ExamSend: React.FC = () => {
             </p>
             <button
               onClick={handleModalClose}
-              className="w-full py-3 rounded-2xl font-semibold text-white from-[rgb(var(--primary))] to-[rgb(var(--secondary))] hover:opacity-90 transition-all duration-300 active:scale-95"
+              className="w-full py-3 rounded-2xl font-semibold text-[rgb(var(--text))] from-[rgb(var(--primary))] to-[rgb(var(--secondary))] hover:opacity-90 transition-all duration-300 active:scale-95"
             >
               {t("backHome")}
             </button>
