@@ -351,7 +351,7 @@ const Dashboard = () => {
                       <div className="flex items-center gap-1.5 rounded-xl bg-[rgb(var(--background))] px-3 py-2">
                         <MdPeopleAlt className="text-sm text-[rgb(var(--primary))]" />
                         <span>
-                          {test?.participantsCount ?? 0} {t("person")}
+                          {test?.studentCount ?? 0} {t("person")}
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 rounded-xl bg-[rgb(var(--background))] px-3 py-2">
