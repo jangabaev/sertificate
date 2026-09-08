@@ -10,6 +10,7 @@ import { ResultId } from "./pages/results/resultId";
 import Anwers from "./pages/answers";
 import Settings from "./pages/settings";
 import Navbar from "./components/layouts/navbar";
+import DeleteExams from "./pages/delete";
 function App() {
   useEffect(() => {
     const tg = window?.Telegram.WebApp;
@@ -36,6 +37,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/createtest/:userId" element={<Anwers />} />
           <Route path="/createtest/:userId/:id" element={<Anwers />} />
+          <Route path="/deleteExam" element={<DeleteExams />} />
         </Routes>
       </Router>
     </>
