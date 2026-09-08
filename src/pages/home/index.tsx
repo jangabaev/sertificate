@@ -22,6 +22,7 @@ export type TestSummary = {
   price?: number;
   userTest?: string[];
   channelId?: string;
+  studentCount?: Number;
 };
 
 const formatDate = (date?: string | null) => {
@@ -350,7 +351,7 @@ const Dashboard = () => {
                       <div className="flex items-center gap-1.5 rounded-xl bg-[rgb(var(--background))] px-3 py-2">
                         <MdPeopleAlt className="text-sm text-[rgb(var(--primary))]" />
                         <span>
-                          {test?.students?.length ?? 0} {t("person")}
+                          {test?.participantsCount ?? 0} {t("person")}
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 rounded-xl bg-[rgb(var(--background))] px-3 py-2">
