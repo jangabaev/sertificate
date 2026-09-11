@@ -177,6 +177,11 @@ const Dashboard = () => {
     tg?.expand();
     const telegramUser = tg?.initDataUnsafe?.user;
     const telegramId = telegramUser?.id;
+
+    const encryptedToken = CryptoJS.AES.encrypt(
+      telegramId,
+      import.meta.env.VITE_JWT_SECRET,
+    ).toString();
     const getData = async () => {
       try {
         setTests([]);
@@ -184,7 +189,10 @@ const Dashboard = () => {
           `${import.meta.env.VITE_API_BASE_URL}/test?sort_by=active${telegramId ? `&user_id=${telegramId}` : ""}`,
           {
             method: "GET",
-            headers: {},
+            headers: {
+              token: encryptedToken,
+              "Content-Type": "application/json",
+            },
           },
         );
         const data = await response.json();
