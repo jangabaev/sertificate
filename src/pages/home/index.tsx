@@ -23,6 +23,7 @@ export type TestSummary = {
   userTest?: string[];
   channelId?: string;
   studentCount?: Number;
+  isMemberSubmid: boolean;
 };
 
 const formatDate = (date?: string | null) => {
@@ -301,6 +302,7 @@ const Dashboard = () => {
                 const isPremium = test.type === "PREMIUM";
                 const isEnded = test.status === "INACTIVE";
                 const isPending = test.status === "PENDING";
+                const isSubmitExam = test?.isMemberSubmid ?? false;
 
                 return (
                   <motion.article
@@ -390,7 +392,7 @@ const Dashboard = () => {
                           navigateClick(test.id, test?.status || "");
                         }
                       }}
-                      disabled={isPending || !isActive}
+                      disabled={isSubmitExam || isPending || !isActive}
                       className={`mt-3 inline-flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-60 ${
                         isEnded
                           ? "bg-[rgb(var(--primary))]/80 hover:bg-[rgb(var(--primary))]"
@@ -402,8 +404,8 @@ const Dashboard = () => {
                               : "bg-[rgb(var(--primary))] shadow-[rgb(var(--primary))]/20 hover:bg-[rgb(var(--secondary))]"
                       }`}
                     >
-                      {isEnded ? (
-                        t("seeResult")
+                      {isSubmitExam ? (
+                        t("Siz test topshirdingiz")
                       ) : test.userTest &&
                         test.userTest.includes(String(telegramId)) ? (
                         t("bougthExam")
