@@ -179,10 +179,6 @@ const Dashboard = () => {
     const telegramUser = tg?.initDataUnsafe?.user;
     const telegramId = telegramUser?.id;
 
-    const encryptedToken = CryptoJS.AES.encrypt(
-      telegramId,
-      import.meta.env.VITE_JWT_SECRET,
-    ).toString();
     const getData = async () => {
       try {
         setTests([]);
@@ -191,7 +187,7 @@ const Dashboard = () => {
           {
             method: "GET",
             headers: {
-              token: encryptedToken,
+              token: telegramId,
               "Content-Type": "application/json",
             },
           },
