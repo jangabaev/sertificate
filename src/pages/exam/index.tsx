@@ -4,9 +4,11 @@ import { answersResponce } from "../../utils/responce";
 import MathFormulaInput from "../home/input_writing";
 import { dataMock } from "../home/mockdata";
 import { useTranslation } from "react-i18next";
+import { Input } from "../../components/input";
 
 export const ExamSend: React.FC = () => {
   const [answers, setAnswers] = useState(Array(55).fill(null));
+  const [userName, setUserName] = useState("");
 
   const [modal, setModal] = useState<{
     show: boolean;
@@ -49,12 +51,13 @@ export const ExamSend: React.FC = () => {
           body: JSON.stringify({
             user_id: telegramUser?.id,
             responce: answers,
+            user_full_name: userName,
           }),
         },
       );
       if (!res.ok) throw new Error("Server xatosi");
       await res.json();
-      setModal({ show: true, success: true });
+      setModal({ ...modal, show: true, success: true });
     } catch (error) {
       setModal({ show: true, success: false, status: 209 });
     } finally {
@@ -63,7 +66,7 @@ export const ExamSend: React.FC = () => {
   };
 
   const handleModalClose = () => {
-    setModal({ show: false, success: false });
+    setModal({ ...modal, show: false, success: false });
     navigate("/");
   };
 
@@ -73,6 +76,17 @@ export const ExamSend: React.FC = () => {
         <h1 className="text-center text-2xl font-extrabold tracking-wide text-[rgb(var(--primary))] px-5 py-4">
           {t("examTitle")}
         </h1>
+
+        <div className="overflow-hidden mb-4 py-4">
+          <Input
+            label="ismingizni kiriting"
+            type="text"
+            placeholder="ismingizni kiriting"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+        </div>
+
         <div className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] shadow-sm overflow-hidden">
           {dataMock.map((q, qIndex) => {
             const selected = answers[qIndex];
