@@ -37,6 +37,13 @@ export const ExamSend: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    if (!userName) {
+      return setModal({
+        show: true,
+        success: false,
+        status: 505,
+      });
+    }
     const tg = window.Telegram?.WebApp;
     tg?.ready();
     tg?.expand();
@@ -66,6 +73,9 @@ export const ExamSend: React.FC = () => {
   };
 
   const handleModalClose = () => {
+    if (modal.status === 505) {
+      return setModal({ ...modal, show: false, success: false });
+    }
     setModal({ ...modal, show: false, success: false });
     navigate("/");
   };
@@ -83,6 +93,7 @@ export const ExamSend: React.FC = () => {
             type="text"
             placeholder="ismingizni kiriting"
             value={userName}
+            required
             onChange={(e) => setUserName(e.target.value)}
           />
         </div>
@@ -216,24 +227,36 @@ export const ExamSend: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="bg-[rgb(var(--surface))] rounded-3xl shadow-2xl p-8 mx-4 max-w-sm w-full text-center border border-[rgb(var(--border))]/50 animate-fade-in">
             <div className="text-5xl mb-4">
-              {modal.status === 209 || modal.success ? "✅" : "❌"}
+              {modal.status === 505 ? (
+                <p className="text-[rgb(var(--text))]">To'diring</p>
+              ) : modal.status === 209 || modal.success ? (
+                "✅"
+              ) : (
+                "❌"
+              )}
             </div>
             <h2 className="text-2xl font-bold text-[rgb(var(--text))] mb-2">
-              {modal.status === 209 || modal.success
-                ? t("successful")
-                : t("error")}
+              {modal.status === 505
+                ? "Ismingizni kiriting"
+                : modal.status === 209 || modal.success
+                  ? t("successful")
+                  : t("error")}
             </h2>
             <p className="text-[rgb(var(--text))]/70 mb-6">
-              {modal.status === 209 && "Siz ilgari Test topshirgansiz"}
-              {modal.status !== 209 && modal.success
-                ? t("santSuccessful")
-                : t("santError")}
+              {modal.status === 505
+                ? "Ismingizni kiriting"
+                : modal.status === 209 && "Siz ilgari Test topshirgansiz"}
+              {modal.status === 505
+                ? " Tepaga Ismingizni toliq kirgizing"
+                : modal.status !== 209 && modal.success
+                  ? t("santSuccessful")
+                  : t("santError")}
             </p>
             <button
               onClick={handleModalClose}
               className="w-full py-3 rounded-2xl font-semibold text-[rgb(var(--text))] from-[rgb(var(--primary))] to-[rgb(var(--secondary))] hover:opacity-90 transition-all duration-300 active:scale-95"
             >
-              {t("backHome")}
+              {modal.status === 505 ? "close" : t("backHome")}
             </button>
           </div>
         </div>
