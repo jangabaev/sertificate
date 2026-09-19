@@ -12,6 +12,18 @@ import { IoMdSettings } from "react-icons/io";
 import CryptoJS from "crypto-js";
 import { useTranslation } from "react-i18next";
 
+type QuestionStatistic = {
+  question: number;
+  correct_percent: number;
+  correct: number;
+  total: number;
+};
+
+type UserStatistics = {
+  overall_average: number;
+  questions: QuestionStatistic[];
+};
+
 type ProfileUser = {
   allows_write_to_pm?: boolean;
   first_name?: string;
@@ -22,6 +34,7 @@ type ProfileUser = {
   username?: string;
   balance?: number;
   tests?: ProfileResult[];
+  statistics?: UserStatistics;
 };
 
 type ProfileResult = {
@@ -257,6 +270,7 @@ export const Profil = () => {
   const { t } = useTranslation("profile");
 
   const [selectedTest, setSelectedTest] = useState<ProfileResult | null>(null);
+  const [showStatistics, setShowStatistics] = useState(false);
   const [hoveredResultId, setHoveredResultId] = useState<
     ProfileResult["id"] | null
   >(null);
@@ -617,6 +631,73 @@ export const Profil = () => {
               );
             })}
           </div>
+        </section>
+
+        <section className="overflow-hidden rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] shadow-sm">
+          {/* Header */}
+          <button
+            type="button"
+            onClick={() => setShowStatistics((prev) => !prev)}
+            className="flex w-full items-center justify-between p-4 text-left transition hover:bg-[rgb(var(--background))]"
+          >
+            <div>
+              <p className="text-sm font-medium text-[rgb(var(--text-muted))]">
+                Statistika
+              </p>
+
+              <h2 className="text-lg font-bold">Savollar bo‘yicha natijalar</h2>
+            </div>
+
+            <span
+              className={`text-xl transition-transform duration-200 ${
+                showStatistics ? "rotate-180" : ""
+              }`}
+            >
+              ↓
+            </span>
+          </button>
+
+          {/* Content */}
+          {showStatistics && (
+            <div className="border-t border-[rgb(var(--border))] p-4">
+              {/* Umumiy o‘rtacha */}
+              <div className="mb-5 rounded-xl bg-[rgb(var(--background))] p-4">
+                <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
+                  Umumiy o‘rtacha
+                </p>
+
+                <p className="mt-1 text-2xl font-bold text-[rgb(var(--primary))]">
+                  {user.statistics?.overall_average ?? 0}%
+                </p>
+              </div>
+
+              {/* Savollar */}
+              <div className="space-y-3">
+                {user.statistics?.questions?.map((item) => (
+                  <div key={item.question}>
+                    <div className="mb-1 flex items-center justify-between text-xs">
+                      <span className="font-semibold">
+                        {item.question}-savol
+                      </span>
+
+                      <span className="font-bold text-[rgb(var(--primary))]">
+                        {item.correct_percent}%
+                      </span>
+                    </div>
+
+                    <div className="h-2 overflow-hidden rounded-full bg-[rgb(var(--background))]">
+                      <div
+                        className="h-full rounded-full bg-[rgb(var(--primary))] transition-all duration-500"
+                        style={{
+                          width: `${item.correct_percent}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
 
         <section className="rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] p-4 shadow-sm">
