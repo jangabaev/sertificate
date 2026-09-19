@@ -350,6 +350,9 @@ export const Profil = () => {
           id: (result.id || telegramUser?.id) ?? "",
           balance: Number(result.balance ?? 0),
           tests: normalizeResults(backendTests),
+          statistics: result.statistics?.overall_average
+            ? result.statistics
+            : { overall_average: 0, questions: [] },
         }));
       } catch (error) {
         console.error("Ma'lumotni olishda xatolik:", error);
