@@ -649,7 +649,9 @@ export const Profil = () => {
                 Statistika
               </p>
 
-              <h2 className="text-lg font-bold">Savollar bo‘yicha natijalar</h2>
+              <h2 className="text-lg font-bold">
+                Umumiy statsika har bir savol bo'yicha
+              </h2>
             </div>
 
             <span
@@ -664,13 +666,6 @@ export const Profil = () => {
           {/* Content */}
           {showStatistics && (
             <div className="border-t border-[rgb(var(--border))] p-4">
-              {/* Umumiy o‘rtacha */}
-              <div className="mb-5 rounded-xl bg-[rgb(var(--background))] p-4">
-                <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
-                  Umumiy statsika har bir savol bo'yicha
-                </p>
-              </div>
-
               {/* Savollar */}
               <div className="space-y-3">
                 {user.statistics?.questions?.map((item) => (
