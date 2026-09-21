@@ -667,11 +667,7 @@ export const Profil = () => {
               {/* Umumiy o‘rtacha */}
               <div className="mb-5 rounded-xl bg-[rgb(var(--background))] p-4">
                 <p className="text-xs font-medium text-[rgb(var(--text-muted))]">
-                  Umumiy o‘rtacha
-                </p>
-
-                <p className="mt-1 text-2xl font-bold text-[rgb(var(--primary))]">
-                  {user.statistics?.overall_average ?? 0}%
+                  Umumiy statsika har bir savol bo'yicha
                 </p>
               </div>
 
