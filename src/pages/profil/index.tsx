@@ -11,6 +11,7 @@ import {
 import { IoMdSettings } from "react-icons/io";
 import CryptoJS from "crypto-js";
 import { useTranslation } from "react-i18next";
+import { calculateNumberAnswer } from "../../utils/questionName";
 
 type QuestionStatistic = {
   question: number;
@@ -680,7 +681,7 @@ export const Profil = () => {
                   <div key={item.question}>
                     <div className="mb-1 flex items-center justify-between text-xs">
                       <span className="font-semibold">
-                        {item.question}-savol
+                        {calculateNumberAnswer(item.question)}-savol
                       </span>
 
                       <span className="font-bold text-[rgb(var(--primary))]">
