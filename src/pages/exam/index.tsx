@@ -9,7 +9,7 @@ import { Input } from "../../components/input";
 export const ExamSend: React.FC = () => {
   const [answers, setAnswers] = useState(Array(55).fill(null));
   const [userName, setUserName] = useState("");
-
+  console.log(answers);
   const [modal, setModal] = useState<{
     show: boolean;
     success: boolean;

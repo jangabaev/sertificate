@@ -20,6 +20,54 @@ function App() {
       tg.disableVerticalSwipes(true);
       tg.setHeaderColor("secondary_bg_color");
     }
+
+    const telegramUser = tg?.initDataUnsafe?.user;
+
+    const telegramUserId = telegramUser?.id?.toString();
+
+    const getUserData = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/users/${telegramUserId}`,
+          {
+            method: "GET",
+            headers: {
+              token: telegramUserId,
+              "Content-Type": "application/json",
+            },
+          },
+        );
+        if (response.status === 404) {
+          if (telegramUserId) {
+            const response = await fetch(
+              `${import.meta.env.VITE_API_BASE_URL}/users`,
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type": "application/json",
+                },
+
+                body: JSON.stringify({
+                  user_id: telegramUserId,
+                  username: telegramUser.username || "",
+                  first_name: telegramUser.first_name || "",
+                  last_name: telegramUser.last_name || "",
+                }),
+              },
+            );
+            console.log(response);
+          }
+        }
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        console.log("keldi");
+      }
+    };
+
+    getUserData();
   }, []);
   return (
     <>
